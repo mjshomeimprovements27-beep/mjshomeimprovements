@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>MJ Home Improvements — St. Paul, MN</title>
-<meta name="description" content="Mowing, mulch, cleanups, gutters, tree work and more — serving St. Paul, MN. Fast quotes, fair prices, local crew." />
+<meta name="description" content="Mowing, mulching, gutter cleaning, minor tree work, landscaping and more — serving St. Paul, MN. Fast quotes, fair prices, local crew." />
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   :root { font-family: Inter, system-ui, -apple-system, sans-serif; color:#0f172a; background:#f8fafc; }
@@ -13,8 +13,7 @@
   header { background:#fff; border-bottom:1px solid #e2e8f0; position:sticky; top:0; z-index:50; }
   .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 0; flex-wrap:wrap; gap:10px; }
   .brand { display:flex; align-items:center; gap:12px; }
-  .logo { display:block; width:clamp(96px,22vw,140px); height:auto; flex:none; background:#fff; padding:6px; border-radius:6px; }
-  footer .logo { width:180px; max-width:100%; margin:0 auto 14px; }
+  .logo { width:40px; height:40px; border-radius:12px; background:#059669; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:17px; }
   .brand b { display:block; line-height:1.1; }
   .brand small { color:#64748b; font-size:12px; }
   .navlinks { display:flex; gap:22px; font-size:14px; font-weight:500; color:#475569; flex-wrap:wrap; }
@@ -91,11 +90,12 @@
   <header>
     <div class="container nav">
       <a href="#" onclick="go('home')" class="brand" style="text-decoration:none">
-        <img class="logo" src="assets/logo.png" alt="MJ's Home Improvement — house and tree logo" width="1774" height="887" />
+        <img src="logo.png" alt="MJ's Home Improvement — house and tree logo" style="height:56px;width:auto;flex:none" />
         <div><b style="color:#0f172a">MJ'S HOME IMPROVEMENT</b><small>St. Paul, MN</small></div>
       </a>
       <nav class="navlinks">
         <a href="#" onclick="go('home')">Home</a>
+        <a href="#" onclick="go('about')">About</a>
         <a href="#" onclick="go('services')">Services</a>
         <a href="#" onclick="go('quote')">Get a Quote</a>
         <a href="#" onclick="go('review')">Leave a Review</a>
@@ -107,15 +107,15 @@
   <div id="page-home">
     <div class="hero">
       <h1>Your yard, handled.</h1>
-      <p>Mowing, mulch, cleanups, gutters, tree work and more — serving St. Paul and the surrounding area. Fast quotes, fair prices, local crew.</p>
+      <p>Mowing, mulching, gutter cleaning, minor tree work, landscaping and more — serving St. Paul and the surrounding area. Fast quotes, fair prices, local crew.</p>
       <a href="#" onclick="go('quote')" class="btn btn-light">Get a Free Quote</a>&nbsp;
       <a href="#" onclick="go('services')" class="btn btn-outline">Our Services</a>
     </div>
     <section class="container">
       <div class="grid3">
-        <div class="card"><h3>Fast Quotes</h3><p>Request online in under a minute — hear back within 24 hours.</p></div>
+        <div class="card"><h3>Fast Quotes</h3><p>Request online in under a minute — hear back within 1-2 business days.</p></div>
         <div class="card"><h3>Local &amp; Trusted</h3><p>St. Paul based. Referrals and repeat clients are our biggest source.</p></div>
-        <div class="card"><h3>Full-Service</h3><p>One crew for mowing, mulch, gutters, tree work, snow removal and more.</p></div>
+        <div class="card"><h3>Full-Service</h3><p>One crew for mowing, mulching, gutters, minor tree work, snow removal and more.</p></div>
       </div>
     </section>
     <section style="background:#fff;border-top:1px solid #e2e8f0">
@@ -126,9 +126,23 @@
       </div>
     </section>
     <section style="background:#ecfdf5;border-top:1px solid #e2e8f0">
-      <div class="container two-col" style="align-items:center">
+      <div class="container" style="text-align:center">
+        <h2 style="margin-bottom:8px">Local, owner-operated, full-service</h2>
+        <p style="max-width:640px;margin:0 auto 18px;color:#334155">St. Paul–based. Referrals and repeat clients are our biggest source of work.</p>
+        <a href="#" onclick="go('about')" class="btn btn-outline">Learn More About Us</a>
+      </div>
+    </section>
+  </div>
+
+  <div id="page-about" class="hidden">
+    <div class="hero" style="padding:56px 24px">
+      <h1 style="font-size:34px">About MJ's Home Improvement</h1>
+      <p style="margin-bottom:0">Local crew · Full service · St. Paul, MN</p>
+    </div>
+    <section class="container">
+      <div class="two-col" style="align-items:center">
         <div>
-          <h2 style="margin-top:0">About MJ's Home Improvement</h2>
+          <h2 style="margin-top:0">Owner-operated in St. Paul</h2>
           <p>MJ's Home Improvement is a St. Paul–based, owner-operated company. We take care of the work that keeps a property looking sharp and holding up through Minnesota's seasons — lawn care, landscaping and cleanups, gutter and exterior maintenance, tree trimming and removal, snow removal, and general home improvement projects.</p>
           <p>We keep it simple: clear quotes, reliable scheduling, and work we're proud to sign. Most of our business comes from referrals and repeat customers in the Twin Cities, and we'd like to keep it that way.</p>
           <ul style="color:#334155;line-height:2">
@@ -143,6 +157,10 @@
           <p style="margin:0">Licensed &amp; insured<br>Serving the Twin Cities metro<br>All seasons — mow to snow</p>
         </div>
       </div>
+      <p style="text-align:center;margin-top:28px">
+        <a href="#" onclick="go('quote')" class="btn">Get a Free Quote</a>&nbsp;
+        <a href="#" onclick="go('services')" class="btn btn-outline">Our Services</a>
+      </p>
     </section>
   </div>
 
@@ -160,7 +178,7 @@
       <section>
         <div class="form-wrap">
           <h2 style="text-align:left;margin-bottom:6px">Get a Fast Quote</h2>
-          <p style="color:#64748b;margin-bottom:20px">Tell us about the job — we reply within 24 hours.</p>
+          <p style="color:#64748b;margin-bottom:20px">Tell us about the job — we reply within 1-2 business days.</p>
           <form class="card" style="padding:26px" onsubmit="submitQuote(event)">
             <div class="two-col">
               <div><label>Your Name *</label><input id="q-name" required></div>
@@ -190,8 +208,8 @@
     </div>
   </div>
 
-  <div id="page-thanks" class="hidden"><div class="msg"><div class="big">✅</div><h2>Request received!</h2>
-    <p style="color:#475569">Thanks — we've logged your request and will get back to you within 24 hours.</p>
+  <div id="page-thanks" class="hidden"><div class="msg"><div class="big">✅</div><h2>Thank You!</h2>
+    <p style="color:#475569">Thank you for your quote request! You can expect a response by text within 1-2 business days.</p>
     <p style="margin-top:18px"><button class="btn" onclick="go('home')">Back to Home</button></p></div></div>
 
   <div id="page-review" class="hidden">
@@ -210,9 +228,8 @@
     <p style="color:#475569">Your review was logged and will appear on our site soon.</p></div></div>
 
   <footer>
-    <img class="logo" src="assets/logo.png" alt="MJ's Home Improvement — house and tree logo" width="1774" height="887" loading="lazy" />
     <b>MJ Home Improvements</b>
-    St. Paul, MN · Licensed &amp; insured · Cash, check, or Venmo
+    St. Paul, MN · Licensed &amp; insured · Cash or check
   </footer>
 </div>
 
@@ -221,7 +238,7 @@
   <header>
     <div class="container">
       <div class="nav">
-        <div class="brand"><img class="logo" src="assets/logo.png" alt="MJ's Home Improvement — house and tree logo" width="1774" height="887" /><div><b>MJ Management Console</b><small>mjshomeimprovements.org</small></div></div>
+        <div class="brand"><div class="logo">MJ</div><div><b>MJ Management Console</b><small>mjshomeimprovements.org</small></div></div>
         <nav class="navlinks"><a href="#" onclick="go('home')" style="color:#94a3b8">View customer site ↗</a></nav>
       </div>
     </div>
@@ -263,16 +280,18 @@ var API_URL = ""; // e.g. "https://script.google.com/macros/s/AKfyc.../exec"
 
 var SERVICES = [
   ["Mowing","Weekly or biweekly mowing, trimming, and blow-down."],
-  ["Yard Cleanup","Spring/fall cleanups, leaf removal, bed cleanup."],
-  ["Mulch","Mulch delivery and spread — freshen beds in one visit."],
-  ["Gutters","Gutter cleaning and downspout flush."],
-  ["Tree Work","Trimming, removals, and stump grinding."],
-  ["Staining / Power Washing","Decks, fences, siding, driveways."],
-  ["Sod / Seeding","New lawns and patch repair."],
-  ["Windows","Interior & exterior window washing."],
+  ["Weeding / Spraying","Bed weeding and spot spraying to keep beds and drives clean."],
+  ["Mulching","Mulch delivery and spread — freshen beds in one visit."],
+  ["Gutter Cleaning","Gutter cleaning and downspout flush."],
+  ["Minor Tree Work","Trimming, small removals, and limb cleanup."],
+  ["Staining / Painting","Decks, fences, and exterior wood staining and painting."],
+  ["Power Washing","Siding, driveways, patios, and walkways."],
+  ["Sod / Grass Seeding","New lawns and patch repair."],
+  ["Window Cleaning","Interior & exterior window washing."],
   ["Snow Removal","Driveways and walkways, on-call or contract."],
-  ["Dog Waste","Weekly yard pickup."],
-  ["Hauling / Moving","Junk removal and small moves."],
+  ["Patios / Retaining Walls","Paver patios, retaining walls, and hardscape installs."],
+  ["Landscaping & Design","Bed design, plants, and full landscape installs."],
+  ["Yard Maintenance","Ongoing upkeep — cleanup, pruning, and seasonal care."],
   ["Other","Something else? Describe it in the form."]
 ];
 var CREW = ["Matt","Marco","Carson","Ruben","Riley","Nadav","Ismeal","Gabe","Sergio"];
@@ -359,7 +378,7 @@ function money(n){ return "$" + (Number(n)||0).toLocaleString(); }
 
 /* ---------- customer routing ---------- */
 function go(page){
-  ["home","services","quote","thanks","review","rthanks"].forEach(function(p){
+  ["home","services","quote","thanks","review","rthanks","about"].forEach(function(p){
     $("page-"+p).classList.add("hidden"); });
   $("admin").classList.add("hidden"); $("site").classList.remove("hidden");
   if (page==="admin") {
