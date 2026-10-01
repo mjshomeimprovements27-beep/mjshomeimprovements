@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MJ Home Improvements — St. Paul, MN</title>
+<meta name="description" content="Mowing, mulch, cleanups, gutters, tree work and more — serving St. Paul, MN. Fast quotes, fair prices, local crew." />
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root { font-family: Inter, system-ui, -apple-system, sans-serif; color:#0f172a; background:#f8fafc; }
+  a { text-decoration:none; color:inherit; }
+  .container { max-width:1080px; margin:0 auto; padding:0 24px; }
+  header { background:#fff; border-bottom:1px solid #e2e8f0; position:sticky; top:0; z-index:50; }
+  .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 0; flex-wrap:wrap; gap:10px; }
+  .brand { display:flex; align-items:center; gap:12px; }
+  .logo { display:block; width:clamp(96px,22vw,140px); height:auto; flex:none; background:#fff; padding:6px; border-radius:6px; }
+  footer .logo { width:180px; max-width:100%; margin:0 auto 14px; }
+  .brand b { display:block; line-height:1.1; }
+  .brand small { color:#64748b; font-size:12px; }
+  .navlinks { display:flex; gap:22px; font-size:14px; font-weight:500; color:#475569; flex-wrap:wrap; }
+  .navlinks a:hover { color:#059669; }
+  .hero { background:linear-gradient(135deg,#047857,#059669,#0f766e); color:#fff; text-align:center; padding:88px 24px; }
+  .hero h1 { font-size:44px; font-weight:900; margin-bottom:14px; }
+  .hero p { color:#d1fae5; max-width:640px; margin:0 auto 28px; font-size:17px; }
+  .btn { display:inline-block; background:#059669; color:#fff; font-weight:700; padding:13px 30px; border-radius:12px; border:none; cursor:pointer; font-size:16px; }
+  .btn:hover { background:#047857; }
+  .btn-light { background:#fff; color:#047857; }
+  .btn-outline { background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.35); }
+  section { padding:56px 0; }
+  h2 { font-size:28px; font-weight:800; text-align:center; margin-bottom:32px; }
+  .grid3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
+  .card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:22px; }
+  .card h3 { font-size:18px; margin-bottom:8px; }
+  .card p { font-size:14px; color:#475569; }
+  .chips { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; max-width:860px; margin:0 auto; }
+  .chip { background:#ecfdf5; border:1px solid #d1fae5; color:#065f46; border-radius:12px; padding:12px; text-align:center; font-weight:600; font-size:14px; }
+  .services-list { display:grid; gap:12px; max-width:760px; margin:0 auto; }
+  .service-row { background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:18px 22px; display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; }
+  .service-row b { display:block; }
+  .service-row span { font-size:13px; color:#64748b; }
+  .btn-sm { padding:8px 16px; font-size:13px; border-radius:9px; }
+  footer { background:#0f172a; color:#94a3b8; text-align:center; padding:36px 24px; font-size:14px; }
+  footer b { color:#fff; display:block; margin-bottom:4px; }
+  .form-wrap { max-width:640px; margin:0 auto; }
+  label { display:block; font-size:13px; font-weight:600; color:#334155; margin:14px 0 5px; }
+  input, select, textarea { width:100%; background:#fff; border:1px solid #cbd5e1; border-radius:10px; padding:11px 14px; font-size:15px; font-family:inherit; outline:none; }
+  input:focus, select:focus, textarea:focus { border-color:#059669; }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:560px){ .two-col { grid-template-columns:1fr; } .hero h1{font-size:32px;} }
+  .svc-checks { display:flex; flex-wrap:wrap; gap:8px; }
+  .svc-checks button { padding:8px 14px; border-radius:99px; font-size:13px; font-weight:600; border:1px solid #cbd5e1; background:#fff; color:#475569; cursor:pointer; }
+  .svc-checks button.on { background:#059669; color:#fff; border-color:#059669; }
+  .msg { text-align:center; padding:90px 20px; }
+  .msg .big { font-size:56px; margin-bottom:14px; }
+  .stars button { font-size:36px; background:none; border:none; cursor:pointer; color:#cbd5e1; }
+  .stars button.on { color:#fbbf24; }
+  .admin { background:#020617; color:#e2e8f0; min-height:100vh; }
+  .admin header { background:#0f172a; border-color:#1e293b; position:static; }
+  .admin .brand b, .admin .brand small { color:#fff; }
+  .admin .navlinks { color:#94a3b8; }
+  .atabs { display:flex; gap:4px; padding:18px 0 14px; overflow-x:auto; flex-wrap:wrap; }
+  .atabs button { background:#1e293b; color:#94a3b8; border:none; padding:8px 16px; border-radius:9px; font-size:13px; font-weight:600; cursor:pointer; white-space:nowrap; }
+  .atabs button.on { background:#059669; color:#fff; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-bottom:22px; }
+  .kpi { background:#0f172a; border:1px solid #1e293b; border-radius:14px; padding:18px; }
+  .kpi .lbl { color:#94a3b8; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+  .kpi .val { font-size:24px; font-weight:800; margin-top:6px; color:#fff; }
+  .panel { background:#0f172a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin-bottom:18px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; color:#94a3b8; font-size:11px; text-transform:uppercase; letter-spacing:.05em; padding:8px 10px; border-bottom:1px solid #1e293b; }
+  td { padding:10px; border-bottom:1px solid #1e293b; color:#e2e8f0; }
+  .badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:99px; }
+  .b-green { background:#064e3b; color:#6ee7b7; } .b-amber { background:#78350f; color:#fcd34d; } .b-slate { background:#1e293b; color:#94a3b8; }
+  .req-card { background:#0f172a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin-bottom:14px; }
+  .req-card .top { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .req-card .meta { text-align:right; font-size:13px; color:#94a3b8; }
+  .req-card .meta b { color:#fff; }
+  .tag { display:inline-block; background:#064e3b; color:#6ee7b7; font-size:11px; font-weight:600; padding:3px 10px; border-radius:99px; margin:6px 4px 0 0; }
+  .grow { display:flex; gap:8px; margin-top:14px; }
+  .grow .btn { font-size:13px; padding:9px 16px; }
+  .btn-dark { background:#1e293b; color:#cbd5e1; }
+  .hidden { display:none; }
+  #toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#065f46; color:#fff; padding:12px 22px; border-radius:12px; font-weight:600; font-size:14px; box-shadow:0 10px 30px rgba(0,0,0,.35); z-index:99; display:none; }
+</style>
+</head>
+<body>
+<div id="toast"></div>
+
+<!-- ============ CUSTOMER SIDE ============ -->
+<div id="site">
+  <header>
+    <div class="container nav">
+      <a href="#" onclick="go('home')" class="brand" style="text-decoration:none">
+        <img class="logo" src="assets/logo.png" alt="MJ's Home Improvement — house and tree logo" width="1774" height="887" />
+        <div><b style="color:#0f172a">MJ'S HOME IMPROVEMENT</b><small>St. Paul, MN</small></div>
+      </a>
+      <nav class="navlinks">
+        <a href="#" onclick="go('home')">Home</a>
+        <a href="#" onclick="go('services')">Services</a>
+        <a href="#" onclick="go('quote')">Get a Quote</a>
+        <a href="#" onclick="go('review')">Leave a Review</a>
+        <a href="#" onclick="go('admin')" style="color:#94a3b8">Management</a>
+      </nav>
+    </div>
+  </header>
+
+  <div id="page-home">
+    <div class="hero">
+      <h1>Your yard, handled.</h1>
+      <p>Mowing, mulch, cleanups, gutters, tree work and more — serving St. Paul and the surrounding area. Fast quotes, fair prices, local crew.</p>
+      <a href="#" onclick="go('quote')" class="btn btn-light">Get a Free Quote</a>&nbsp;
+      <a href="#" onclick="go('services')" class="btn btn-outline">Our Services</a>
+    </div>
+    <section class="container">
+      <div class="grid3">
+        <div class="card"><h3>Fast Quotes</h3><p>Request online in under a minute — hear back within 24 hours.</p></div>
+        <div class="card"><h3>Local &amp; Trusted</h3><p>St. Paul based. Referrals and repeat clients are our biggest source.</p></div>
+        <div class="card"><h3>Full-Service</h3><p>One crew for mowing, mulch, gutters, tree work, snow removal and more.</p></div>
+      </div>
+    </section>
+    <section style="background:#fff;border-top:1px solid #e2e8f0">
+      <div class="container">
+        <h2>Popular services</h2>
+        <div class="chips" id="home-chips"></div>
+        <p style="text-align:center;margin-top:22px"><a href="#" onclick="go('services')" style="color:#047857;font-weight:600">See all services →</a></p>
+      </div>
+    </section>
+    <section style="background:#ecfdf5;border-top:1px solid #e2e8f0">
+      <div class="container two-col" style="align-items:center">
+        <div>
+          <h2 style="margin-top:0">About MJ's Home Improvement</h2>
+          <p>MJ's Home Improvement is a St. Paul–based, owner-operated company. We take care of the work that keeps a property looking sharp and holding up through Minnesota's seasons — lawn care, landscaping and cleanups, gutter and exterior maintenance, tree trimming and removal, snow removal, and general home improvement projects.</p>
+          <p>We keep it simple: clear quotes, reliable scheduling, and work we're proud to sign. Most of our business comes from referrals and repeat customers in the Twin Cities, and we'd like to keep it that way.</p>
+          <ul style="color:#334155;line-height:2">
+            <li><b>Local &amp; owner-operated</b> — St. Paul, serving the Twin Cities metro</li>
+            <li><b>One crew, full service</b> — no juggling multiple contractors</li>
+            <li><b>Free quotes</b> — honest pricing, no pressure</li>
+          </ul>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:52px">🏡</div>
+          <h3 style="margin:10px 0 6px">St. Paul, MN</h3>
+          <p style="margin:0">Licensed &amp; insured<br>Serving the Twin Cities metro<br>All seasons — mow to snow</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="page-services" class="hidden">
+    <div class="container">
+      <section>
+        <h2 style="text-align:left;margin-bottom:8px">Services &amp; Pricing</h2>
+        <div class="services-list" id="svc-list" style="margin-top:20px"></div>
+      </section>
+    </div>
+  </div>
+
+  <div id="page-quote" class="hidden">
+    <div class="container">
+      <section>
+        <div class="form-wrap">
+          <h2 style="text-align:left;margin-bottom:6px">Get a Fast Quote</h2>
+          <p style="color:#64748b;margin-bottom:20px">Tell us about the job — we reply within 24 hours.</p>
+          <form class="card" style="padding:26px" onsubmit="submitQuote(event)">
+            <div class="two-col">
+              <div><label>Your Name *</label><input id="q-name" required></div>
+              <div><label>Phone *</label><input id="q-phone" required></div>
+            </div>
+            <label>Email</label><input id="q-email" type="email">
+            <label>Service Address (St. Paul area) *</label><input id="q-address" required>
+            <label>What do you need done? *</label>
+            <div class="svc-checks" id="q-services"></div>
+            <label>Describe the job in your own words *</label><textarea id="q-details" rows="3" required></textarea>
+            <div class="two-col">
+              <div><label>When would you like it done?</label><input id="q-when" type="date"></div>
+              <div><label>How urgent is it?</label>
+                <select id="q-urgency">
+                  <option>This week</option><option>Next two weeks</option><option selected>Flexible</option><option>Recurring (weekly or biweekly)</option>
+                </select>
+              </div>
+            </div>
+            <label>How did you hear about us?</label>
+            <select id="q-source">
+              <option>Repeat Client</option><option>Referral</option><option>Facebook/Instagram</option><option selected>Google</option><option>Yard Sign</option><option>Other</option>
+            </select>
+            <button class="btn" style="width:100%;margin-top:22px">Request My Quote</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="page-thanks" class="hidden"><div class="msg"><div class="big">✅</div><h2>Request received!</h2>
+    <p style="color:#475569">Thanks — we've logged your request and will get back to you within 24 hours.</p>
+    <p style="margin-top:18px"><button class="btn" onclick="go('home')">Back to Home</button></p></div></div>
+
+  <div id="page-review" class="hidden">
+    <div class="container"><section><div class="form-wrap">
+      <h2 style="text-align:left;margin-bottom:6px">How Did We Do?</h2>
+      <p style="color:#64748b;margin-bottom:20px">Your feedback helps us grow.</p>
+      <div class="card" style="padding:26px;text-align:center">
+        <div class="stars" id="stars"></div>
+        <textarea id="rev-text" rows="4" placeholder="Tell us about your experience…" style="margin-top:16px"></textarea>
+        <button class="btn" style="width:100%;margin-top:16px" onclick="submitReview()">Submit Review</button>
+      </div>
+    </div></section></div>
+  </div>
+
+  <div id="page-rthanks" class="hidden"><div class="msg"><div class="big">🙏</div><h2>Thank you!</h2>
+    <p style="color:#475569">Your review was logged and will appear on our site soon.</p></div></div>
+
+  <footer>
+    <img class="logo" src="assets/logo.png" alt="MJ's Home Improvement — house and tree logo" width="1774" height="887" loading="lazy" />
+    <b>MJ Home Improvements</b>
+    St. Paul, MN · Licensed &amp; insured · Cash, check, or Venmo
+  </footer>
+</div>
+
+<!-- ============ MANAGEMENT SIDE ============ -->
+<div id="admin" class="admin hidden">
+  <header>
+    <div class="container">
+      <div class="nav">
+        <div class="brand"><img class="logo" src="assets/logo.png" alt="MJ's Home Improvement — house and tree logo" width="1774" height="887" /><div><b>MJ Management Console</b><small>mjshomeimprovements.org</small></div></div>
+        <nav class="navlinks"><a href="#" onclick="go('home')" style="color:#94a3b8">View customer site ↗</a></nav>
+      </div>
+    </div>
+  </header>
+
+  <div id="admin-login" class="container" style="display:flex;justify-content:center;padding:80px 0">
+    <div class="panel" style="width:100%;max-width:360px">
+      <h2 style="text-align:left;font-size:22px;margin-bottom:4px;color:#fff">MJ Management</h2>
+      <p style="color:#94a3b8;font-size:13px;margin-bottom:18px">Management access only.</p>
+      <input id="admin-pw" type="password" placeholder="Enter passcode" onkeydown="if(event.key==='Enter')adminLogin()">
+      <button class="btn" style="width:100%;margin-top:12px" onclick="adminLogin()">Sign in</button>
+    </div>
+  </div>
+
+  <div id="admin-app" class="hidden">
+    <div class="container">
+      <div class="atabs">
+        <button class="on" onclick="aTab('dash',this)">Dashboard</button>
+        <button onclick="aTab('requests',this)">Requests</button>
+        <button onclick="aTab('jobs',this)">Job Log</button>
+        <button onclick="aTab('pipeline',this)">Pipeline</button>
+        <button onclick="aTab('invoices',this)">Invoices</button>
+        <button onclick="aTab('clients',this)">Clients</button>
+        <button onclick="aTab('crew',this)">Crew</button>
+      </div>
+      <div id="a-content"></div>
+      <p style="color:#475569;font-size:12px;padding:20px 0">Connected to master spreadsheet · mjshomeimprovements.org</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   CONFIG — set this to your Apps Script Web App URL after
+   deploying (Extensions → Apps Script → Deploy → Web app).
+   Until set, the site runs in demo mode with sample data.
+   ========================================================= */
+var API_URL = ""; // e.g. "https://script.google.com/macros/s/AKfyc.../exec"
+
+var SERVICES = [
+  ["Mowing","Weekly or biweekly mowing, trimming, and blow-down."],
+  ["Yard Cleanup","Spring/fall cleanups, leaf removal, bed cleanup."],
+  ["Mulch","Mulch delivery and spread — freshen beds in one visit."],
+  ["Gutters","Gutter cleaning and downspout flush."],
+  ["Tree Work","Trimming, removals, and stump grinding."],
+  ["Staining / Power Washing","Decks, fences, siding, driveways."],
+  ["Sod / Seeding","New lawns and patch repair."],
+  ["Windows","Interior & exterior window washing."],
+  ["Snow Removal","Driveways and walkways, on-call or contract."],
+  ["Dog Waste","Weekly yard pickup."],
+  ["Hauling / Moving","Junk removal and small moves."],
+  ["Other","Something else? Describe it in the form."]
+];
+var CREW = ["Matt","Marco","Carson","Ruben","Riley","Nadav","Ismeal","Gabe","Sergio"];
+var selectedServices = [];
+
+/* ---------- API layer (falls back to demo data when API_URL unset or unreachable) ---------- */
+function api(action, body) {
+  if (!API_URL) return demo(action, body);
+  var url = API_URL + "?action=" + encodeURIComponent(action);
+  var opts = body
+    ? { method:"post", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body: JSON.stringify(body), redirect:"follow" }
+    : { method:"get", redirect:"follow" };
+  return fetch(url, opts)
+    .then(function(r){ return r.json(); })
+    .then(function(j){ if (!j.ok) throw new Error(j.error || "API error"); return j.data; })
+    .catch(function(){ toast("Live API unreachable — showing demo data"); return demo(action, body); });
+}
+var demoState = {
+  requests: [{ ts:"9/28/2026 1:58 PM", name:"Marco", phone:"651-420-3506", email:"marco.rodriguez.house@gmail.com",
+    address:"1477 St. Clair Ave, St. Paul", services:["Mulch"], details:"spread mulch",
+    when:"10/8/2026", urgency:"Flexible", source:"Google" }],
+  pipeline: [{ id:101, client:"Marco", services:["Mulch"], amount:3000, status:"Quoted", source:"Google" }],
+  jobs: [{ id:1, date:"10/08/2026", client:"Marco", phone:"651-420-3506", type:"Mulch",
+    details:"spread mulch", quote:3000, labor:1000, materials:2000, status:"Quoted" }],
+  clients: [{ name:"Marco", phone:"651-420-3506", email:"marco.rodriguez.house@gmail.com",
+    address:"1477 St. Clair Ave", status:"One Time", source:"Google" }],
+  nextId: 102
+};
+function demo(action, body) {
+  return new Promise(function(resolve){ setTimeout(function(){
+    var s = demoState;
+    switch (action) {
+      case "submitQuote":
+        s.requests.push({ ts:new Date().toLocaleString(), name:body.name, phone:body.phone, email:body.email,
+          address:body.address, services:body.services, details:body.details, when:body.when,
+          urgency:body.urgency, source:body.source }); return resolve({ received:true });
+      case "submitReview": return resolve({ received:true });
+      case "login": return resolve({ ok: true }); // demo: any passcode
+      case "dashboard": {
+        var completed = s.jobs.filter(function(j){return j.status==="Completed";});
+        var profit = completed.reduce(function(t,j){return t + j.quote - j.labor - j.materials;},0);
+        var ar = s.jobs.filter(function(j){return j.status!=="Completed";}).reduce(function(t,j){return t+j.quote;},0);
+        return resolve({ jobsCompleted:completed.length, yearlyProfit:profit, openAR:ar,
+          quotesOut:s.pipeline.filter(function(p){return p.status==="Quoted";}).reduce(function(t,p){return t+p.amount;},0),
+          quotesWon:0, awaitingQuote:s.pipeline.filter(function(p){return p.status==="To Quote";}).length,
+          requests:s.requests.length });
+      }
+      case "requests": return resolve(s.requests);
+      case "jobs": return resolve(s.jobs.map(function(j){
+        return Object.assign({}, j, { cost:j.labor+j.materials, profit:j.quote-j.labor-j.materials,
+          balanceDue: j.status==="Completed" ? 0 : j.quote }); }));
+      case "pipeline": return resolve(s.pipeline);
+      case "clients": return resolve(s.clients);
+      case "promote": {
+        var r = s.requests.splice(body.index,1)[0];
+        s.pipeline.push({ id:s.nextId++, client:r.name, services:r.services, amount:0, status:"To Quote", source:r.source });
+        return resolve({ ok:true });
+      }
+      case "quoteIt": s.pipeline.forEach(function(p){ if(p.id===body.id) p.status="Quoted"; }); return resolve({ok:true});
+      case "win": {
+        var lead=null; s.pipeline=s.pipeline.filter(function(p){ if(p.id===body.id){lead=p;return false;} return true;});
+        if(lead){ var id=s.jobs.length?Math.max.apply(null,s.jobs.map(function(j){return j.id;}))+1:1;
+          s.jobs.push({ id:id, date:new Date().toLocaleDateString(), client:lead.client, phone:"", type:lead.services[0]||"Other",
+            details:"", quote:lead.amount||0, labor:0, materials:0, status:"Accepted" });
+          if(!s.clients.some(function(c){return c.name===lead.client;}))
+            s.clients.push({ name:lead.client, phone:"", email:"", address:"", status:"One Time", source:lead.source||"Other" }); }
+        return resolve({ok:true});
+      }
+      case "lost": s.pipeline.forEach(function(p){ if(p.id===body.id) p.status="Lost"; }); return resolve({ok:true});
+      case "setJobStatus": s.jobs.forEach(function(j){ if(j.id===body.id) j.status=body.status; }); return resolve({ok:true});
+      case "dismiss": s.requests.splice(body.index,1); return resolve({ok:true});
+      default: return resolve([]);
+    }
+  }, 120); });
+}
+
+/* ---------- helpers ---------- */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function toast(msg){ var t=$("toast"); t.textContent=msg; t.style.display="block";
+  setTimeout(function(){ t.style.display="none"; }, 2600); }
+function money(n){ return "$" + (Number(n)||0).toLocaleString(); }
+
+/* ---------- customer routing ---------- */
+function go(page){
+  ["home","services","quote","thanks","review","rthanks"].forEach(function(p){
+    $("page-"+p).classList.add("hidden"); });
+  $("admin").classList.add("hidden"); $("site").classList.remove("hidden");
+  if (page==="admin") {
+    $("site").classList.add("hidden"); $("admin").classList.remove("hidden");
+    $("admin-app").classList.add("hidden"); $("admin-login").style.display="flex";
+    $("admin-pw").value=""; return;
+  }
+  $("page-"+(page==="home"?"home":page)).classList.remove("hidden");
+  window.scrollTo(0,0);
+  return false;
+}
+
+/* ---------- customer: services ---------- */
+(function(){
+  var chips=$("home-chips");
+  SERVICES.slice(0,8).forEach(function(s){
+    var d=document.createElement("div"); d.className="chip"; d.textContent=s[0]; chips.appendChild(d); });
+  var list=$("svc-list");
+  SERVICES.forEach(function(s){
+    list.insertAdjacentHTML("beforeend",
+      '<div class="service-row"><div><b>'+esc(s[0])+'</b><span>'+esc(s[1])+'</span></div>'+
+      '<a href="#" class="btn btn-sm" onclick="go(\'quote\');return false;">Quote</a></div>'); });
+  var q=$("q-services");
+  SERVICES.forEach(function(s){
+    var b=document.createElement("button"); b.type="button"; b.textContent=s[0];
+    b.onclick=function(){ b.classList.toggle("on");
+      selectedServices = selectedServices.indexOf(s[0])<0 ? selectedServices.concat([s[0]])
+        : selectedServices.filter(function(x){return x!==s[0];}); };
+    q.appendChild(b); });
+})();
+
+/* ---------- customer: quote + review ---------- */
+function submitQuote(e){
+  e.preventDefault();
+  if (!selectedServices.length) { toast("Please pick at least one service"); return false; }
+  api("submitQuote", {
+    name:$("q-name").value, phone:$("q-phone").value, email:$("q-email").value,
+    address:$("q-address").value, services:selectedServices, details:$("q-details").value,
+    when:$("q-when").value, urgency:$("q-urgency").value, source:$("q-source").value
+  }).then(function(){ go("thanks"); })
+    .catch(function(err){ toast("Could not send: " + err.message); });
+  return false;
+}
+(function(){ var st=$("stars"); for(var i=1;i<=5;i++){ (function(n){
+  var b=document.createElement("button"); b.textContent="★";
+  b.onclick=function(){ reviewStars=n; for(var k=1;k<=5;k++) st.children[k-1].classList.toggle("on",k<=n); };
+  st.appendChild(b); })(i);} })();
+var reviewStars=0;
+function submitReview(){
+  if(!reviewStars){ toast("Please pick a star rating"); return; }
+  api("submitReview",{ stars:reviewStars, review:$("rev-text").value })
+    .then(function(){ go("rthanks"); });
+}
+
+/* ---------- management ---------- */
+function adminLogin(){
+  api("login",{ passcode:$("admin-pw").value }).then(function(r){
+    if(r && r.ok !== false){
+      $("admin-login").style.display="none"; $("admin-app").classList.remove("hidden");
+      aTab("dash", document.querySelector(".atabs button"));
+    } else toast("Wrong passcode");
+  });
+}
+function aTab(name, btn){
+  document.querySelectorAll(".atabs button").forEach(function(b){ b.classList.remove("on"); });
+  if(btn) btn.classList.add("on");
+  var c=$("a-content");
+  if(name==="dash") api("dashboard").then(function(d){ c.innerHTML=dashHTML(d); });
+  if(name==="requests") api("requests").then(function(rows){
+    c.innerHTML = !rows.length ? '<div class="panel">No pending requests.</div>'
+      : rows.map(function(r,i){ return reqHTML(r,i); }).join(""); });
+  if(name==="jobs") api("jobs").then(function(rows){ c.innerHTML=jobsHTML(rows); });
+  if(name==="pipeline") api("pipeline").then(function(rows){ c.innerHTML=pipelineHTML(rows); });
+  if(name==="invoices") api("jobs").then(function(rows){ c.innerHTML=invoicesHTML(rows); });
+  if(name==="clients") api("clients").then(function(rows){ c.innerHTML=clientsHTML(rows); });
+  if(name==="crew") c.innerHTML=crewHTML();
+}
+function kpi(l,v){ return '<div class="kpi"><div class="lbl">'+esc(l)+'</div><div class="val">'+esc(v)+'</div></div>'; }
+function dashHTML(d){
+  return '<div class="kpis">'+kpi("Jobs completed",d.jobsCompleted)+kpi("Yearly job profit",money(d.yearlyProfit))+
+    kpi("Open A/R",money(d.openAR))+kpi("Requests waiting",d.requests||0)+
+    kpi("Quotes out",money(d.quotesOut))+kpi("Quotes won",money(d.quotesWon))+
+    kpi("Awaiting quote #",d.awaitingQuote)+kpi("Crew members",CREW.length)+'</div>'+
+    '<div class="panel"><b>New quote requests → Pipeline</b><p style="color:#94a3b8;font-size:13px;margin-top:6px">'+
+    'Approve a request to move it into the Pipeline as “To Quote”. When quoted, promote it to the Job Log — the same workflow as the master spreadsheet.</p></div>';
+}
+function reqHTML(r,i){
+  return '<div class="req-card"><div class="top"><div>'+
+    '<b style="font-size:17px">'+esc(r.name)+'</b> <span style="color:#94a3b8;font-size:13px">· '+esc(r.phone)+' · '+esc(r.email||"no email")+'</span>'+
+    '<div style="color:#94a3b8;font-size:13px;margin-top:2px">'+esc(r.address||"")+'</div>'+
+    (r.services||[]).map(function(s){return '<span class="tag">'+esc(s)+'</span>';}).join("")+
+    (r.details?'<div style="color:#cbd5e1;font-size:13px;margin-top:8px">“'+esc(r.details)+'”</div>':"")+
+    '</div><div class="meta"><div>Urgency: <b>'+esc(r.urgency||"—")+'</b></div><div>Wanted: <b>'+esc(r.when||"flexible")+'</b></div><div>Source: <b>'+esc(r.source||"—")+'</b></div></div></div>'+
+    '<div class="grow"><button class="btn" onclick="promote('+i+')">Add to Pipeline →</button>'+
+    '<button class="btn btn-dark" onclick="dismiss('+i+')">Dismiss</button></div></div>';
+}
+function promote(i){ api("promote",{index:i}).then(function(){ toast("Moved to Pipeline"); aTab("requests",document.querySelectorAll(".atabs button")[1]); }); }
+function dismiss(i){ api("dismiss",{index:i}).then(function(){ aTab("requests",document.querySelectorAll(".atabs button")[1]); }); }
+function jobsHTML(rows){
+  return '<div class="panel" style="overflow-x:auto"><table><tr><th>Job #</th><th>Date</th><th>Client</th><th>Type</th><th>Quote</th><th>Cost</th><th>Profit</th><th>Balance</th><th>Status</th></tr>'+
+    (rows.length?rows.map(function(j){ return '<tr><td>'+esc(j.id)+'</td><td>'+esc(j.date)+'</td><td>'+esc(j.client)+'</td><td>'+esc(j.type)+'</td>'+
+      '<td>'+money(j.quote)+'</td><td>'+money(j.cost)+'</td><td>'+money(j.profit)+'</td><td>'+money(j.balanceDue)+'</td>'+
+      '<td><select onchange="setJobStatus('+j.id+',this.value)">'+
+      ["Quoted","Accepted","Declined","Completed"].map(function(s){ return '<option '+(j.status===s?"selected":"")+'>'+s+'</option>'; }).join("")+
+      '</select></td></tr>'; }).join(""):'<tr><td colspan="9" style="color:#64748b">No jobs yet.</td></tr>')+'</table></div>'+
+    '<div class="kpis"><div class="kpi"><div class="lbl">Labor cost share</div><div class="val">50%</div></div>'+
+    '<div class="kpi"><div class="lbl">St. Paul sales tax</div><div class="val">9.875%</div></div>'+
+    '<div class="kpi"><div class="lbl">Mileage rate</div><div class="val">$0.70/mi</div></div></div>';
+}
+function setJobStatus(id,status){ api("setJobStatus",{id:id,status:status}).then(function(){ toast("Job "+id+" → "+status); }); }
+function pipelineHTML(rows){
+  var cols=["To Quote","Quoted","Won","Lost"];
+  return '<div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">'+cols.map(function(st){
+    var items=rows.filter(function(p){return p.status===st;});
+    return '<div class="panel"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><b style="font-size:13px">'+st+'</b>'+
+      '<span class="badge b-slate">'+items.length+'</span></div>'+
+      (items.length?items.map(function(p){ return '<div style="background:#1e293b;border-radius:10px;padding:12px;margin-bottom:8px">'+
+        '<b style="font-size:13px">'+esc(p.client||"New lead")+'</b><div style="color:#94a3b8;font-size:12px">'+esc((p.services||[]).join(", "))+'</div>'+
+        (p.amount?'<div style="color:#6ee7b7;font-weight:700;font-size:13px;margin-top:4px">'+money(p.amount)+'</div>':"")+
+        (st==="To Quote"?'<div class="grow"><button class="btn btn-sm" onclick="quoteIt('+p.id+')">Mark quoted</button></div>':"")+
+        (st==="Quoted"?'<div class="grow"><button class="btn btn-sm" onclick="win('+p.id+')">Won → Job Log</button>'+
+          '<button class="btn btn-sm btn-dark" onclick="lost('+p.id+')">Lost</button></div>':"")+
+        '</div>'; }).join(""):'<div style="color:#475569;font-size:12px">Empty</div>')+'</div>';
+  }).join("")+'</div>';
+}
+function quoteIt(id){ api("quoteIt",{id:id}).then(function(){ aTab("pipeline",document.querySelectorAll(".atabs button")[3]); }); }
+function win(id){ api("win",{id:id}).then(function(){ toast("Added to Job Log"); aTab("pipeline",document.querySelectorAll(".atabs button")[3]); }); }
+function lost(id){ api("lost",{id:id}).then(function(){ aTab("pipeline",document.querySelectorAll(".atabs button")[3]); }); }
+function invoicesHTML(rows){
+  return '<div class="panel" style="overflow-x:auto"><table><tr><th>Invoice #</th><th>Job #</th><th>Date</th><th>Client</th><th>Service</th><th>Total</th><th>Balance</th><th>Status</th></tr>'+
+    (rows.length?rows.map(function(j){ return '<tr><td>MJ-'+String(j.id).padStart(3,"0")+'</td><td>'+esc(j.id)+'</td><td>'+esc(j.date)+'</td>'+
+      '<td>'+esc(j.client)+'</td><td>'+esc(j.type)+'</td><td>'+money(j.quote)+'</td><td>'+money(j.balanceDue)+'</td>'+
+      '<td><span class="badge '+(j.status==="Completed"?"b-green":"b-amber")+'">'+(j.status==="Completed"?"PAID":"DUE")+'</span></td></tr>';
+    }).join(""):'<tr><td colspan="8" style="color:#64748b">No invoices yet.</td></tr>')+'</table></div>';
+}
+function clientsHTML(rows){
+  return '<div class="panel" style="overflow-x:auto"><table><tr><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Status</th><th>Source</th></tr>'+
+    (rows.length?rows.map(function(c){ return '<tr><td>'+esc(c.name)+'</td><td>'+esc(c.phone)+'</td><td>'+esc(c.email)+'</td><td>'+esc(c.address)+'</td><td>'+esc(c.status)+'</td><td>'+esc(c.source)+'</td></tr>'; }).join("")
+    :'<tr><td colspan="6" style="color:#64748b">No clients yet.</td></tr>')+'</table></div>'+
+    '<p style="color:#94a3b8;font-size:12px">Reminder from the workbook: email all recurring / odd-job / one-time clients at the start of each season.</p>';
+}
+function crewHTML(){
+  return '<div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">'+CREW.map(function(n){
+    return '<div class="panel" style="text-align:center"><div style="width:46px;height:46px;border-radius:50%;background:#047857;display:flex;align-items:center;justify-content:center;font-weight:700;margin:0 auto 8px">'+n[0]+'</div><b style="font-size:14px">'+esc(n)+'</b><div style="color:#64748b;font-size:11px;margin-top:3px">Classification: pending</div></div>';
+  }).join("")+'</div>';
+}
+</script>
+</body>
+</html>
