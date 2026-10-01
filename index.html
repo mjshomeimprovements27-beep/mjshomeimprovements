@@ -32,6 +32,14 @@
   .headshot { width:110px; height:110px; margin:0 auto; border-radius:50%; background:#f1f5f9; border:2px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; font-size:34px; }
   .team-card a { text-decoration:none; }
   .team-card a:hover { color:#047857; text-decoration:underline; }
+  .crew-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+  .crew-card { padding:20px; text-align:center; }
+  .crew-ph { width:84px; height:84px; border-radius:50%; background:#1e293b; border:2px dashed #334155; display:flex; align-items:center; justify-content:center; font-size:28px; margin:0 auto 10px; }
+  .crew-stat { color:#94a3b8; font-size:13px; margin-top:4px; }
+  .crew-stat b { color:#e2e8f0; }
+  .crew-assign { background:#1e293b; border-radius:10px; padding:10px; margin-top:8px; font-size:13px; color:#cbd5e1; text-align:left; }
+  .hrs-row { display:flex; gap:6px; margin-top:6px; }
+  .hrs-row input { flex:1; min-width:0; width:70px; }
   .card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:22px; }
   .card h3 { font-size:18px; margin-bottom:8px; }
   .card p { font-size:14px; color:#475569; }
@@ -339,7 +347,19 @@ var SERVICES = [
   ["Yard Maintenance","Ongoing upkeep — cleanup, pruning, and seasonal care."],
   ["Other","Something else? Describe it in the form."]
 ];
-var CREW = ["Matt","Marco","Carson","Ruben","Riley","Nadav","Ismeal","Gabe","Sergio"];
+var CREW = [
+  /* photo: put the employee photo filename here when you send them,
+     e.g. photo:"matt.jpg" — file goes in the same site folder */
+  { name:"Matt", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Marco", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Carson", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Ruben", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Riley", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Nadav", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Ismeal", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Gabe", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Sergio", wage:0, photo:"", hoursYTD:0, assignments:[] }
+];
 var selectedServices = [];
 
 /* ---------- API layer (falls back to demo data when API_URL unset or unreachable) ---------- */
@@ -411,6 +431,23 @@ function demo(action, body) {
       }
       case "lost": s.pipeline.forEach(function(p){ if(p.id===body.id) p.status="Lost"; }); return resolve({ok:true});
       case "setJobStatus": s.jobs.forEach(function(j){ if(j.id===body.id) j.status=body.status; }); return resolve({ok:true});
+      case "assignCrew":
+        s.jobs.forEach(function(j){ if(j.id===Number(body.jobId)){ j.assignedCrew=(j.assignedCrew||[]).concat([body.name]); } });
+        CREW.forEach(function(c){ if(c.name===body.name){ c.assignments.push({ jobId:Number(body.jobId), hours:0 }); } });
+        return resolve({ok:true});
+      case "setWage":
+        CREW.forEach(function(c){ if(c.name===body.name) c.wage=Number(body.wage)||0; });
+        return resolve({ok:true});
+      case "submitHours": {
+        var out = { owed:0 };
+        CREW.forEach(function(c){ if(c.name===body.name){
+          c.assignments.forEach(function(a){ if(a.jobId===Number(body.jobId)){
+            var pay = Number(body.hours) * (c.wage||0);
+            a.hours = (a.hours||0) + Number(body.hours);
+            c.hoursYTD = (c.hoursYTD||0) + Number(body.hours);
+            out.owed = pay; } }); } });
+        s.jobs.forEach(function(j){ if(j.id===Number(body.jobId)){ j.labor = (j.labor||0) + out.owed; } });
+        return resolve(out); }
       case "dismiss": s.requests.splice(body.index,1); return resolve({ok:true});
       default: return resolve([]);
     }
@@ -581,12 +618,13 @@ function reqHTML(r,i){
 function promote(i){ api("promote",{index:i}).then(function(){ toast("Moved to Pipeline"); aTab("requests",document.querySelectorAll(".atabs button")[1]); }); }
 function dismiss(i){ api("dismiss",{index:i}).then(function(){ aTab("requests",document.querySelectorAll(".atabs button")[1]); }); }
 function jobsHTML(rows){
-  return '<div class="panel" style="overflow-x:auto"><table><tr><th>Job #</th><th>Date</th><th>Client</th><th>Type</th><th>Quote</th><th>Cost</th><th>Profit</th><th>Balance</th><th>Status</th></tr>'+
+  return '<div class="panel" style="overflow-x:auto"><table><tr><th>Job #</th><th>Date</th><th>Client</th><th>Type</th><th>Quote</th><th>Cost</th><th>Labor</th><th>Profit</th><th>Balance</th><th>Crew</th><th>Status</th></tr>'+
     (rows.length?rows.map(function(j){ return '<tr><td>'+esc(j.id)+'</td><td>'+esc(j.date)+'</td><td>'+esc(j.client)+'</td><td>'+esc(j.type)+'</td>'+
-      '<td>'+money(j.quote)+'</td><td>'+money(j.cost)+'</td><td>'+money(j.profit)+'</td><td>'+money(j.balanceDue)+'</td>'+
+      '<td>'+money(j.quote)+'</td><td>'+money(j.cost)+'</td><td>'+money(j.labor)+'</td><td>'+money(j.profit)+'</td><td>'+money(j.balanceDue)+'</td>'+
+      '<td>'+((j.assignedCrew&&j.assignedCrew.length)?esc(j.assignedCrew.join(", ")):'—')+'</td>'+
       '<td><select onchange="setJobStatus('+j.id+',this.value)">'+
       ["Quoted","Accepted","Declined","Completed"].map(function(s){ return '<option '+(j.status===s?"selected":"")+'>'+s+'</option>'; }).join("")+
-      '</select></td></tr>'; }).join(""):'<tr><td colspan="9" style="color:#64748b">No jobs yet.</td></tr>')+'</table></div>'+
+      '</select></td></tr>'; }).join(""):'<tr><td colspan="11" style="color:#64748b">No jobs yet.</td></tr>')+'</table></div>'+
     '<div class="kpis"><div class="kpi"><div class="lbl">Labor cost share</div><div class="val">50%</div></div>'+
     '<div class="kpi"><div class="lbl">St. Paul sales tax</div><div class="val">9.875%</div></div>'+
     '<div class="kpi"><div class="lbl">Mileage rate</div><div class="val">$0.70/mi</div></div></div>';
@@ -624,9 +662,61 @@ function clientsHTML(rows){
     '<p style="color:#94a3b8;font-size:12px">Reminder from the workbook: email all recurring / odd-job / one-time clients at the start of each season.</p>';
 }
 function crewHTML(){
-  return '<div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr))">'+CREW.map(function(n){
-    return '<div class="panel" style="text-align:center"><div style="width:46px;height:46px;border-radius:50%;background:#047857;display:flex;align-items:center;justify-content:center;font-weight:700;margin:0 auto 8px">'+n[0]+'</div><b style="font-size:14px">'+esc(n)+'</b><div style="color:#64748b;font-size:11px;margin-top:3px">Classification: pending</div></div>';
+  return '<div class="crew-grid">'+CREW.map(function(c,i){
+    var photo = c.photo
+      ? '<img src="'+esc(c.photo)+'" alt="'+esc(c.name)+'" style="width:84px;height:84px;border-radius:50%;object-fit:cover;margin:0 auto 10px;display:block">'
+      : '<div class="crew-ph">📷</div>';
+    var assigned = c.assignments.length
+      ? c.assignments.map(function(a){
+          return '<div class="crew-assign"><b>Job #'+a.jobId+'</b> · '+(a.hours||0)+' hrs logged'+
+            '<div class="hrs-row"><input id="hrs-'+i+'-'+a.jobId+'" type="number" min="0" step="0.5" placeholder="Hours">'+
+            '<button class="btn btn-sm" onclick="submitHours('+i+','+a.jobId+')">Submit Hours Sheet</button></div></div>'; }).join("")
+      : '<div style="color:#64748b;font-size:12px;margin-top:8px">Not assigned to any job yet.</div>';
+    return '<div class="panel crew-card">'+photo+
+      '<b style="font-size:16px">'+esc(c.name)+'</b>'+
+      '<div class="crew-stat">Hourly wage: <b>$'+(c.wage||0)+'/hr</b> <a href="#" onclick="setWage('+i+');return false" style="font-size:11px;color:#6ee7b7">edit</a></div>'+
+      '<div class="crew-stat">Hours worked this year: <b>'+(c.hoursYTD||0)+'</b></div>'+
+      '<div class="crew-stat">Earned this year: <b>$'+((c.hoursYTD||0)*(c.wage||0)).toFixed(2)+'</b></div>'+
+      '<button class="btn btn-sm" style="width:100%;margin:10px 0 4px" onclick="addToJob('+i+')">ADD TO JOB #…</button>'+
+      assigned+'</div>';
   }).join("")+'</div>';
+}
+function addToJob(i){
+  var c = CREW[i];
+  api("jobs").then(function(rows){
+    if(!rows || !rows.length){ toast("No jobs in the Job Log yet — win a quote first"); return; }
+    var list = rows.map(function(j){ return "#"+j.id+" — "+j.client+" ("+j.type+")"; }).join("\n");
+    var v = prompt("Assign "+c.name+" to which job #?\n\n"+list);
+    if(!v) return;
+    var id = parseInt(v,10);
+    var found = rows.some(function(j){ return j.id===id; });
+    if(!found){ toast("Job #"+id+" not found"); return; }
+    if(c.assignments.some(function(a){ return a.jobId===id; })){ toast(c.name+" is already on Job #"+id); return; }
+    api("assignCrew",{ name:c.name, jobId:id }).then(function(){
+      toast(c.name+" assigned to Job #"+id);
+      aTab("crew", document.querySelectorAll(".atabs button")[6]);
+    });
+  });
+}
+function setWage(i){
+  var c = CREW[i];
+  var v = prompt("Hourly wage for "+c.name+" (numbers only):", c.wage||"");
+  if(v===null) return;
+  api("setWage",{ name:c.name, wage:parseFloat(v)||0 }).then(function(){
+    toast(c.name+" → $"+(parseFloat(v)||0)+"/hr");
+    aTab("crew", document.querySelectorAll(".atabs button")[6]);
+  });
+}
+function submitHours(i, jobId){
+  var c = CREW[i];
+  var inp = $("hrs-"+i+"-"+jobId);
+  var h = parseFloat(inp && inp.value);
+  if(!h || h<=0){ toast("Enter hours first"); return; }
+  if(!c.wage){ toast("Set "+c.name+"'s hourly wage first (click edit)"); return; }
+  api("submitHours",{ name:c.name, jobId:jobId, hours:h }).then(function(r){
+    toast("Logged "+h+" hrs for "+c.name+" — owed "+money(r.owed)+", added to Job #"+jobId+" labor cost");
+    aTab("crew", document.querySelectorAll(".atabs button")[6]);
+  });
 }
 </script>
 </body>
