@@ -33,7 +33,12 @@
   .card p { font-size:14px; color:#475569; }
   .chips { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; max-width:860px; margin:0 auto; }
   .chip { background:#ecfdf5; border:1px solid #d1fae5; color:#065f46; border-radius:12px; padding:12px; text-align:center; font-weight:600; font-size:14px; }
-  .services-list { display:grid; gap:12px; max-width:760px; margin:0 auto; }
+  .services-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:18px; margin:0 auto; }
+  .svc-card { overflow:hidden; padding:0; }
+  .ph-wrap { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:#e2e8f0; }
+  .ph { height:150px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:#94a3b8; font-size:14px; font-weight:600; background:#f1f5f9; line-height:1.4; }
+  .ph small { font-weight:400; font-size:11px; color:#cbd5e1; }
+  .ph-b { border-right:1px dashed #cbd5e1; }
   .service-row { background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:18px 22px; display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; }
   .service-row b { display:block; }
   .service-row span { font-size:13px; color:#64748b; }
@@ -220,7 +225,10 @@
         <div class="stars" id="stars"></div>
         <textarea id="rev-text" rows="4" placeholder="Tell us about your experience…" style="margin-top:16px"></textarea>
         <button class="btn" style="width:100%;margin-top:16px" onclick="submitReview()">Submit Review</button>
+        <p id="rev-success" style="display:none;color:#047857;font-weight:600;margin:14px 0 0">✅ Thank you! Your review has been added below.</p>
       </div>
+      <h3 style="margin:30px 0 12px">Customer Reviews</h3>
+      <div id="review-list" class="grid3"></div>
     </div></section></div>
   </div>
 
@@ -328,7 +336,11 @@ function demo(action, body) {
         s.requests.push({ ts:new Date().toLocaleString(), name:body.name, phone:body.phone, email:body.email,
           address:body.address, services:body.services, details:body.details, when:body.when,
           urgency:body.urgency, source:body.source }); return resolve({ received:true });
-      case "submitReview": return resolve({ received:true });
+      case "submitReview":
+        if(!s.reviews) s.reviews=[];
+        s.reviews.unshift({ stars:body.stars, review:body.review, date:new Date().toLocaleDateString() });
+        return resolve({ received:true });
+      case "reviews": return resolve(s.reviews || []);
       case "login": return resolve({ ok: true }); // demo: any passcode
       case "dashboard": {
         var completed = s.jobs.filter(function(j){return j.status==="Completed";});
@@ -387,20 +399,38 @@ function go(page){
     $("admin-pw").value=""; return;
   }
   $("page-"+(page==="home"?"home":page)).classList.remove("hidden");
+  if(page==="review") loadReviews();
   window.scrollTo(0,0);
   return false;
 }
 
 /* ---------- customer: services ---------- */
+var svcImgs = {
+  // Drop your before/after photo files in the site folder and list them here:
+  // "Service name": { before: "mow-before.jpg", after: "mow-after.jpg" }
+};
+function svcCard(s){
+  var name = esc(s[0]);
+  var imgs = svcImgs[s[0]];
+  var beforeHtml = imgs && imgs.before
+    ? '<img src="'+imgs.before+'" alt="'+name+' — before" style="width:100%;height:150px;object-fit:cover;border-radius:8px 8px 0 0">'
+    : '<div class="ph ph-b">📷 Before photo<br><small>coming soon</small></div>';
+  var afterHtml = imgs && imgs.after
+    ? '<img src="'+imgs.after+'" alt="'+name+' — after" style="width:100%;height:150px;object-fit:cover;border-radius:8px 8px 0 0">'
+    : '<div class="ph ph-a">📷 After photo<br><small>coming soon</small></div>';
+  return '<div class="card svc-card">'
+    + '<div class="ph-wrap">' + beforeHtml + afterHtml + '</div>'
+    + '<div style="padding:16px"><b style="font-size:17px">'+name+'</b>'
+    + '<p style="color:#475569;margin:8px 0 0;font-size:14px">'+esc(s[1])+'</p></div>'
+    + '</div>';
+}
 (function(){
   var chips=$("home-chips");
   SERVICES.slice(0,8).forEach(function(s){
     var d=document.createElement("div"); d.className="chip"; d.textContent=s[0]; chips.appendChild(d); });
   var list=$("svc-list");
   SERVICES.forEach(function(s){
-    list.insertAdjacentHTML("beforeend",
-      '<div class="service-row"><div><b>'+esc(s[0])+'</b><span>'+esc(s[1])+'</span></div>'+
-      '<a href="#" class="btn btn-sm" onclick="go(\'quote\');return false;">Quote</a></div>'); });
+    list.insertAdjacentHTML("beforeend", svcCard(s)); });
   var q=$("q-services");
   SERVICES.forEach(function(s){
     var b=document.createElement("button"); b.type="button"; b.textContent=s[0];
@@ -427,10 +457,47 @@ function submitQuote(e){
   b.onclick=function(){ reviewStars=n; for(var k=1;k<=5;k++) st.children[k-1].classList.toggle("on",k<=n); };
   st.appendChild(b); })(i);} })();
 var reviewStars=0;
+function reviewCard(r, isNew){
+  var tag = isNew ? ' <span style="background:#ecfdf5;color:#047857;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;vertical-align:middle">New</span>' : "";
+  var starsOn = "", starsOff = "";
+  for(var i=0;i<(r.stars||5);i++) starsOn += "★";
+  for(var j=0;j<5-(r.stars||5);j++) starsOff += "★";
+  var dateStr = r.date || new Date().toLocaleDateString();
+  return '<div class="card" style="padding:20px;'+(isNew?'border:1px solid #047857;':'')+'">'
+    + '<div style="color:#fbbf24;font-size:18px">'+starsOn+'<span style="color:#cbd5e1">'+starsOff+'</span></div>'
+    + '<p style="color:#334155;margin:10px 0">"'+esc(r.review||"")+'"</p>'
+    + '<small style="color:#94a3b8">MJ\'s Home Improvement customer · '+dateStr+tag+'</small>'
+    + '</div>';
+}
+function loadReviews(){
+  var list = $("review-list");
+  if(!list) return;
+  list.innerHTML = '<div class="card" style="padding:20px;color:#94a3b8">Loading reviews…</div>';
+  api("reviews").then(function(rows){
+    if(!rows || !rows.length){
+      list.innerHTML = '<div class="card" style="padding:20px;color:#94a3b8">No reviews yet — be the first to leave one!</div>';
+      return;
+    }
+    list.innerHTML = rows.map(function(r){ return reviewCard(r,false); }).join("");
+  }).catch(function(){
+    list.innerHTML = '<div class="card" style="padding:20px;color:#94a3b8">Reviews are unavailable right now.</div>';
+  });
+}
 function submitReview(){
   if(!reviewStars){ toast("Please pick a star rating"); return; }
-  api("submitReview",{ stars:reviewStars, review:$("rev-text").value })
-    .then(function(){ go("rthanks"); });
+  var text = $("rev-text").value.trim();
+  if(!text){ toast("Please write a few words about your experience"); return; }
+  var stars = reviewStars;
+  // show the new review immediately at the top of the list below
+  var list = $("review-list");
+  list.insertAdjacentHTML("afterbegin", reviewCard({ stars:stars, review:text }, true));
+  $("rev-success").style.display = "block";
+  // reset the form
+  $("rev-text").value = ""; reviewStars = 0;
+  var st = $("stars"); for(var k=1;k<=5;k++) st.children[k-1].classList.remove("on");
+  // log it to the backend (non-blocking)
+  api("submitReview",{ stars:stars, review:text });
+}
 }
 
 /* ---------- management ---------- */
