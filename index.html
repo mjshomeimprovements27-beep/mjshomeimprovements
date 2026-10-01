@@ -1,3 +1,9 @@
+---
+name: "mj-website-deploy-files"
+title: "mjshome-improvements.com — Deployable Site File (index.html)"
+type: "text/html"
+---
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -497,7 +503,6 @@ function submitReview(){
   var st = $("stars"); for(var k=1;k<=5;k++) st.children[k-1].classList.remove("on");
   // log it to the backend (non-blocking)
   api("submitReview",{ stars:stars, review:text });
-}
 }
 
 /* ---------- management ---------- */
