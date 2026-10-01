@@ -1,3 +1,9 @@
+---
+name: "mj-website-deploy-files"
+title: "mjshome-improvements.com — Deployable Site File (index.html)"
+type: "text/html"
+---
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -39,7 +45,29 @@
   .crew-stat b { color:#e2e8f0; }
   .crew-assign { background:#1e293b; border-radius:10px; padding:10px; margin-top:8px; font-size:13px; color:#cbd5e1; text-align:left; }
   .hrs-row { display:flex; gap:6px; margin-top:6px; }
-  .hrs-row input { flex:1; min-width:0; width:70px; }
+.hrs-row input { flex:1; min-width:0; width:70px; }
+  .modal-overlay { position:fixed; inset:0; background:rgba(2,6,23,.78); z-index:200; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal-box { background:#0f172a; border:1px solid #1e293b; border-radius:16px; padding:24px; max-width:560px; width:100%; max-height:88vh; overflow-y:auto; color:#e2e8f0; }
+  .modal-box h3 { color:#fff; }
+  .mrow { margin-bottom:12px; }
+  .mrow label { display:block; color:#94a3b8; font-size:12px; margin-bottom:4px; }
+  .mrow input { width:100%; background:#1e293b; border:1px solid #334155; color:#e2e8f0; border-radius:9px; padding:9px 12px; box-sizing:border-box; }
+  .mrow input:disabled { color:#94a3b8; }
+  .mrow input[type=file] { padding:7px; }
+  .cal { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .cal-head { text-align:center; color:#64748b; font-size:12px; font-weight:700; padding:6px 0; }
+  .cal-cell { background:#1e293b; border-radius:10px; min-height:86px; padding:6px; font-size:12px; color:#94a3b8; }
+  .cal-cell.today { border:1px solid #059669; }
+  .cal-num { font-weight:700; color:#cbd5e1; margin-bottom:4px; }
+  .cal-job { background:#047857; color:#fff; border-radius:7px; padding:4px 6px; margin-bottom:4px; font-size:11px; cursor:pointer; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .cal-job:hover { background:#059669; }
+  .costbox { background:#1e293b; border-radius:12px; padding:14px; margin-top:10px; }
+  .crow { display:flex; justify-content:space-between; font-size:13px; color:#cbd5e1; padding:3px 0; }
+  .mini-t { width:100%; border-collapse:collapse; margin-top:12px; font-size:13px; }
+  .mini-t th { color:#64748b; font-size:11px; text-transform:uppercase; text-align:left; padding:5px 8px; border-bottom:1px solid #334155; }
+  .mini-t td { color:#cbd5e1; padding:5px 8px; border-bottom:1px solid #1e293b; }
+  .thumbs { display:flex; gap:8px; flex-wrap:wrap; }
+  .thumbs img { width:76px; height:76px; object-fit:cover; border-radius:8px; border:1px solid #334155; }
   .card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:22px; }
   .card h3 { font-size:18px; margin-bottom:8px; }
   .card p { font-size:14px; color:#475569; }
@@ -309,16 +337,16 @@
   <div id="admin-app" class="hidden">
     <div class="container">
       <div class="atabs">
-        <button class="on" onclick="aTab('dash',this)">Dashboard</button>
-        <button onclick="aTab('requests',this)">Requests</button>
-        <button onclick="aTab('jobs',this)">Job Log</button>
-        <button onclick="aTab('pipeline',this)">Pipeline</button>
-        <button onclick="aTab('invoices',this)">Invoices</button>
-        <button onclick="aTab('clients',this)">Clients</button>
+        <button class="on" onclick="aTab('tbq',this)">To Be Quoted</button>
+        <button onclick="aTab('tbc',this)">To Be Completed</button>
+        <button onclick="aTab('done',this)">Completed</button>
+        <button onclick="aTab('fin',this)">Finances</button>
+        <button onclick="aTab('tax',this)">Taxes</button>
         <button onclick="aTab('crew',this)">Crew</button>
+        <button onclick="aTab('clients',this)">Clients</button>
       </div>
       <div id="a-content"></div>
-      <p style="color:#475569;font-size:12px;padding:20px 0">Connected to master spreadsheet · mjshomeimprovements.org</p>
+      <p style="color:#475569;font-size:12px;padding:20px 0">MJ Data Server · mjshomeimprovements.org</p>
     </div>
   </div>
 </div>
@@ -376,14 +404,12 @@ function api(action, body) {
 }
 var demoState = {
   requests: [{ ts:"9/28/2026 1:58 PM", name:"Marco", phone:"651-420-3506", email:"marco.rodriguez.house@gmail.com",
-    address:"1477 St. Clair Ave, St. Paul", services:["Mulch"], details:"spread mulch",
+    address:"1477 St. Clair Ave, St. Paul", services:["Mulching"], details:"spread mulch",
     when:"10/8/2026", urgency:"Flexible", source:"Google" }],
-  pipeline: [{ id:101, client:"Marco", services:["Mulch"], amount:3000, status:"Quoted", source:"Google" }],
-  jobs: [{ id:1, date:"10/08/2026", client:"Marco", phone:"651-420-3506", type:"Mulch",
-    details:"spread mulch", quote:3000, labor:1000, materials:2000, status:"Quoted" }],
+  scheduled: [], completed: [],
   clients: [{ name:"Marco", phone:"651-420-3506", email:"marco.rodriguez.house@gmail.com",
     address:"1477 St. Clair Ave", status:"One Time", source:"Google" }],
-  nextId: 102
+  nextId: 1
 };
 function demo(action, body) {
   return new Promise(function(resolve){ setTimeout(function(){
@@ -392,47 +418,45 @@ function demo(action, body) {
       case "submitQuote":
         s.requests.push({ ts:new Date().toLocaleString(), name:body.name, phone:body.phone, email:body.email,
           address:body.address, services:body.services, details:body.details, when:body.when,
-          urgency:body.urgency, source:body.source }); return resolve({ received:true });
+          urgency:body.urgency, source:body.source });
+        if(!s.clients.some(function(c){ return c.name===body.name; }))
+          s.clients.push({ name:body.name, phone:body.phone, email:body.email, address:body.address,
+            status:"One Time", source:body.source||"Other" });
+        return resolve({ received:true });
       case "submitReview":
         if(!s.reviews) s.reviews=[];
         s.reviews.unshift({ stars:body.stars, review:body.review, date:new Date().toLocaleDateString() });
         return resolve({ received:true });
       case "reviews": return resolve(s.reviews || []);
       case "login": return resolve({ ok: true }); // demo: any passcode
-      case "dashboard": {
-        var completed = s.jobs.filter(function(j){return j.status==="Completed";});
-        var profit = completed.reduce(function(t,j){return t + j.quote - j.labor - j.materials;},0);
-        var ar = s.jobs.filter(function(j){return j.status!=="Completed";}).reduce(function(t,j){return t+j.quote;},0);
-        return resolve({ jobsCompleted:completed.length, yearlyProfit:profit, openAR:ar,
-          quotesOut:s.pipeline.filter(function(p){return p.status==="Quoted";}).reduce(function(t,p){return t+p.amount;},0),
-          quotesWon:0, awaitingQuote:s.pipeline.filter(function(p){return p.status==="To Quote";}).length,
-          requests:s.requests.length });
-      }
-      case "requests": return resolve(s.requests);
-      case "jobs": return resolve(s.jobs.map(function(j){
-        return Object.assign({}, j, { cost:j.labor+j.materials, profit:j.quote-j.labor-j.materials,
-          balanceDue: j.status==="Completed" ? 0 : j.quote }); }));
-      case "pipeline": return resolve(s.pipeline);
+      case "tbq": return resolve(s.requests);
+      case "tbc": return resolve(s.scheduled);
+      case "done": return resolve(s.completed);
       case "clients": return resolve(s.clients);
-      case "promote": {
-        var r = s.requests.splice(body.index,1)[0];
-        s.pipeline.push({ id:s.nextId++, client:r.name, services:r.services, amount:0, status:"To Quote", source:r.source });
-        return resolve({ ok:true });
-      }
-      case "quoteIt": s.pipeline.forEach(function(p){ if(p.id===body.id) p.status="Quoted"; }); return resolve({ok:true});
-      case "win": {
-        var lead=null; s.pipeline=s.pipeline.filter(function(p){ if(p.id===body.id){lead=p;return false;} return true;});
-        if(lead){ var id=s.jobs.length?Math.max.apply(null,s.jobs.map(function(j){return j.id;}))+1:1;
-          s.jobs.push({ id:id, date:new Date().toLocaleDateString(), client:lead.client, phone:"", type:lead.services[0]||"Other",
-            details:"", quote:lead.amount||0, labor:0, materials:0, status:"Accepted" });
-          if(!s.clients.some(function(c){return c.name===lead.client;}))
-            s.clients.push({ name:lead.client, phone:"", email:"", address:"", status:"One Time", source:lead.source||"Other" }); }
-        return resolve({ok:true});
-      }
-      case "lost": s.pipeline.forEach(function(p){ if(p.id===body.id) p.status="Lost"; }); return resolve({ok:true});
-      case "setJobStatus": s.jobs.forEach(function(j){ if(j.id===body.id) j.status=body.status; }); return resolve({ok:true});
+      case "quoteJob": {
+        var r = s.requests.splice(Number(body.index),1)[0]; if(!r) return resolve({ok:false});
+        s.scheduled.push({ id:s.nextId++, client:r.name, phone:r.phone, email:r.email, address:r.address,
+          services:r.services, details:r.details, source:r.source,
+          laborEst:Number(body.labor)||0, materialsEst:Number(body.materials)||0, gasEst:Number(body.gas)||0,
+          taxExempt:!!body.taxExempt, scheduleDate:body.scheduleDate, crew:[], laborPaid:0 });
+        return resolve({ok:true}); }
+      case "completeJob": {
+        var j=null;
+        s.scheduled = s.scheduled.filter(function(x){ if(x.id===Number(body.id)){ j=x; return false; } return true; });
+        if(!j) return resolve({ok:false});
+        j.actualMaterials = Number(body.materials)||0;
+        j.actualGas = Number(body.gas)||0;
+        j.receipts = body.receipts||[];
+        j.photos = body.photos||[];
+        j.completedDate = new Date().toLocaleDateString();
+        s.completed.unshift(j);
+        return resolve({ok:true}); }
+      case "toggleTax": {
+        s.scheduled.concat(s.completed).forEach(function(j){ if(j.id===Number(body.id)) j.taxExempt=!j.taxExempt; });
+        return resolve({ok:true}); }
+      case "dismiss": s.requests.splice(Number(body.index),1); return resolve({ok:true});
       case "assignCrew":
-        s.jobs.forEach(function(j){ if(j.id===Number(body.jobId)){ j.assignedCrew=(j.assignedCrew||[]).concat([body.name]); } });
+        s.scheduled.concat(s.completed).forEach(function(j){ if(j.id===Number(body.jobId)){ j.crew=(j.crew||[]).concat([body.name]); } });
         CREW.forEach(function(c){ if(c.name===body.name){ c.assignments.push({ jobId:Number(body.jobId), hours:0 }); } });
         return resolve({ok:true});
       case "setWage":
@@ -446,9 +470,8 @@ function demo(action, body) {
             a.hours = (a.hours||0) + Number(body.hours);
             c.hoursYTD = (c.hoursYTD||0) + Number(body.hours);
             out.owed = pay; } }); } });
-        s.jobs.forEach(function(j){ if(j.id===Number(body.jobId)){ j.labor = (j.labor||0) + out.owed; } });
+        s.scheduled.concat(s.completed).forEach(function(j){ if(j.id===Number(body.jobId)){ j.laborPaid = (j.laborPaid||0) + out.owed; } });
         return resolve(out); }
-      case "dismiss": s.requests.splice(body.index,1); return resolve({ok:true});
       default: return resolve([]);
     }
   }, 120); });
@@ -574,11 +597,16 @@ function submitReview(){
 }
 
 /* ---------- management ---------- */
+var TAX_RATE = 0.09875;
+var calView = "month";
+var calRef = new Date();
+var finScope = "year";
+
 function adminLogin(){
   api("login",{ passcode:$("admin-pw").value }).then(function(r){
     if(r && r.ok !== false){
       $("admin-login").style.display="none"; $("admin-app").classList.remove("hidden");
-      aTab("dash", document.querySelector(".atabs button"));
+      aTab("tbq", document.querySelector(".atabs button"));
     } else toast("Wrong passcode");
   });
 }
@@ -586,81 +614,295 @@ function aTab(name, btn){
   document.querySelectorAll(".atabs button").forEach(function(b){ b.classList.remove("on"); });
   if(btn) btn.classList.add("on");
   var c=$("a-content");
-  if(name==="dash") api("dashboard").then(function(d){ c.innerHTML=dashHTML(d); });
-  if(name==="requests") api("requests").then(function(rows){
-    c.innerHTML = !rows.length ? '<div class="panel">No pending requests.</div>'
-      : rows.map(function(r,i){ return reqHTML(r,i); }).join(""); });
-  if(name==="jobs") api("jobs").then(function(rows){ c.innerHTML=jobsHTML(rows); });
-  if(name==="pipeline") api("pipeline").then(function(rows){ c.innerHTML=pipelineHTML(rows); });
-  if(name==="invoices") api("jobs").then(function(rows){ c.innerHTML=invoicesHTML(rows); });
+  if(name==="tbq") api("tbq").then(function(rows){
+    c.innerHTML = !rows.length ? '<div class="panel">No new requests — you\'re all caught up.</div>'
+      : rows.map(function(r,i){ return tbqCard(r,i); }).join(""); });
+  if(name==="tbc") api("tbc").then(function(rows){ c.innerHTML=tbcHTML(rows); });
+  if(name==="done") api("done").then(function(rows){ c.innerHTML=doneHTML(rows); });
+  if(name==="fin") api("done").then(function(rows){ c.innerHTML=finHTML(rows); });
+  if(name==="tax") api("done").then(function(rows){ c.innerHTML=taxHTML(rows); });
   if(name==="clients") api("clients").then(function(rows){ c.innerHTML=clientsHTML(rows); });
   if(name==="crew") c.innerHTML=crewHTML();
 }
+
+/* ---------- math helpers (company standards) ---------- */
+function quotedTotal(j){ return (Number(j.laborEst)||0)+(Number(j.materialsEst)||0)+(Number(j.gasEst)||0); }
+function salesTax(j){ return j.taxExempt ? 0 : quotedTotal(j)*TAX_RATE; }
+function jobCosts(j){ return (Number(j.laborPaid)||0)+(Number(j.actualMaterials)||0)+(Number(j.actualGas)||0); }
+function jobProfit(j){ return quotedTotal(j)-jobCosts(j); }
+function monthName(n){ return ["January","February","March","April","May","June","July","August","September","October","November","December"][n]; }
 function kpi(l,v){ return '<div class="kpi"><div class="lbl">'+esc(l)+'</div><div class="val">'+esc(v)+'</div></div>'; }
-function dashHTML(d){
-  return '<div class="kpis">'+kpi("Jobs completed",d.jobsCompleted)+kpi("Yearly job profit",money(d.yearlyProfit))+
-    kpi("Open A/R",money(d.openAR))+kpi("Requests waiting",d.requests||0)+
-    kpi("Quotes out",money(d.quotesOut))+kpi("Quotes won",money(d.quotesWon))+
-    kpi("Awaiting quote #",d.awaitingQuote)+kpi("Crew members",CREW.length)+'</div>'+
-    '<div class="panel"><b>New quote requests → Pipeline</b><p style="color:#94a3b8;font-size:13px;margin-top:6px">'+
-    'Approve a request to move it into the Pipeline as “To Quote”. When quoted, promote it to the Job Log — the same workflow as the master spreadsheet.</p></div>';
+
+/* ---------- modal ---------- */
+function modal(inner){
+  closeModal();
+  var d=document.createElement("div"); d.className="modal-overlay"; d.id="modal";
+  d.innerHTML='<div class="modal-box">'+inner+'</div>';
+  d.onclick=function(e){ if(e.target===d) closeModal(); };
+  document.body.appendChild(d);
 }
-function reqHTML(r,i){
+function closeModal(){ var m=$("modal"); if(m) m.remove(); }
+
+/* ---------- TO BE QUOTED ---------- */
+function tbqCard(r,i){
   return '<div class="req-card"><div class="top"><div>'+
     '<b style="font-size:17px">'+esc(r.name)+'</b> <span style="color:#94a3b8;font-size:13px">· '+esc(r.phone)+' · '+esc(r.email||"no email")+'</span>'+
     '<div style="color:#94a3b8;font-size:13px;margin-top:2px">'+esc(r.address||"")+'</div>'+
     (r.services||[]).map(function(s){return '<span class="tag">'+esc(s)+'</span>';}).join("")+
     (r.details?'<div style="color:#cbd5e1;font-size:13px;margin-top:8px">“'+esc(r.details)+'”</div>':"")+
     '</div><div class="meta"><div>Urgency: <b>'+esc(r.urgency||"—")+'</b></div><div>Wanted: <b>'+esc(r.when||"flexible")+'</b></div><div>Source: <b>'+esc(r.source||"—")+'</b></div></div></div>'+
-    '<div class="grow"><button class="btn" onclick="promote('+i+')">Add to Pipeline →</button>'+
+    '<div class="grow"><button class="btn" onclick="openQuoteForm('+i+')">QUOTE</button>'+
     '<button class="btn btn-dark" onclick="dismiss('+i+')">Dismiss</button></div></div>';
 }
-function promote(i){ api("promote",{index:i}).then(function(){ toast("Moved to Pipeline"); aTab("requests",document.querySelectorAll(".atabs button")[1]); }); }
-function dismiss(i){ api("dismiss",{index:i}).then(function(){ aTab("requests",document.querySelectorAll(".atabs button")[1]); }); }
-function jobsHTML(rows){
-  return '<div class="panel" style="overflow-x:auto"><table><tr><th>Job #</th><th>Date</th><th>Client</th><th>Type</th><th>Quote</th><th>Cost</th><th>Labor</th><th>Profit</th><th>Balance</th><th>Crew</th><th>Status</th></tr>'+
-    (rows.length?rows.map(function(j){ return '<tr><td>'+esc(j.id)+'</td><td>'+esc(j.date)+'</td><td>'+esc(j.client)+'</td><td>'+esc(j.type)+'</td>'+
-      '<td>'+money(j.quote)+'</td><td>'+money(j.cost)+'</td><td>'+money(j.labor)+'</td><td>'+money(j.profit)+'</td><td>'+money(j.balanceDue)+'</td>'+
-      '<td>'+((j.assignedCrew&&j.assignedCrew.length)?esc(j.assignedCrew.join(", ")):'—')+'</td>'+
-      '<td><select onchange="setJobStatus('+j.id+',this.value)">'+
-      ["Quoted","Accepted","Declined","Completed"].map(function(s){ return '<option '+(j.status===s?"selected":"")+'>'+s+'</option>'; }).join("")+
-      '</select></td></tr>'; }).join(""):'<tr><td colspan="11" style="color:#64748b">No jobs yet.</td></tr>')+'</table></div>'+
-    '<div class="kpis"><div class="kpi"><div class="lbl">Labor cost share</div><div class="val">50%</div></div>'+
-    '<div class="kpi"><div class="lbl">St. Paul sales tax</div><div class="val">9.875%</div></div>'+
-    '<div class="kpi"><div class="lbl">Mileage rate</div><div class="val">$0.70/mi</div></div></div>';
+function dismiss(i){ api("dismiss",{index:i}).then(function(){ toast("Request dismissed"); aTab("tbq",document.querySelectorAll(".atabs button")[0]); }); }
+function openQuoteForm(i){
+  api("tbq").then(function(rows){
+    var r=rows[i]; if(!r){ toast("Request no longer exists"); return; }
+    modal('<h3 style="margin:0 0 4px">Quote — '+esc(r.name)+'</h3>'+
+      '<p style="color:#94a3b8;font-size:13px;margin:0 0 16px">'+esc((r.services||[]).join(", "))+'</p>'+
+      '<div class="mrow"><label>Labor estimate ($)</label><input id="qf-labor" type="number" min="0" step="1" value="0" oninput="quotePreview()"></div>'+
+      '<div class="mrow"><label>Materials estimate ($)</label><input id="qf-mat" type="number" min="0" step="1" value="0" oninput="quotePreview()"></div>'+
+      '<div class="mrow"><label>Gas estimate ($)</label><input id="qf-gas" type="number" min="0" step="1" value="0" oninput="quotePreview()"></div>'+
+      '<div class="mrow"><label>Schedule date</label><input id="qf-date" type="date" value="'+esc(r.when||"")+'"></div>'+
+      '<div class="mrow"><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input id="qf-exempt" type="checkbox" onchange="quotePreview()"> Sales tax exempt (otherwise 9.875%)</label></div>'+
+      '<div class="costbox" id="qf-preview"></div>'+
+      '<button class="btn" style="width:100%;margin-top:12px" onclick="submitQuoteForm('+i+')">Submit — Officially Quote Job</button>');
+    quotePreview();
+  });
 }
-function setJobStatus(id,status){ api("setJobStatus",{id:id,status:status}).then(function(){ toast("Job "+id+" → "+status); }); }
-function pipelineHTML(rows){
-  var cols=["To Quote","Quoted","Won","Lost"];
-  return '<div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">'+cols.map(function(st){
-    var items=rows.filter(function(p){return p.status===st;});
-    return '<div class="panel"><div style="display:flex;justify-content:space-between;margin-bottom:10px"><b style="font-size:13px">'+st+'</b>'+
-      '<span class="badge b-slate">'+items.length+'</span></div>'+
-      (items.length?items.map(function(p){ return '<div style="background:#1e293b;border-radius:10px;padding:12px;margin-bottom:8px">'+
-        '<b style="font-size:13px">'+esc(p.client||"New lead")+'</b><div style="color:#94a3b8;font-size:12px">'+esc((p.services||[]).join(", "))+'</div>'+
-        (p.amount?'<div style="color:#6ee7b7;font-weight:700;font-size:13px;margin-top:4px">'+money(p.amount)+'</div>':"")+
-        (st==="To Quote"?'<div class="grow"><button class="btn btn-sm" onclick="quoteIt('+p.id+')">Mark quoted</button></div>':"")+
-        (st==="Quoted"?'<div class="grow"><button class="btn btn-sm" onclick="win('+p.id+')">Won → Job Log</button>'+
-          '<button class="btn btn-sm btn-dark" onclick="lost('+p.id+')">Lost</button></div>':"")+
-        '</div>'; }).join(""):'<div style="color:#475569;font-size:12px">Empty</div>')+'</div>';
-  }).join("")+'</div>';
+function quotePreview(){
+  var l=parseFloat($("qf-labor").value)||0, m=parseFloat($("qf-mat").value)||0, g=parseFloat($("qf-gas").value)||0;
+  var tot=l+m+g;
+  var tax=$("qf-exempt").checked?0:tot*TAX_RATE;
+  $("qf-preview").innerHTML=
+    '<div class="crow"><span>Quote total</span><b>'+money(tot)+'</b></div>'+
+    '<div class="crow"><span>Sales tax '+(tax?"(9.875%)":"(exempt)")+'</span><b>'+money(tax)+'</b></div>'+
+    '<div class="crow" style="color:#6ee7b7"><span>Client pays</span><b>'+money(tot+tax)+'</b></div>'+
+    '<div style="font-size:11px;color:#94a3b8;margin-top:8px">Company standard: 50% of labor ('+money(l/2)+') stays with the company · 50% ('+money(l/2)+') is the employee pool.</div>';
 }
-function quoteIt(id){ api("quoteIt",{id:id}).then(function(){ aTab("pipeline",document.querySelectorAll(".atabs button")[3]); }); }
-function win(id){ api("win",{id:id}).then(function(){ toast("Added to Job Log"); aTab("pipeline",document.querySelectorAll(".atabs button")[3]); }); }
-function lost(id){ api("lost",{id:id}).then(function(){ aTab("pipeline",document.querySelectorAll(".atabs button")[3]); }); }
-function invoicesHTML(rows){
-  return '<div class="panel" style="overflow-x:auto"><table><tr><th>Invoice #</th><th>Job #</th><th>Date</th><th>Client</th><th>Service</th><th>Total</th><th>Balance</th><th>Status</th></tr>'+
-    (rows.length?rows.map(function(j){ return '<tr><td>MJ-'+String(j.id).padStart(3,"0")+'</td><td>'+esc(j.id)+'</td><td>'+esc(j.date)+'</td>'+
-      '<td>'+esc(j.client)+'</td><td>'+esc(j.type)+'</td><td>'+money(j.quote)+'</td><td>'+money(j.balanceDue)+'</td>'+
-      '<td><span class="badge '+(j.status==="Completed"?"b-green":"b-amber")+'">'+(j.status==="Completed"?"PAID":"DUE")+'</span></td></tr>';
-    }).join(""):'<tr><td colspan="8" style="color:#64748b">No invoices yet.</td></tr>')+'</table></div>';
+function submitQuoteForm(i){
+  var labor=parseFloat($("qf-labor").value)||0, mat=parseFloat($("qf-mat").value)||0, gas=parseFloat($("qf-gas").value)||0;
+  var date=$("qf-date").value;
+  if(!labor && !mat && !gas){ toast("Enter at least one cost estimate"); return; }
+  if(!date){ toast("Pick a schedule date"); return; }
+  api("quoteJob",{ index:i, labor:labor, materials:mat, gas:gas, scheduleDate:date, taxExempt:$("qf-exempt").checked })
+    .then(function(){ closeModal(); toast("Quoted — scheduled for "+date); aTab("tbc",document.querySelectorAll(".atabs button")[1]); });
 }
+
+/* ---------- TO BE COMPLETED (calendar) ---------- */
+function dkey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function firstOfWeek(d){ var x=new Date(d); x.setDate(x.getDate()-((x.getDay()+6)%7)); return x; }
+function tbcHTML(rows){
+  var byDate={}; rows.forEach(function(j){ var k=String(j.scheduleDate||""); (byDate[k]=byDate[k]||[]).push(j); });
+  var html='<div class="grow" style="justify-content:space-between;margin-bottom:12px;flex-wrap:wrap">'+
+    '<div><button class="btn btn-sm btn-dark" onclick="calNav(-1)">‹</button> '+
+    '<b style="color:#fff;margin:0 8px">'+(calView==="month" ? monthName(calRef.getMonth())+" "+calRef.getFullYear()
+      : "Week of "+firstOfWeek(calRef).toLocaleDateString())+'</b>'+
+    '<button class="btn btn-sm btn-dark" onclick="calNav(1)">›</button></div>'+
+    '<div><button class="btn btn-sm '+(calView==="week"?"":"btn-dark")+'" onclick="calSet(\'week\')">Week</button> '+
+    '<button class="btn btn-sm '+(calView==="month"?"":"btn-dark")+'" onclick="calSet(\'month\')">Month</button> '+
+    '<button class="btn btn-sm btn-dark" onclick="calSet(\'today\')">Today</button></div></div>';
+  var cells=[]; var today=dkey(new Date());
+  if(calView==="month"){
+    var first=new Date(calRef.getFullYear(), calRef.getMonth(), 1);
+    var lead=(first.getDay()+6)%7;
+    var dim=new Date(calRef.getFullYear(), calRef.getMonth()+1, 0).getDate();
+    var total=lead+dim; while(total%7) total++;
+    for(var i=0;i<lead;i++) cells.push(null);
+    for(var d=1; d<=dim; d++) cells.push(new Date(calRef.getFullYear(), calRef.getMonth(), d));
+    while(cells.length<total) cells.push(null);
+  } else {
+    var s=firstOfWeek(calRef);
+    for(var w=0; w<7; w++){ var x=new Date(s); x.setDate(s.getDate()+w); cells.push(x); }
+  }
+  html+='<div class="cal">'+
+    ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(function(d){ return '<div class="cal-head">'+d+'</div>'; }).join("");
+  cells.forEach(function(d){
+    if(!d){ html+='<div class="cal-cell" style="opacity:.35"></div>'; return; }
+    var k=dkey(d);
+    var jobs=byDate[k]||[];
+    html+='<div class="cal-cell'+(k===today?" today":"")+'">'+
+      '<div class="cal-num">'+d.getDate()+'</div>'+
+      jobs.map(function(j){ return '<div class="cal-job" onclick="openJobDetail('+j.id+')">#'+j.id+' '+esc(j.client)+' · '+money(quotedTotal(j))+'</div>'; }).join("")+
+      '</div>';
+  });
+  html+='</div>';
+  if(!rows.length) html+='<p style="color:#94a3b8;font-size:13px;margin-top:12px">No quoted jobs waiting to be completed. Quote a request first.</p>';
+  return html;
+}
+function calSet(v){ if(v==="today"){ calRef=new Date(); } else { calView=v; } api("tbc").then(function(rows){ $("a-content").innerHTML=tbcHTML(rows); }); }
+function calNav(n){ if(calView==="month") calRef.setMonth(calRef.getMonth()+n); else calRef.setDate(calRef.getDate()+7*n); api("tbc").then(function(rows){ $("a-content").innerHTML=tbcHTML(rows); }); }
+function openJobDetail(id){
+  api("tbc").then(function(rows){
+    var j=null;
+    rows.forEach(function(x){ if(x.id===id) j=x; });
+    if(j){ modal(jobDetailHTML(j,true)); return; }
+    api("done").then(function(doneRows){
+      doneRows.forEach(function(x){ if(x.id===id) j=x; });
+      if(j) modal(jobDetailHTML(j,false));
+    });
+  });
+}
+function jobDetailHTML(j, scheduled){
+  return '<h3 style="margin:0 0 2px">Job #'+j.id+' — '+esc(j.client)+'</h3>'+
+    '<p style="color:#94a3b8;font-size:13px;margin:0 0 12px">'+esc((j.services||[]).join(", "))+' · '+esc(j.address||"")+'</p>'+
+    (j.details?'<p style="color:#cbd5e1;font-size:13px">'+esc(j.details)+'</p>':"")+
+    '<div class="costbox">'+
+    '<div class="crow"><span>Quoted labor</span><b>'+money(j.laborEst)+'</b></div>'+
+    '<div class="crow"><span>— Company (50%)</span><b>'+money((j.laborEst||0)/2)+'</b></div>'+
+    '<div class="crow"><span>— Employee pool (50%)</span><b>'+money((j.laborEst||0)/2)+'</b></div>'+
+    '<div class="crow"><span>Quoted materials</span><b>'+money(j.materialsEst)+'</b></div>'+
+    '<div class="crow"><span>Quoted gas</span><b>'+money(j.gasEst)+'</b></div>'+
+    '<div class="crow"><span>Quote total</span><b>'+money(quotedTotal(j))+'</b></div>'+
+    '<div class="crow"><span>Sales tax '+(j.taxExempt?"(exempt)":"(9.875%)")+'</span><b>'+money(salesTax(j))+'</b></div>'+
+    '<div class="crow"><span>Scheduled</span><b>'+esc(j.scheduleDate||"—")+'</b></div>'+
+    '<div class="crow"><span>Crew</span><b>'+((j.crew&&j.crew.length)?esc(j.crew.join(", ")):"—")+'</b></div>'+
+    '<div class="crow"><span>Wages paid (hours sheets)</span><b>'+money(j.laborPaid||0)+'</b></div>'+
+    (scheduled?"":'<div class="crow"><span>Actual materials / gas</span><b>'+money(j.actualMaterials||0)+' / '+money(j.actualGas||0)+'</b></div>')+
+    '</div>'+
+    '<div class="grow" style="margin-top:12px">'+
+    (scheduled?'<button class="btn" onclick="openCompleteForm('+j.id+')">Complete Job</button>':"")+
+    '<button class="btn btn-dark" onclick="toggleTax('+j.id+')">'+(j.taxExempt?"Remove tax exemption":"Tax exempt")+'</button>'+
+    '<button class="btn btn-dark" onclick="closeModal()">Close</button></div>';
+}
+function toggleTax(id){ api("toggleTax",{id:id}).then(function(){ toast("Tax setting updated"); openJobDetail(id); }); }
+
+/* ---------- COMPLETE JOB ---------- */
+function openCompleteForm(id){
+  api("tbc").then(function(rows){
+    var j=null; rows.forEach(function(x){ if(x.id===id) j=x; });
+    if(!j){ toast("Job not found"); return; }
+    modal('<h3 style="margin:0 0 4px">Complete Job #'+id+'</h3>'+
+      '<p style="color:#94a3b8;font-size:13px;margin:0 0 14px">Labor is constant — it comes from crew hours sheets. Wages logged so far: <b style="color:#e2e8f0">'+money(j.laborPaid||0)+'</b>.</p>'+
+      '<div class="mrow"><label>Actual labor (from hours sheets — constant)</label><input value="'+money(j.laborPaid||0)+'" disabled></div>'+
+      '<div class="mrow"><label>Actual materials ($)</label><input id="cf-mat" type="number" min="0" step="1" value="'+(j.materialsEst||0)+'"></div>'+
+      '<div class="mrow"><label>Actual gas ($)</label><input id="cf-gas" type="number" min="0" step="1" value="'+(j.gasEst||0)+'"></div>'+
+      '<div class="mrow"><label>Receipt photos (for tax filing)</label><input id="cf-receipts" type="file" accept="image/*" multiple></div>'+
+      '<div class="mrow"><label>Job photos (up to 3)</label><input id="cf-photos" type="file" accept="image/*" multiple></div>'+
+      '<button class="btn" style="width:100%;margin-top:12px" onclick="submitComplete('+id+')">Submit — Move to Completed</button>');
+  });
+}
+function submitComplete(id){
+  var mat=parseFloat($("cf-mat").value)||0, gas=parseFloat($("cf-gas").value)||0;
+  var pIn=$("cf-photos");
+  var photoFiles=Array.prototype.slice.call(pIn.files||[], 0, 3); // max 3
+  var receiptFiles=Array.prototype.slice.call($("cf-receipts").files||[]);
+  var loaded={ receipts:[], photos:[] };
+  var total=receiptFiles.length+photoFiles.length, done=0;
+  function fin(){
+    api("completeJob",{ id:id, materials:mat, gas:gas, receipts:loaded.receipts, photos:loaded.photos })
+      .then(function(){ closeModal(); toast("Job #"+id+" completed 🎉"); aTab("done",document.querySelectorAll(".atabs button")[2]); });
+  }
+  function loadOne(f, kind){
+    var reader=new FileReader();
+    reader.onload=function(){ loaded[kind].push({ name:f.name, url:reader.result }); done++; if(done>=total) fin(); };
+    reader.readAsDataURL(f);
+  }
+  receiptFiles.forEach(function(f){ loadOne(f,"receipts"); });
+  photoFiles.forEach(function(f){ loadOne(f,"photos"); });
+  if(!total) fin();
+}
+
+/* ---------- COMPLETED ---------- */
+function doneHTML(rows){
+  var year=new Date().getFullYear();
+  var yj=rows.filter(function(j){ return new Date(j.completedDate).getFullYear()===year; });
+  var profit=yj.reduce(function(t,j){ return t+jobProfit(j); },0);
+  var costs=yj.reduce(function(t,j){ return t+jobCosts(j); },0);
+  return '<div class="kpis">'+
+    kpi("Year profit",money(profit))+kpi("Year costs",money(costs))+kpi("Jobs completed",yj.length)+'</div>'+
+    (!rows.length ? '<div class="panel" style="margin-top:14px">No completed jobs yet.</div>'
+      : '<div style="margin-top:14px">'+rows.map(function(j){ return doneCard(j); }).join("")+'</div>');
+}
+function doneCard(j){
+  return '<div class="panel" style="margin-bottom:14px">'+
+    '<div class="grow" style="justify-content:space-between;align-items:center">'+
+    '<div><b style="color:#fff">Job #'+j.id+' — '+esc(j.client)+'</b>'+
+    '<div style="color:#94a3b8;font-size:12px">'+esc((j.services||[]).join(", "))+' · completed '+esc(j.completedDate||"")+'</div></div>'+
+    '<div style="text-align:right"><b style="color:#6ee7b7">'+money(jobProfit(j))+'</b>'+
+    '<div style="color:#94a3b8;font-size:12px">profit</div></div></div>'+
+    '<table class="mini-t"><tr><th></th><th>Quoted</th><th>Actual</th></tr>'+
+    '<tr><td>Labor</td><td>'+money(j.laborEst)+'</td><td>'+money(j.laborPaid||0)+' (wages)</td></tr>'+
+    '<tr><td>Materials</td><td>'+money(j.materialsEst)+'</td><td>'+money(j.actualMaterials||0)+'</td></tr>'+
+    '<tr><td>Gas</td><td>'+money(j.gasEst)+'</td><td>'+money(j.actualGas||0)+'</td></tr>'+
+    '<tr><td>Sales tax '+(j.taxExempt?"(exempt)":"(9.875%)")+'</td><td colspan="2">'+money(salesTax(j))+'</td></tr>'+
+    '<tr><td><b>Client pays</b></td><td colspan="2"><b>'+money(quotedTotal(j)+salesTax(j))+'</b></td></tr></table>'+
+    photoStrip(j.receipts,"Receipts (tax filing)")+photoStrip(j.photos,"Job photos")+
+    '</div>';
+}
+function photoStrip(arr,label){
+  if(!arr||!arr.length) return "";
+  return '<div style="margin-top:10px"><div style="color:#94a3b8;font-size:11px;margin-bottom:4px">'+label+'</div><div class="thumbs">'+
+    arr.map(function(p){ return '<img src="'+esc(p.url)+'" title="'+esc(p.name||"")+'">'; }).join("")+'</div></div>';
+}
+
+/* ---------- FINANCES ---------- */
+function finHTML(rows){
+  var year=new Date().getFullYear();
+  var jf=rows.filter(function(j){
+    var d=new Date(j.completedDate||""); if(d.getFullYear()!==year) return false;
+    return finScope==="year" || d.getMonth()===finScope;
+  });
+  var rev=jf.reduce(function(t,j){ return t+quotedTotal(j); },0);
+  var wages=jf.reduce(function(t,j){ return t+(Number(j.laborPaid)||0); },0);
+  var mats=jf.reduce(function(t,j){ return t+(Number(j.actualMaterials)||0); },0);
+  var gas=jf.reduce(function(t,j){ return t+(Number(j.actualGas)||0); },0);
+  var tax=jf.reduce(function(t,j){ return t+salesTax(j); },0);
+  var btns='<button class="btn btn-sm '+(finScope==="year"?"":"btn-dark")+'" onclick="finSet(\'year\')">Whole year</button> ';
+  for(var m=0;m<12;m++) btns+='<button class="btn btn-sm '+(finScope===m?"":"btn-dark")+'" onclick="finSet('+m+')">'+monthName(m).slice(0,3)+'</button> ';
+  return '<div class="grow" style="margin-bottom:14px;flex-wrap:wrap">'+btns+'</div>'+
+    '<div class="kpis">'+kpi("Revenue",money(rev))+kpi("Costs",money(wages+mats+gas))+
+    kpi("Profit",money(rev-wages-mats-gas))+kpi("Sales tax collected",money(tax))+'</div>'+
+    '<div class="panel" style="overflow-x:auto;margin-top:14px"><table><tr><th>Job</th><th>Client</th><th>Completed</th><th>Revenue</th><th>Wages</th><th>Materials</th><th>Gas</th><th>Tax</th><th>Profit</th><th>Exempt</th></tr>'+
+    (jf.length? jf.map(function(j){ return '<tr><td>#'+j.id+'</td><td>'+esc(j.client)+'</td><td>'+esc(j.completedDate||"")+'</td>'+
+      '<td>'+money(quotedTotal(j))+'</td><td>'+money(j.laborPaid||0)+'</td><td>'+money(j.actualMaterials||0)+'</td>'+
+      '<td>'+money(j.actualGas||0)+'</td><td>'+money(salesTax(j))+'</td><td>'+money(jobProfit(j))+'</td>'+
+      '<td>'+(j.taxExempt?"✓":"")+'</td></tr>'; }).join("")
+      : '<tr><td colspan="10" style="color:#64748b">No completed jobs in this period.</td></tr>')+'</table></div>'+
+    '<p style="color:#94a3b8;font-size:12px;margin-top:10px">Totals — revenue '+money(rev)+' · wages '+money(wages)+' · materials '+money(mats)+' · gas '+money(gas)+' · profit '+money(rev-wages-mats-gas)+' · sales tax collected (owed to state) '+money(tax)+'</p>';
+}
+function finSet(v){ finScope=v; api("done").then(function(rows){ $("a-content").innerHTML=finHTML(rows); }); }
+
+/* ---------- TAXES ---------- */
+function taxHTML(rows){
+  var year=new Date().getFullYear();
+  var jf=rows.filter(function(j){ return new Date(j.completedDate||"").getFullYear()===year; });
+  var rev=jf.reduce(function(t,j){ return t+quotedTotal(j); },0);
+  var wages=jf.reduce(function(t,j){ return t+(Number(j.laborPaid)||0); },0);
+  var mats=jf.reduce(function(t,j){ return t+(Number(j.actualMaterials)||0); },0);
+  var gas=jf.reduce(function(t,j){ return t+(Number(j.actualGas)||0); },0);
+  var tax=jf.reduce(function(t,j){ return t+salesTax(j); },0);
+  var exempt=jf.filter(function(j){ return j.taxExempt; });
+  var receipts=jf.reduce(function(t,j){ return t+((j.receipts&&j.receipts.length)||0); },0);
+  return '<h2 style="color:#fff;font-size:20px;margin:6px 0 14px">Tax filing summary — '+year+'</h2>'+
+    '<div class="kpis">'+kpi("Gross revenue",money(rev))+kpi("Sales tax to remit",money(tax))+
+    kpi("Wages paid (labor)",money(wages))+kpi("Materials",money(mats))+kpi("Gas",money(gas))+
+    kpi("Net profit",money(rev-wages-mats-gas))+'</div>'+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">Filing checklist</b>'+
+    '<ul style="color:#cbd5e1;font-size:13px;line-height:1.9;margin:10px 0 0;padding-left:18px">'+
+    '<li>Sales tax rate: <b>9.875%</b> (St. Paul combined) — collected on '+
+      (jf.length-exempt.length)+' of '+jf.length+' jobs; '+exempt.length+' exempt.</li>'+
+    '<li>Sales tax collected and owed to Minnesota Dept. of Revenue: <b>'+money(tax)+'</b>.</li>'+
+    '<li>Receipts on file: <b>'+receipts+'</b> photo(s) — attached to each completed job (see Completed page).</li>'+
+    '<li>Employee wages paid: <b>'+money(wages)+'</b> — detail in the Crew tab and HoursLog.</li>'+
+    '<li>Company standard applied: 50% of quoted labor retained by the company, 50% employee pool.</li>'+
+    '<li>IRS mileage rate if claimed: $0.70/mi.</li></ul></div>'+
+    '<div class="panel" style="overflow-x:auto;margin-top:14px"><table><tr><th>Job</th><th>Client</th><th>Completed</th><th>Revenue</th><th>Tax collected</th><th>Wages</th><th>Materials</th><th>Gas</th><th>Profit</th><th>Receipts</th></tr>'+
+    (jf.length? jf.map(function(j){ return '<tr><td>#'+j.id+'</td><td>'+esc(j.client)+'</td><td>'+esc(j.completedDate||"")+'</td>'+
+      '<td>'+money(quotedTotal(j))+'</td><td>'+(j.taxExempt?"exempt":money(salesTax(j)))+'</td>'+
+      '<td>'+money(j.laborPaid||0)+'</td><td>'+money(j.actualMaterials||0)+'</td><td>'+money(j.actualGas||0)+'</td>'+
+      '<td>'+money(jobProfit(j))+'</td><td>'+((j.receipts&&j.receipts.length)||0)+'</td></tr>'; }).join("")
+      : '<tr><td colspan="10" style="color:#64748b">No completed jobs yet this year.</td></tr>')+'</table></div>';
+}
+
+/* ---------- CLIENTS ---------- */
 function clientsHTML(rows){
   return '<div class="panel" style="overflow-x:auto"><table><tr><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Status</th><th>Source</th></tr>'+
     (rows.length?rows.map(function(c){ return '<tr><td>'+esc(c.name)+'</td><td>'+esc(c.phone)+'</td><td>'+esc(c.email)+'</td><td>'+esc(c.address)+'</td><td>'+esc(c.status)+'</td><td>'+esc(c.source)+'</td></tr>'; }).join("")
-    :'<tr><td colspan="6" style="color:#64748b">No clients yet.</td></tr>')+'</table></div>'+
-    '<p style="color:#94a3b8;font-size:12px">Reminder from the workbook: email all recurring / odd-job / one-time clients at the start of each season.</p>';
+    :'<tr><td colspan="6" style="color:#64748b">No clients yet.</td></tr>')+'</table></div>';
 }
+
+/* ---------- CREW (unchanged behavior; assignments point at scheduled jobs) ---------- */
 function crewHTML(){
   return '<div class="crew-grid">'+CREW.map(function(c,i){
     var photo = c.photo
@@ -683,9 +925,9 @@ function crewHTML(){
 }
 function addToJob(i){
   var c = CREW[i];
-  api("jobs").then(function(rows){
-    if(!rows || !rows.length){ toast("No jobs in the Job Log yet — win a quote first"); return; }
-    var list = rows.map(function(j){ return "#"+j.id+" — "+j.client+" ("+j.type+")"; }).join("\n");
+  api("tbc").then(function(rows){
+    if(!rows || !rows.length){ toast("No scheduled jobs — quote a request first"); return; }
+    var list = rows.map(function(j){ return "#"+j.id+" — "+j.client+" ("+(j.scheduleDate||"unscheduled")+")"; }).join("\n");
     var v = prompt("Assign "+c.name+" to which job #?\n\n"+list);
     if(!v) return;
     var id = parseInt(v,10);
@@ -694,7 +936,7 @@ function addToJob(i){
     if(c.assignments.some(function(a){ return a.jobId===id; })){ toast(c.name+" is already on Job #"+id); return; }
     api("assignCrew",{ name:c.name, jobId:id }).then(function(){
       toast(c.name+" assigned to Job #"+id);
-      aTab("crew", document.querySelectorAll(".atabs button")[6]);
+      aTab("crew", document.querySelectorAll(".atabs button")[5]);
     });
   });
 }
@@ -704,7 +946,7 @@ function setWage(i){
   if(v===null) return;
   api("setWage",{ name:c.name, wage:parseFloat(v)||0 }).then(function(){
     toast(c.name+" → $"+(parseFloat(v)||0)+"/hr");
-    aTab("crew", document.querySelectorAll(".atabs button")[6]);
+    aTab("crew", document.querySelectorAll(".atabs button")[5]);
   });
 }
 function submitHours(i, jobId){
@@ -715,7 +957,7 @@ function submitHours(i, jobId){
   if(!c.wage){ toast("Set "+c.name+"'s hourly wage first (click edit)"); return; }
   api("submitHours",{ name:c.name, jobId:jobId, hours:h }).then(function(r){
     toast("Logged "+h+" hrs for "+c.name+" — owed "+money(r.owed)+", added to Job #"+jobId+" labor cost");
-    aTab("crew", document.querySelectorAll(".atabs button")[6]);
+    aTab("crew", document.querySelectorAll(".atabs button")[5]);
   });
 }
 </script>
