@@ -48,6 +48,7 @@
   .mrow input { width:100%; background:#1e293b; border:1px solid #334155; color:#e2e8f0; border-radius:9px; padding:9px 12px; box-sizing:border-box; }
   .mrow input:disabled { color:#94a3b8; }
   .mrow input[type=file] { padding:7px; }
+  .mats-grid { display:grid; grid-template-columns:1.6fr .6fr .8fr auto; gap:6px; align-items:center; }
   .cal { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
   .cal-head { text-align:center; color:#64748b; font-size:12px; font-weight:700; padding:6px 0; }
   .cal-cell { background:#1e293b; border-radius:10px; min-height:86px; padding:6px; font-size:12px; color:#94a3b8; }
@@ -145,8 +146,9 @@
 
   <div id="page-home">
     <div class="hero">
-      <h1>Your yard, handled.</h1>
-      <p>Mowing, mulching, gutter cleaning, minor tree work, landscaping and more — serving Minneapolis-St. Paul and surrounding areas. Fast quotes, fair prices, local crew.</p>
+      <img src="hero.jpg" alt="MJ's Home Improvement" style="width:100%;max-width:900px;border-radius:16px;margin:0 auto 22px;display:block;box-shadow:0 18px 40px rgba(0,0,0,.35)" onerror="this.style.display='none'">
+      <h1>Your yard. Your home. Our hard work.</h1>
+      <p>From landscaping and tree work to snow removal and gutter cleaning, MJ's Home Improvement helps keep your property looking its best year-round. Locally owned, fully insured, and proudly serving the Twin Cities.</p>
       <a href="#" onclick="go('quote')" class="btn btn-light">Get a Free Quote</a>&nbsp;
       <a href="#" onclick="go('services')" class="btn btn-outline">Our Services</a>
     </div>
@@ -175,6 +177,7 @@
 
   <div id="page-about" class="hidden">
     <div class="hero" style="padding:56px 24px">
+      <img src="about-header.jpg" alt="MJ's Home Improvement crew at work" style="width:100%;max-width:900px;border-radius:14px;margin:0 auto 20px;display:block;box-shadow:0 14px 32px rgba(0,0,0,.3)" onerror="this.style.display='none'">
       <h1 style="font-size:34px">About MJ's Home Improvement</h1>
       <p style="margin-bottom:0">Local crew · Full service · Minneapolis-St. Paul</p>
     </div>
@@ -182,8 +185,8 @@
       <div class="two-col" style="align-items:center">
         <div>
           <h2 style="margin-top:0">Owner-operated in Minneapolis-St. Paul</h2>
-          <p>MJ's Home Improvement is a Minneapolis-St. Paul–based, owner-operated company. We take care of the work that keeps a property looking sharp and holding up through Minnesota's seasons — lawn care, landscaping and cleanups, gutter and exterior maintenance, tree trimming and removal, snow removal, and general home improvement projects.</p>
-          <p>We keep it simple: clear quotes, reliable scheduling, and work we're proud to sign. Most of our business comes from referrals and repeat customers in the Twin Cities, and we'd like to keep it that way.</p>
+          <p>MJ's Home Improvement is a small, locally owned, and fully insured company serving homeowners throughout Minneapolis, St. Paul, and the surrounding Twin Cities area.</p>
+          <p>We offer reliable help with landscaping, property maintenance, seasonal cleanups, snow removal, and other outdoor projects. Our goal is simple: do quality work, communicate clearly, and make the entire process easy — from the initial estimate to the final cleanup.</p>
           <ul style="color:#334155;line-height:2">
             <li><b>Local &amp; owner-operated</b> — Minneapolis-St. Paul and surrounding areas</li>
             <li><b>One crew, full service</b> — no juggling multiple contractors</li>
@@ -199,34 +202,28 @@
       <h2 style="margin-top:40px">Meet the Team</h2>
       <div class="grid3" style="margin-top:18px">
         <div class="card team-card">
-          <div class="headshot">📷</div>
-          <h3 style="margin:14px 0 2px">Name Here</h3>
-          <small style="color:#047857;font-weight:700;text-transform:uppercase;letter-spacing:1px">President</small>
-          <p style="color:#475569;font-size:14px;margin:10px 0">Short paragraph about this person — their role, experience, and what they bring to the company.</p>
+          <div class="headshot"><img src="mj.jpg" alt="MJ O'Hara" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.parentElement.innerHTML='📷'"></div>
+          <h3 style="margin:14px 0 2px">MJ O'Hara</h3>
+          <small style="color:#047857;font-weight:700;text-transform:uppercase;letter-spacing:1px">President · Crew Leader · Sales</small>
+          <p style="color:#475569;font-size:14px;margin:10px 0">I'm MJ, the owner of MJ's Home Improvement. I started this business three years ago by going door to door, introducing myself to homeowners, and asking if they wanted pressure washing services. It slowly expanded into general landscaping, started with smaller jobs, and I slowly built it into the business it is today — taking on projects I had never dreamed of.</p>
+          <p style="color:#475569;font-size:14px;margin:10px 0">I've personally built MJ's Home Improvement from the ground up. I still talk directly with customers, prepare estimates, and work solo or with my crew on our projects. When you hire us, you're not dealing with a salesperson or a large company — you're working directly with the person responsible for making sure the job gets done right, so nothing is lost in communication.</p>
+          <p style="color:#475569;font-size:14px;margin:10px 0">Since starting, we've worked with more than 250 local customers in the Twin Cities and surrounding communities. A lot of our work now comes from repeat customers and referrals, which means a lot to me because that's how I know people trust our work. I take pride in being dependable, keeping customers updated, and leaving every property looking better than when we arrived.</p>
           <p style="font-size:13px;color:#334155;margin:0;line-height:1.8">
-            📞 <a href="#" style="color:#334155">Phone</a><br>
-            ✉️ <a href="#" style="color:#334155">Email</a>
+            📞 <a href="tel:651-870-0943" style="color:#334155">651-870-0943</a><br>
+            ✉️ <a href="mailto:MJ@mjshomeimprovements.org" style="color:#334155">MJ@mjshomeimprovements.org</a>
           </p>
         </div>
         <div class="card team-card">
-          <div class="headshot">📷</div>
-          <h3 style="margin:14px 0 2px">Name Here</h3>
-          <small style="color:#047857;font-weight:700;text-transform:uppercase;letter-spacing:1px">Vice President</small>
-          <p style="color:#475569;font-size:14px;margin:10px 0">Short paragraph about this person — their role, experience, and what they bring to the company.</p>
-          <p style="font-size:13px;color:#334155;margin:0;line-height:1.8">
-            📞 <a href="#" style="color:#334155">Phone</a><br>
-            ✉️ <a href="#" style="color:#334155">Email</a>
-          </p>
+          <div class="headshot"><img src="marco.jpg" alt="Marco Rodriguez-House" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.parentElement.innerHTML='📷'"></div>
+          <h3 style="margin:14px 0 2px">Marco Rodriguez-House</h3>
+          <small style="color:#047857;font-weight:700;text-transform:uppercase;letter-spacing:1px">Crew Leader · General Company Consult</small>
+          <p style="color:#475569;font-size:14px;margin:10px 0">The most recent addition to our team, Marco has joined with the goal of company growth. He mainly runs the management side of the business, while still working in the field, with expertise in property maintenance and landscape design. When not working for MJ's, he is an avid nordic skier with a love for the outdoors.</p>
         </div>
         <div class="card team-card">
-          <div class="headshot">📷</div>
-          <h3 style="margin:14px 0 2px">Name Here</h3>
-          <small style="color:#047857;font-weight:700;text-transform:uppercase;letter-spacing:1px">Title Here</small>
-          <p style="color:#475569;font-size:14px;margin:10px 0">Short paragraph about this person — their role, experience, and what they bring to the company.</p>
-          <p style="font-size:13px;color:#334155;margin:0;line-height:1.8">
-            📞 <a href="#" style="color:#334155">Phone</a><br>
-            ✉️ <a href="#" style="color:#334155">Email</a>
-          </p>
+          <div class="headshot"><img src="team3.jpg" alt="Team member" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.parentElement.innerHTML='📷'"></div>
+          <h3 style="margin:14px 0 2px">Coming soon</h3>
+          <small style="color:#047857;font-weight:700;text-transform:uppercase;letter-spacing:1px">To Be Announced</small>
+          <p style="color:#475569;font-size:14px;margin:10px 0">A third team member profile will be announced soon.</p>
         </div>
       </div>
       <p style="text-align:center;margin-top:28px">
@@ -273,6 +270,10 @@
             <select id="q-source">
               <option>Repeat Client</option><option>Referral</option><option>Facebook/Instagram</option><option selected>Google</option><option>Yard Sign</option><option>Other</option>
             </select>
+            <label style="display:flex;gap:9px;align-items:flex-start;font-size:13px;color:#334155;margin-top:16px;cursor:pointer">
+              <input type="checkbox" id="q-optin" style="margin-top:2px">
+              <span>📧 Email me monthly service updates and special offers from MJ's Home Improvement. <span style="color:#94a3b8">(No spam — unsubscribe anytime.)</span></span>
+            </label>
             <button class="btn" style="width:100%;margin-top:22px">Request My Quote</button>
           </form>
         </div>
@@ -366,8 +367,7 @@ var SERVICES = [
   ["Snow Removal","Driveways and walkways, on-call or contract."],
   ["Patios / Retaining Walls","Paver patios, retaining walls, and hardscape installs."],
   ["Landscaping & Design","Bed design, plants, and full landscape installs."],
-  ["Yard Maintenance","Ongoing upkeep — cleanup, pruning, and seasonal care."],
-  ["Other","Something else? Describe it in the form."]
+  ["Yard Maintenance","Ongoing upkeep — cleanup, pruning, and seasonal care."]
 ];
 var CREW = [
   /* photo: put the employee photo filename here when you send them,
@@ -410,10 +410,11 @@ function demo(action, body) {
       case "submitQuote":
         s.requests.push({ ts:new Date().toLocaleString(), name:body.name, phone:body.phone, email:body.email,
           address:body.address, services:body.services, details:body.details, when:body.when,
-          urgency:body.urgency, source:body.source });
-        if(!s.clients.some(function(c){ return c.name===body.name; }))
-          s.clients.push({ name:body.name, phone:body.phone, email:body.email, address:body.address,
-            status:"One Time", source:body.source||"Other" });
+          urgency:body.urgency, source:body.source, optin:!!body.optin });
+        var exists=s.clients.some(function(c){ return c.name===body.name; });
+        if(exists){ s.clients.forEach(function(c){ if(c.name===body.name && body.optin) c.optin=true; }); }
+        else s.clients.push({ name:body.name, phone:body.phone, email:body.email, address:body.address,
+          status:"One Time", source:body.source||"Other", optin:!!body.optin });
         return resolve({ received:true });
       case "submitReview":
         if(!s.reviews) s.reviews=[];
@@ -430,7 +431,8 @@ function demo(action, body) {
         s.scheduled.push({ id:s.nextId++, client:r.name, phone:r.phone, email:r.email, address:r.address,
           services:r.services, details:r.details, source:r.source,
           laborEst:Number(body.labor)||0, materialsEst:Number(body.materials)||0, gasEst:Number(body.gas)||0,
-          taxExempt:!!body.taxExempt, scheduleDate:body.scheduleDate, crew:[], laborPaid:0 });
+          materialsList:(body.materialsList||[]),
+          taxExempt:!!body.taxExempt, taxRate:Number(body.taxRate)||0.09875, scheduleDate:body.scheduleDate, crew:[], laborPaid:0 });
         return resolve({ok:true}); }
       case "completeJob": {
         var j=null;
@@ -495,18 +497,31 @@ function go(page){
 
 /* ---------- customer: services ---------- */
 var svcImgs = {
-  // Drop your before/after photo files in the site folder and list them here:
-  // "Service name": { before: "mow-before.jpg", after: "mow-after.jpg" }
+  "Mowing": { before: "mowing-before.jpg", after: "mowing-after.jpg" },
+  "Weeding / Spraying": { before: "weeding-spraying-before.jpg", after: "weeding-spraying-after.jpg" },
+  "Mulching": { before: "mulching-before.jpg", after: "mulching-after.jpg" },
+  "Gutter Cleaning": { before: "gutter-cleaning-before.jpg", after: "gutter-cleaning-after.jpg" },
+  "Minor Tree Work": { before: "minor-tree-work-before.jpg", after: "minor-tree-work-after.jpg" },
+  "Staining / Painting": { before: "staining-painting-before.jpg", after: "staining-painting-after.jpg" },
+  "Power Washing": { before: "power-washing-before.jpg", after: "power-washing-after.jpg" },
+  "Sod / Grass Seeding": { before: "sod-seeding-before.jpg", after: "sod-seeding-after.jpg" },
+  "Window Cleaning": { before: "window-cleaning-before.jpg", after: "window-cleaning-after.jpg" },
+  "Snow Removal": { before: "snow-removal-before.jpg", after: "snow-removal-after.jpg" },
+  "Patios / Retaining Walls": { before: "patios-walls-before.jpg", after: "patios-walls-after.jpg" },
+  "Landscaping & Design": { before: "landscaping-design-before.jpg", after: "landscaping-design-after.jpg" },
+  "Yard Maintenance": { before: "yard-maintenance-before.jpg", after: "yard-maintenance-after.jpg" }
 };
+function phFallback(img, kind){
+  img.outerHTML = '<div class="ph '+(kind===1?'ph-b':'ph-a')+'">📷 '+(kind===1?'Before':'After')+' photo<br><small>coming soon</small></div>';
+}
+function phImg(src, alt, kind){
+  return '<img src="'+src+'" alt="'+esc(alt)+'" style="width:100%;height:150px;object-fit:cover" onerror="phFallback(this,'+kind+')">';
+}
 function svcCard(s){
   var name = esc(s[0]);
   var imgs = svcImgs[s[0]];
-  var beforeHtml = imgs && imgs.before
-    ? '<img src="'+imgs.before+'" alt="'+name+' — before" style="width:100%;height:150px;object-fit:cover;border-radius:8px 8px 0 0">'
-    : '<div class="ph ph-b">📷 Before photo<br><small>coming soon</small></div>';
-  var afterHtml = imgs && imgs.after
-    ? '<img src="'+imgs.after+'" alt="'+name+' — after" style="width:100%;height:150px;object-fit:cover;border-radius:8px 8px 0 0">'
-    : '<div class="ph ph-a">📷 After photo<br><small>coming soon</small></div>';
+  var beforeHtml = phImg(imgs.before, name+' — before', 1);
+  var afterHtml = phImg(imgs.after, name+' — after', 2);
   return '<div class="card svc-card">'
     + '<div class="ph-wrap">' + beforeHtml + afterHtml + '</div>'
     + '<div style="padding:16px"><b style="font-size:17px">'+name+'</b>'
@@ -536,7 +551,8 @@ function submitQuote(e){
   api("submitQuote", {
     name:$("q-name").value, phone:$("q-phone").value, email:$("q-email").value,
     address:$("q-address").value, services:selectedServices, details:$("q-details").value,
-    when:$("q-when").value, urgency:$("q-urgency").value, source:$("q-source").value
+    when:$("q-when").value, urgency:$("q-urgency").value, source:$("q-source").value,
+    optin:$("q-optin").checked
   }).then(function(){ go("thanks"); })
     .catch(function(err){ toast("Could not send: " + err.message); });
   return false;
@@ -619,11 +635,26 @@ function aTab(name, btn){
 
 /* ---------- math helpers (company standards) ---------- */
 function quotedTotal(j){ return (Number(j.laborEst)||0)+(Number(j.materialsEst)||0)+(Number(j.gasEst)||0); }
-function salesTax(j){ return j.taxExempt ? 0 : quotedTotal(j)*TAX_RATE; }
+function salesTax(j){ return j.taxExempt ? 0 : quotedTotal(j)*(Number(j.taxRate)||TAX_RATE); }
 function jobCosts(j){ return (Number(j.laborPaid)||0)+(Number(j.actualMaterials)||0)+(Number(j.actualGas)||0); }
 function jobProfit(j){ return quotedTotal(j)-jobCosts(j); }
 function monthName(n){ return ["January","February","March","April","May","June","July","August","September","October","November","December"][n]; }
 function kpi(l,v){ return '<div class="kpi"><div class="lbl">'+esc(l)+'</div><div class="val">'+esc(v)+'</div></div>'; }
+
+/* ---------- MN sales-tax rules (per MNDOR lawn/tree/landscaping guidance) ---------- */
+var TAXABLE_SVC = {
+  "Mowing": true, "Weeding / Spraying": true, "Mulching": true, "Minor Tree Work": true,
+  "Yard Maintenance": true,
+  "Gutter Cleaning": false, "Staining / Painting": false, "Power Washing": false,
+  "Sod / Grass Seeding": false, "Window Cleaning": false, "Snow Removal": false,
+  "Patios / Retaining Walls": false, "Landscaping & Design": false
+};
+var RATES = [
+  ["Minneapolis", 0.08525], ["St. Paul", 0.09875], ["Other suburb", 0.08525]
+];
+function taxableSvcList(svcs){
+  return (svcs||[]).filter(function(s){ return TAXABLE_SVC[s]!==false; });
+}
 
 /* ---------- modal ---------- */
 function modal(inner){
@@ -650,40 +681,85 @@ function dismiss(i){ api("dismiss",{index:i}).then(function(){ toast("Request di
 function openQuoteForm(i){
   api("tbq").then(function(rows){
     var r=rows[i]; if(!r){ toast("Request no longer exists"); return; }
+    currentQuoteServices=r.services||[];
     modal('<h3 style="margin:0 0 4px">Quote — '+esc(r.name)+'</h3>'+
       '<p style="color:#94a3b8;font-size:13px;margin:0 0 16px">'+esc((r.services||[]).join(", "))+'</p>'+
       '<div class="mrow"><label>Labor estimate ($)</label><input id="qf-labor" type="number" min="0" step="1" value="0" oninput="quotePreview()"></div>'+
-      '<div class="mrow"><label>Materials estimate ($)</label><input id="qf-mat" type="number" min="0" step="1" value="0" oninput="quotePreview()"></div>'+
+      '<div class="mrow"><label>Materials — itemize each one (what it is, how many, unit price)</label>'+
+      '<div id="qf-mats"></div>'+
+      '<button type="button" class="btn btn-sm btn-dark" onclick="addMatRow()">+ Add Material</button></div>'+
       '<div class="mrow"><label>Gas estimate ($)</label><input id="qf-gas" type="number" min="0" step="1" value="0" oninput="quotePreview()"></div>'+
       '<div class="mrow"><label>Schedule date</label><input id="qf-date" type="date" value="'+esc(r.when||"")+'"></div>'+
-      '<div class="mrow"><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input id="qf-exempt" type="checkbox" onchange="quotePreview()"> Sales tax exempt (otherwise 9.875%)</label></div>'+
+      '<div class="mrow"><label>Job location (sets the sales tax rate)</label><select id="qf-city" onchange="quotePreview()">'+
+      RATES.map(function(x){ return '<option value="'+x[1]+'">'+x[0]+' ('+(x[1]*100).toFixed(3)+'%)</option>'; }).join("")+'</select></div>'+
+      '<div class="mrow"><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input id="qf-exempt" type="checkbox" onchange="quotePreview()"> Tax-exempt (overrides auto-tax below)</label></div>'+
+      '<div id="qf-taxnote" style="font-size:12px;color:#94a3b8;margin:-6px 0 10px"></div>'+
       '<div class="costbox" id="qf-preview"></div>'+
       '<button class="btn" style="width:100%;margin-top:12px" onclick="submitQuoteForm('+i+')">Submit — Officially Quote Job</button>');
-    quotePreview();
+    var taxable = taxableSvcList(r.services);
+    $("qf-exempt").checked = taxable.length===0 && (r.services||[]).length>0;
+    addMatRow();
   });
 }
+var matRowId=0;
+function addMatRow(){
+  matRowId++;
+  var d=document.createElement("div"); d.className="mrow"; d.id="matrow-"+matRowId;
+  d.innerHTML='<div class="mats-grid">'+
+    '<input id="md-'+matRowId+'" placeholder="Material (e.g. mulch)" oninput="quotePreview()">'+
+    '<input id="mq-'+matRowId+'" type="number" min="0" step="1" placeholder="Qty" oninput="quotePreview()">'+
+    '<input id="mp-'+matRowId+'" type="number" min="0" step="0.01" placeholder="Unit $" oninput="quotePreview()">'+
+    '<button type="button" class="btn btn-sm btn-dark" onclick="removeMatRow('+matRowId+')">✕</button></div>';
+  $("qf-mats").appendChild(d);
+  quotePreview();
+}
+function removeMatRow(id){ var d=$("matrow-"+id); if(d) d.remove(); quotePreview(); }
+function matList(){
+  var out=[];
+  for(var i=1;i<=matRowId;i++){
+    var d=$("md-"+i); if(!d || !d.value || !d.value.trim()) continue;
+    var q=parseFloat($("mq-"+i).value)||0, p=parseFloat($("mp-"+i).value)||0;
+    out.push({ desc:d.value.trim(), qty:q, price:p, total:q*p });
+  }
+  return out;
+}
+function matTotal(list){ return (list||[]).reduce(function(t,m){ return t+(m.total||0); },0); }
+var currentQuoteServices=[];
+function r0servicesTaxNote(taxable, exempt){
+  if(exempt) return "⚠ Tax-exempt toggled ON for this job — no sales tax will be charged.";
+  if(!currentQuoteServices.length) return "";
+  if(!taxable.length) return "None of the selected services are taxable in MN — tax auto-set to $0.";
+  return "Taxable in MN: <b style=\"color:#e2e8f0\">"+taxable.map(esc).join(", ")+"</b> — tax applied to those services' share of the quote.";
+}
 function quotePreview(){
-  var l=parseFloat($("qf-labor").value)||0, m=parseFloat($("qf-mat").value)||0, g=parseFloat($("qf-gas").value)||0;
+  var l=parseFloat($("qf-labor").value)||0, g=parseFloat($("qf-gas").value)||0;
+  var mList=matList(), m=matTotal(mList);
   var tot=l+m+g;
-  var tax=$("qf-exempt").checked?0:tot*TAX_RATE;
+  var rate=parseFloat($("qf-city").value)||TAX_RATE;
+  var taxable=taxableSvcList(currentQuoteServices);
+  var exempt=$("qf-exempt").checked;
+  var tax=exempt?0:(tot*(taxable.length?Math.max(taxable.length,1)/Math.max((currentQuoteServices||[""]).length,1):0))*rate;
+  $("qf-taxnote").innerHTML = (r0servicesTaxNote(taxable, exempt));
   $("qf-preview").innerHTML=
+    '<div class="crow"><span>Materials — '+mList.length+' item'+(mList.length===1?"":"s")+'</span><b>'+money(m)+'</b></div>'+
     '<div class="crow"><span>Quote total</span><b>'+money(tot)+'</b></div>'+
-    '<div class="crow"><span>Sales tax '+(tax?"(9.875%)":"(exempt)")+'</span><b>'+money(tax)+'</b></div>'+
+    '<div class="crow"><span>Sales tax ('+($("qf-exempt").checked?"exempt":(parseFloat($("qf-city").value)*100).toFixed(3)+"% on taxable services")+')</span><b>'+money(tax)+'</b></div>'+
     '<div class="crow" style="color:#6ee7b7"><span>Client pays</span><b>'+money(tot+tax)+'</b></div>'+
     '<div style="font-size:11px;color:#94a3b8;margin-top:8px">Company standard: 50% of labor ('+money(l/2)+') stays with the company · 50% ('+money(l/2)+') is the employee pool.</div>';
 }
 function submitQuoteForm(i){
-  var labor=parseFloat($("qf-labor").value)||0, mat=parseFloat($("qf-mat").value)||0, gas=parseFloat($("qf-gas").value)||0;
+  var labor=parseFloat($("qf-labor").value)||0, gas=parseFloat($("qf-gas").value)||0;
+  var mList=matList(), mat=matTotal(mList);
   var date=$("qf-date").value;
   var exempt=$("qf-exempt").checked;
   if(!labor && !mat && !gas){ toast("Enter at least one cost estimate"); return; }
   if(!date){ toast("Pick a schedule date"); return; }
   api("tbq").then(function(rows){
     var r=rows[i]; if(!r){ toast("Request no longer exists"); return; }
-    api("quoteJob",{ index:i, labor:labor, materials:mat, gas:gas, scheduleDate:date, taxExempt:exempt })
+    api("quoteJob",{ index:i, labor:labor, materials:mat, gas:gas, scheduleDate:date, taxExempt:exempt, taxRate:parseFloat($("qf-city").value)||TAX_RATE, materialsList:mList })
       .then(function(){
         closeModal(); toast("Quoted — official quote document opened");
-        docWindow(quoteDocHTML(r, labor, mat, gas, exempt, date), "Quote — "+r.name);
+        docWindow(quoteDocHTML(r, labor, mat, mList, gas, exempt, date, $("qf-city")?$("qf-city").value:TAX_RATE), "Quote — "+r.name);
         aTab("tbc",document.querySelectorAll(".atabs button")[1]);
       });
   });
@@ -752,9 +828,12 @@ function jobDetailHTML(j, scheduled){
     '<div class="crow"><span>— Company (50%)</span><b>'+money((j.laborEst||0)/2)+'</b></div>'+
     '<div class="crow"><span>— Employee pool (50%)</span><b>'+money((j.laborEst||0)/2)+'</b></div>'+
     '<div class="crow"><span>Quoted materials</span><b>'+money(j.materialsEst)+'</b></div>'+
+    ((j.materialsList||[]).map(function(m){
+      return '<div class="crow" style="font-size:11px;color:#94a3b8;padding-left:14px"><span>'+esc(m.desc)+' × '+(m.qty||0)+' @ '+money(m.price)+'</span><b>'+money(m.total||0)+'</b></div>';
+    }).join(""))+
     '<div class="crow"><span>Quoted gas</span><b>'+money(j.gasEst)+'</b></div>'+
     '<div class="crow"><span>Quote total</span><b>'+money(quotedTotal(j))+'</b></div>'+
-    '<div class="crow"><span>Sales tax '+(j.taxExempt?"(exempt)":"(9.875%)")+'</span><b>'+money(salesTax(j))+'</b></div>'+
+    '<div class="crow"><span>Sales tax '+(j.taxExempt?"(exempt)":"("+((Number(j.taxRate)||TAX_RATE)*100).toFixed(3)+"%)")+'</span><b>'+money(salesTax(j))+'</b></div>'+
     '<div class="crow"><span>Scheduled</span><b>'+esc(j.scheduleDate||"—")+'</b></div>'+
     '<div class="crow"><span>Crew</span><b>'+((j.crew&&j.crew.length)?esc(j.crew.join(", ")):"—")+'</b></div>'+
     '<div class="crow"><span>Wages paid (hours sheets)</span><b>'+money(j.laborPaid||0)+'</b></div>'+
@@ -777,7 +856,8 @@ function openCompleteForm(id){
       '<div class="mrow"><label>Actual labor (from hours sheets — constant)</label><input value="'+money(j.laborPaid||0)+'" disabled></div>'+
       '<div class="mrow"><label>Actual materials ($)</label><input id="cf-mat" type="number" min="0" step="1" value="'+(j.materialsEst||0)+'"></div>'+
       '<div class="mrow"><label>Actual gas ($)</label><input id="cf-gas" type="number" min="0" step="1" value="'+(j.gasEst||0)+'"></div>'+
-      '<div class="mrow"><label>Receipt photos (for tax filing)</label><input id="cf-receipts" type="file" accept="image/*" multiple></div>'+
+      '<div class="mrow"><label>Receipt photos — MATERIALS (for tax filing)</label><input id="cf-rec-mat" type="file" accept="image/*" multiple></div>'+
+      '<div class="mrow"><label>Receipt photos — GAS (for tax filing)</label><input id="cf-rec-gas" type="file" accept="image/*" multiple></div>'+
       '<div class="mrow"><label>Job photos (up to 3)</label><input id="cf-photos" type="file" accept="image/*" multiple></div>'+
       '<button class="btn" style="width:100%;margin-top:12px" onclick="submitComplete('+id+')">Submit — Move to Completed</button>');
   });
@@ -785,10 +865,11 @@ function openCompleteForm(id){
 function submitComplete(id){
   var mat=parseFloat($("cf-mat").value)||0, gas=parseFloat($("cf-gas").value)||0;
   var pIn=$("cf-photos");
+  var recMatFiles=Array.prototype.slice.call($("cf-rec-mat").files||[]);
+  var recGasFiles=Array.prototype.slice.call($("cf-rec-gas").files||[]);
   var photoFiles=Array.prototype.slice.call(pIn.files||[], 0, 3); // max 3
-  var receiptFiles=Array.prototype.slice.call($("cf-receipts").files||[]);
   var loaded={ receipts:[], photos:[] };
-  var total=receiptFiles.length+photoFiles.length, done=0;
+  var total=recMatFiles.length+recGasFiles.length+photoFiles.length, done=0;
   function fin(){
     api("completeJob",{ id:id, materials:mat, gas:gas, receipts:loaded.receipts, photos:loaded.photos })
       .then(function(){
@@ -800,12 +881,13 @@ function submitComplete(id){
         });
       });
   }
-  function loadOne(f, kind){
+  function loadOne(f, kind, cat){
     var reader=new FileReader();
-    reader.onload=function(){ loaded[kind].push({ name:f.name, url:reader.result }); done++; if(done>=total) fin(); };
+    reader.onload=function(){ loaded[kind].push({ name:f.name, url:reader.result, category:cat }); done++; if(done>=total) fin(); };
     reader.readAsDataURL(f);
   }
-  receiptFiles.forEach(function(f){ loadOne(f,"receipts"); });
+  recMatFiles.forEach(function(f){ loadOne(f,"receipts","materials"); });
+  recGasFiles.forEach(function(f){ loadOne(f,"receipts","gas"); });
   photoFiles.forEach(function(f){ loadOne(f,"photos"); });
   if(!total) fin();
 }
@@ -834,8 +916,12 @@ function doneCard(j){
     '<tr><td>Gas</td><td>'+money(j.gasEst)+'</td><td>'+money(j.actualGas||0)+'</td></tr>'+
     '<tr><td>Sales tax '+(j.taxExempt?"(exempt)":"(9.875%)")+'</td><td colspan="2">'+money(salesTax(j))+'</td></tr>'+
     '<tr><td><b>Client pays</b></td><td colspan="2"><b>'+money(quotedTotal(j)+salesTax(j))+'</b></td></tr></table>'+
-    photoStrip(j.receipts,"Receipts (tax filing)")+photoStrip(j.photos,"Job photos")+
+    receiptStrip(j.receipts,"materials")+receiptStrip(j.receipts,"gas")+photoStrip(j.photos,"Job photos")+
     '</div>';
+}
+function receiptStrip(arr, cat){
+  var list=(arr||[]).filter(function(p){ return (p.category||"")===cat; });
+  return photoStrip(list, "Receipts — "+cat+" (tax filing)");
 }
 function photoStrip(arr,label){
   if(!arr||!arr.length) return "";
@@ -881,19 +967,63 @@ function taxHTML(rows){
   var tax=jf.reduce(function(t,j){ return t+salesTax(j); },0);
   var exempt=jf.filter(function(j){ return j.taxExempt; });
   var receipts=jf.reduce(function(t,j){ return t+((j.receipts&&j.receipts.length)||0); },0);
-  return '<h2 style="color:#fff;font-size:20px;margin:6px 0 14px">Tax filing summary — '+year+'</h2>'+
-    '<div class="kpis">'+kpi("Gross revenue",money(rev))+kpi("Sales tax to remit",money(tax))+
-    kpi("Wages paid (labor)",money(wages))+kpi("Materials",money(mats))+kpi("Gas",money(gas))+
-    kpi("Net profit",money(rev-wages-mats-gas))+'</div>'+
-    '<div class="panel" style="margin-top:14px"><b style="color:#fff">Filing checklist</b>'+
-    '<ul style="color:#cbd5e1;font-size:13px;line-height:1.9;margin:10px 0 0;padding-left:18px">'+
-    '<li>Sales tax rate: <b>9.875%</b> (Minneapolis-St. Paul combined) — collected on '+
-      (jf.length-exempt.length)+' of '+jf.length+' jobs; '+exempt.length+' exempt.</li>'+
-    '<li>Sales tax collected and owed to Minnesota Dept. of Revenue: <b>'+money(tax)+'</b>.</li>'+
-    '<li>Receipts on file: <b>'+receipts+'</b> photo(s) — attached to each completed job (see Completed page).</li>'+
-    '<li>Employee wages paid: <b>'+money(wages)+'</b> — detail in the Crew tab and HoursLog.</li>'+
-    '<li>Company standard applied: 50% of quoted labor retained by the company, 50% employee pool.</li>'+
-    '<li>IRS mileage rate if claimed: $0.70/mi.</li></ul></div>'+
+  var matRecs=jf.reduce(function(t,j){ return t+((j.receipts||[]).filter(function(p){ return (p.category||"")==="materials"; }).length); },0);
+  var gasRecs=jf.reduce(function(t,j){ return t+((j.receipts||[]).filter(function(p){ return (p.category||"")==="gas"; }).length); },0);
+  var netProfit=rev-wages-mats-gas;
+  var seTax=netProfit>0 ? netProfit*0.9235*0.153 : 0;
+  var q = [0,0,0,0];
+  jf.forEach(function(j){ var m=new Date(j.completedDate).getMonth(); q[Math.floor(m/3)]+=jobProfit(j); });
+  var qNames=["Q1 (Jan–Mar)","Q2 (Apr–Jun)","Q3 (Jul–Sep)","Q4 (Oct–Dec)"];
+
+  return '<h2 style="color:#fff;font-size:20px;margin:6px 0 14px">Tax filing — '+year+' (small business)</h2>'+
+
+    '<div class="kpis">'+kpi("Gross receipts",money(rev))+kpi("Total expenses",money(wages+mats+gas))+
+    kpi("Net profit",money(netProfit))+kpi("Est. self-employment tax",money(seTax))+
+    kpi("Sales tax to remit",money(tax))+'</div>'+
+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">1 · Federal — Schedule C (sole proprietor)</b>'+
+    '<table class="mini-t" style="margin-top:10px">'+
+    '<tr><th>Schedule C line</th><th>Amount</th><th>Source in this system</th></tr>'+
+    '<tr><td>Gross receipts (line 1)</td><td>'+money(rev)+'</td><td>All completed jobs, quoted totals</td></tr>'+
+    '<tr><td>Wages — part-time employees (line 26)</td><td>'+money(wages)+'</td><td>Crew tab → HoursLog</td></tr>'+
+    '<tr><td>Employer payroll taxes (line 23)</td><td>~'+money(wages*0.098)+'</td><td>7.65% FICA + ~2.15% est. — compute exact from payroll</td></tr>'+
+    '<tr><td>Supplies / materials (line 22, or COGS)</td><td>'+money(mats)+'</td><td>Job actuals + material receipts</td></tr>'+
+    '<tr><td>Car & truck expenses (line 9)</td><td>'+money(gas)+' + mileage</td><td>Gas actuals + gas receipts; log miles separately</td></tr>'+
+    '<tr><td>Net profit (line 31)</td><td><b>'+money(netProfit)+'</b></td><td>Flows to Form 1040 Schedule 1</td></tr></table>'+
+    '<ul style="color:#94a3b8;font-size:12px;line-height:1.8;margin:8px 0 0;padding-left:18px">'+
+    '<li>Self-employment tax (Schedule SE): ~<b>'+money(seTax)+'</b> (92.35% × 15.3% of net profit).</li>'+
+    '<li>Half of SE tax is deductible on the 1040.</li>'+
+    '<li><b>Crew are set up as part-time employees (W-2).</b> On each paycheck withhold the employee 7.65% FICA (+ federal/MN income tax if they elect) and pay the employer 7.65% FICA; register with MN Unemployment Insurance (SUTA) and get workers comp coverage — both legally required in MN for employees.</li>'+
+    '<li>Deposit federal withholdings with Form 941 each quarter; issue W-2s by Jan 31.</li></ul></div>'+
+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">2 · Quarterly estimated taxes</b>'+
+    '<table class="mini-t" style="margin-top:10px"><tr><th>Quarter</th><th>Profit earned</th><th>Payment due (federal + MN)</th></tr>'+
+    q.map(function(p,i){ return '<tr><td>'+qNames[i]+'</td><td>'+money(p)+'</td><td>Apr 15 · Jun 15 · Sep 15 · Jan 15 (following the quarter)</td></tr>'; }).join("")+
+    '</table><p style="color:#94a3b8;font-size:12px;margin:8px 0 0">Rule of thumb: set aside ~25–30% of each quarter\'s profit for federal income + SE tax, plus ~7.05–9.85% for Minnesota income tax.</p></div>'+
+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">3 · Minnesota sales & use tax (9.875%)</b>'+
+    '<ul style="color:#cbd5e1;font-size:13px;line-height:1.8;margin:10px 0 0;padding-left:18px">'+
+    '<li>Collected on <b>'+(jf.length-exempt.length)+' of '+jf.length+'</b> jobs ('+exempt.length+' exempt) — total <b>'+money(tax)+'</b> to remit to MN Dept. of Revenue.</li>'+
+    '<li>Home services (lawn care, snow removal, cleaning/maintenance of residential property) are generally <b>not taxable</b> in Minnesota — confirm which of your services are taxable; use the per-job exempt toggle accordingly.</li>'+
+    '<li>File MN sales tax returns by the 20th of the month after each quarter (monthly if liability is high).</li></ul></div>'+
+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">4 · Year-round records (already tracked here)</b>'+
+    '<table class="mini-t" style="margin-top:10px"><tr><th>Record</th><th>Status</th></tr>'+
+    '<tr><td>Receipts on file</td><td>'+receipts+' photo(s): '+matRecs+' materials · '+gasRecs+' gas</td></tr>'+
+    '<tr><td>Labor documentation</td><td>HoursLog — every hours sheet with wage owed per job</td></tr>'+
+    '<tr><td>Per-job financials</td><td>Quoted vs. actual: labor, materials, gas</td></tr>'+
+    '<tr><td>Invoices issued</td><td>Every completed job has an official invoice (INV-####)</td></tr>'+
+    '<tr><td>Mileage rate if claimed</td><td>$0.70/mi (IRS standard) — keep a mileage log</td></tr></table></div>'+
+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">5 · Filing calendar</b>'+
+    '<ul style="color:#cbd5e1;font-size:13px;line-height:1.8;margin:10px 0 0;padding-left:18px">'+
+    '<li><b>Jan 31:</b> W-2s to all crew + W-3 to SSA; no 1099s needed (crew are employees).</li>'+
+    '<li><b>Quarterly:</b> federal + MN estimated payments (above); MN sales tax returns.</li>'+
+    '<li><b>Mar/Apr 15:</b> Form 1040 with Schedule C, Schedule SE, and MN M1 (+ schedule for credits).</li>'+
+    '<li><b>Keep records 7 years</b> — this workbook\'s year-end archive (startNewYear) preserves each year\'s tabs.</li></ul></div>'+
+
+    '<p style="color:#94a3b8;font-size:11px;margin:14px 0 0">This page organizes your records; it is not tax advice. Crew are recorded as part-time employees — have a payroll service or CPA set up withholdings, MN UI, and workers comp correctly.</p>'+
+
     '<div class="panel" style="overflow-x:auto;margin-top:14px"><table><tr><th>Job</th><th>Client</th><th>Completed</th><th>Revenue</th><th>Tax collected</th><th>Wages</th><th>Materials</th><th>Gas</th><th>Profit</th><th>Receipts</th></tr>'+
     (jf.length? jf.map(function(j){ return '<tr><td>#'+j.id+'</td><td>'+esc(j.client)+'</td><td>'+esc(j.completedDate||"")+'</td>'+
       '<td>'+money(quotedTotal(j))+'</td><td>'+(j.taxExempt?"exempt":money(salesTax(j)))+'</td>'+
@@ -901,7 +1031,6 @@ function taxHTML(rows){
       '<td>'+money(jobProfit(j))+'</td><td>'+((j.receipts&&j.receipts.length)||0)+'</td></tr>'; }).join("")
       : '<tr><td colspan="10" style="color:#64748b">No completed jobs yet this year.</td></tr>')+'</table></div>';
 }
-
 /* ---------- OFFICIAL DOCUMENTS (auto-generated on quote & completion) ---------- */
 var BIZ = {
   name: "MJ's Home Improvement",
@@ -946,37 +1075,43 @@ function letterhead(){
     '<div class="sub">'+BIZ.addr+'<br>'+BIZ.phone+' · '+BIZ.email+'<br>'+BIZ.licensed+'</div></div>'+
     '<img src="logo.png" alt="logo" onerror="this.style.display=\'none\'"></div>';
 }
-function quoteDocHTML(r, labor, mat, gas, exempt, date){
-  var tot=labor+mat+gas, tax=exempt?0:tot*TAX_RATE;
+function quoteDocHTML(r, labor, mat, mList, gas, exempt, date, qRate){
+  var tot=labor+mat+gas, tax=exempt?0:tot*(parseFloat(qRate)||TAX_RATE);
   var docNo="Q-"+String(demoState.nextId-1).padStart(4,"0");
   return letterhead()+
     '<div class="doc-title">ESTIMATE / QUOTE</div>'+
     docMeta(docNo, new Date().toLocaleDateString(), r.name, r.address)+
     '<table><tr><th>Service</th><th class="r">Amount</th></tr>'+
     '<tr><td>Labor — '+esc((r.services||[]).join(", "))+'</td><td class="r">'+money(labor)+'</td></tr>'+
-    '<tr><td>Materials</td><td class="r">'+money(mat)+'</td></tr>'+
+    ((mList&&mList.length)? mList.map(function(m){
+      return '<tr><td>Materials — '+esc(m.desc)+' ('+(m.qty||0)+' @ '+money(m.price)+' ea.)</td><td class="r">'+money(m.total||0)+'</td></tr>';
+    }).join("") : '<tr><td>Materials</td><td class="r">'+money(mat)+'</td></tr>')+
     '<tr><td>Gas / equipment</td><td class="r">'+money(gas)+'</td></tr>'+
     (r.details?'<tr><td colspan="2" style="color:#555;font-style:italic">“'+esc(r.details)+'”</td></tr>':"")+
     '</table>'+
     '<table class="tot"><tr><td class="r">Subtotal</td><td class="r" style="width:120px">'+money(tot)+'</td></tr>'+
-    '<tr><td class="r">Sales tax'+(exempt?' (exempt)':' (9.875%)')+'</td><td class="r">'+money(tax)+'</td></tr>'+
+    '<tr><td class="r">Sales tax'+(exempt?' (exempt)':' ('+(parseFloat(qRate)*100).toFixed(3)+'%)')+'</td><td class="r">'+money(tax)+'</td></tr>'+
     '<tr><td class="r g">TOTAL</td><td class="r g">'+money(tot+tax)+'</td></tr></table>'+
     '<div class="notes"><b>Proposed schedule date:</b> '+esc(date)+' · <b>Valid for 30 days.</b><br>'+
     'Payment due on completion: cash or check. This quote covers the services listed above; any additional work will be quoted separately before it is performed.</div>'+
     '<div class="sig"><div>Authorized signature — '+BIZ.name+'</div><div>Client acceptance signature</div></div>';
 }
 function invoiceDocHTML(j){
-  var tot=quotedTotal(j), tax=salesTax(j);
+  var tot=quotedTotal(j), tax=salesTax(j), jRate=(Number(j.taxRate)||TAX_RATE)*100;
   var docNo="INV-"+String(j.id).padStart(4,"0");
   return letterhead()+
     '<div class="doc-title">INVOICE</div>'+
     docMeta(docNo, j.completedDate||new Date().toLocaleDateString(), j.client, j.address)+
     '<table><tr><th>Service</th><th class="r">Quoted amount</th></tr>'+
-    '<tr><td>'+esc((j.services||[]).join(", "))+' — labor, materials, and equipment</td><td class="r">'+money(tot)+'</td></tr>'+
+    '<tr><td>Labor — '+esc((j.services||[]).join(", "))+'</td><td class="r">'+money(j.laborEst||0)+'</td></tr>'+
+    ((j.materialsList&&j.materialsList.length)? j.materialsList.map(function(m){
+      return '<tr><td>Materials — '+esc(m.desc)+' ('+(m.qty||0)+' @ '+money(m.price)+' ea.)</td><td class="r">'+money(m.total||0)+'</td></tr>';
+    }).join("") : '<tr><td>Materials</td><td class="r">'+money(j.materialsEst||0)+'</td></tr>')+
+    '<tr><td>Gas / equipment</td><td class="r">'+money(j.gasEst||0)+'</td></tr>'+
     (j.details?'<tr><td colspan="2" style="color:#555;font-style:italic">“'+esc(j.details)+'”</td></tr>':"")+
     '</table>'+
     '<table class="tot"><tr><td class="r">Subtotal</td><td class="r" style="width:120px">'+money(tot)+'</td></tr>'+
-    '<tr><td class="r">Sales tax'+(j.taxExempt?' (exempt)':' (9.875%)')+'</td><td class="r">'+money(tax)+'</td></tr>'+
+    '<tr><td class="r">Sales tax'+(j.taxExempt?' (exempt)':' ('+jRate.toFixed(3)+'%)')+'</td><td class="r">'+money(tax)+'</td></tr>'+
     '<tr><td class="r g">TOTAL DUE</td><td class="r g">'+money(tot+tax)+'</td></tr></table>'+
     '<div class="notes">Job #'+j.id+' completed on '+esc(j.completedDate||"")+' · Payment due upon receipt: cash or check.<br>'+
     'Thank you for choosing '+BIZ.name+' — referrals are the heart of our business.</div>'+
@@ -985,8 +1120,10 @@ function invoiceDocHTML(j){
 
 /* ---------- CLIENTS ---------- */
 function clientsHTML(rows){
-  return '<div class="panel" style="overflow-x:auto"><table><tr><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Status</th><th>Source</th></tr>'+
-    (rows.length?rows.map(function(c){ return '<tr><td>'+esc(c.name)+'</td><td>'+esc(c.phone)+'</td><td>'+esc(c.email)+'</td><td>'+esc(c.address)+'</td><td>'+esc(c.status)+'</td><td>'+esc(c.source)+'</td></tr>'; }).join("")
+  var subs=rows.filter(function(c){ return c.optin; }).length;
+  return '<div class="kpis">'+kpi("Clients",rows.length)+kpi("Email subscribers",subs)+'</div>'+
+    '<div class="panel" style="overflow-x:auto;margin-top:14px"><table><tr><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Status</th><th>Source</th><th>Updates</th></tr>'+
+    (rows.length?rows.map(function(c){ return '<tr><td>'+esc(c.name)+'</td><td>'+esc(c.phone)+'</td><td>'+esc(c.email)+'</td><td>'+esc(c.address)+'</td><td>'+esc(c.status)+'</td><td>'+esc(c.source)+'</td><td>'+(c.optin?'✅ Subscribed':'—')+'</td></tr>'; }).join("")
     :'<tr><td colspan="6" style="color:#64748b">No clients yet.</td></tr>')+'</table></div>';
 }
 
@@ -1003,7 +1140,7 @@ function crewHTML(){
             '<button class="btn btn-sm" onclick="submitHours('+i+','+a.jobId+')">Submit Hours Sheet</button></div></div>'; }).join("")
       : '<div style="color:#64748b;font-size:12px;margin-top:8px">Not assigned to any job yet.</div>';
     return '<div class="panel crew-card">'+photo+
-      '<b style="font-size:16px">'+esc(c.name)+'</b>'+
+      '<b style="font-size:16px">'+esc(c.name)+'</b><div style="color:#6ee7b7;font-size:11px;font-weight:700;letter-spacing:1px;margin-top:2px">PART-TIME EMPLOYEE</div>'+
       '<div class="crew-stat">Hourly wage: <b>$'+(c.wage||0)+'/hr</b> <a href="#" onclick="setWage('+i+');return false" style="font-size:11px;color:#6ee7b7">edit</a></div>'+
       '<div class="crew-stat">Hours worked this year: <b>'+(c.hoursYTD||0)+'</b></div>'+
       '<div class="crew-stat">Earned this year: <b>$'+((c.hoursYTD||0)*(c.wage||0)).toFixed(2)+'</b></div>'+
