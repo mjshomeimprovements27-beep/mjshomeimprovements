@@ -1,0 +1,1554 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MJ Home Improvements — Minneapolis-St. Paul, MN</title>
+<meta name="description" content="Mowing, mulching, gutter cleaning, minor tree work, landscaping and more — serving Minneapolis-St. Paul and surrounding areas. Fast quotes, fair prices, local crew." />
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root { font-family: Inter, system-ui, -apple-system, sans-serif; color:#0f172a; background:#f8fafc; }
+  a { text-decoration:none; color:inherit; }
+  .container { max-width:1080px; margin:0 auto; padding:0 24px; }
+  header { background:#fff; border-bottom:1px solid #e2e8f0; position:sticky; top:0; z-index:50; }
+  .nav { display:flex; align-items:center; justify-content:space-between; padding:14px 0; flex-wrap:wrap; gap:10px; }
+  .brand { display:flex; align-items:center; gap:12px; }
+  .logo { width:40px; height:40px; border-radius:12px; background:#059669; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:17px; }
+  .brand b { display:block; line-height:1.1; }
+  .brand small { color:#64748b; font-size:12px; }
+  .navlinks { display:flex; gap:22px; font-size:14px; font-weight:500; color:#475569; flex-wrap:wrap; }
+  .navlinks a:hover { color:#059669; }
+  .hero { background:linear-gradient(135deg,#047857,#059669,#0f766e); color:#fff; text-align:center; padding:88px 24px; }
+  .hero h1 { font-size:44px; font-weight:900; margin-bottom:14px; }
+  .hero p { color:#d1fae5; max-width:640px; margin:0 auto 28px; font-size:17px; }
+  .hero-banner { position:relative; max-width:900px; margin:0 auto 26px; border-radius:16px; overflow:hidden; box-shadow:0 18px 40px rgba(0,0,0,.35); }
+  .hero-banner img { width:100%; display:block; }
+  .hero-overlay { position:absolute; inset:auto 0 0 0; padding:70px 28px 26px; background:linear-gradient(180deg,rgba(0,0,0,0) 0%,rgba(0,0,0,.72) 78%); }
+  .hero-overlay h1 { text-shadow:0 2px 14px rgba(0,0,0,.55); }
+  .hero-overlay-cap { color:#d1fae5; font-size:15px; letter-spacing:2px; text-transform:uppercase; font-weight:700; margin-top:10px; text-shadow:0 1px 8px rgba(0,0,0,.6); }
+  .btn { display:inline-block; background:#059669; color:#fff; font-weight:700; padding:13px 30px; border-radius:12px; border:none; cursor:pointer; font-size:16px; }
+  .btn:hover { background:#047857; }
+  .btn-light { background:#fff; color:#047857; }
+  .btn-outline { background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.35); }
+  section { padding:56px 0; }
+  h2 { font-size:28px; font-weight:800; text-align:center; margin-bottom:32px; }
+  .grid3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px; }
+  .team-card { text-align:center; padding:24px 20px; }
+  .headshot { width:110px; height:110px; margin:0 auto; border-radius:50%; background:#f1f5f9; border:2px dashed #cbd5e1; display:flex; align-items:center; justify-content:center; font-size:34px; }
+  .team-card a { text-decoration:none; }
+  .team-card a:hover { color:#047857; text-decoration:underline; }
+  .crew-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+  .crew-card { padding:20px; text-align:center; }
+  .crew-ph { width:84px; height:84px; border-radius:50%; background:#1e293b; border:2px dashed #334155; display:flex; align-items:center; justify-content:center; font-size:28px; margin:0 auto 10px; }
+  .crew-stat { color:#94a3b8; font-size:13px; margin-top:4px; }
+  .crew-stat b { color:#e2e8f0; }
+  .crew-assign { background:#1e293b; border-radius:10px; padding:10px; margin-top:8px; font-size:13px; color:#cbd5e1; text-align:left; }
+  .hrs-row { display:flex; gap:6px; margin-top:6px; }
+.hrs-row input { flex:1; min-width:0; width:70px; }
+  .modal-overlay { position:fixed; inset:0; background:rgba(2,6,23,.78); z-index:200; display:flex; align-items:center; justify-content:center; padding:20px; }
+  .modal-box { background:#0f172a; border:1px solid #1e293b; border-radius:16px; padding:24px; max-width:560px; width:100%; max-height:88vh; overflow-y:auto; color:#e2e8f0; }
+  .modal-box h3 { color:#fff; }
+  .mrow { margin-bottom:12px; }
+  .mrow-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:0 16px; }
+  .mrow select { width:100%; background:#1e293b; border:1px solid #334155; color:#e2e8f0; border-radius:9px; padding:9px 12px; box-sizing:border-box; }
+  .mrow label { display:block; color:#94a3b8; font-size:12px; margin-bottom:4px; }
+  .mrow input { width:100%; background:#1e293b; border:1px solid #334155; color:#e2e8f0; border-radius:9px; padding:9px 12px; box-sizing:border-box; }
+  .mrow input:disabled { color:#94a3b8; }
+  .mrow input[type=file] { padding:7px; }
+  .mats-grid { display:grid; grid-template-columns:1.6fr .6fr .8fr auto; gap:6px; align-items:center; }
+  .cal { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .cal-head { text-align:center; color:#64748b; font-size:12px; font-weight:700; padding:6px 0; }
+  .cal-cell { background:#1e293b; border-radius:10px; min-height:86px; padding:6px; font-size:12px; color:#94a3b8; }
+  .cal-cell.today { border:1px solid #059669; }
+  .cal-num { font-weight:700; color:#cbd5e1; margin-bottom:4px; }
+  .cal-job { background:#047857; color:#fff; border-radius:7px; padding:4px 6px; margin-bottom:4px; font-size:11px; cursor:pointer; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .cal-job:hover { background:#059669; }
+  .costbox { background:#1e293b; border-radius:12px; padding:14px; margin-top:10px; }
+  .crow { display:flex; justify-content:space-between; font-size:13px; color:#cbd5e1; padding:3px 0; }
+  .mini-t { width:100%; border-collapse:collapse; margin-top:12px; font-size:13px; }
+  .mini-t th { color:#64748b; font-size:11px; text-transform:uppercase; text-align:left; padding:5px 8px; border-bottom:1px solid #334155; }
+  .mini-t td { color:#cbd5e1; padding:5px 8px; border-bottom:1px solid #1e293b; }
+  .thumbs { display:flex; gap:8px; flex-wrap:wrap; }
+  .thumbs img { width:76px; height:76px; object-fit:cover; border-radius:8px; border:1px solid #334155; }
+  .card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:22px; }
+  .card h3 { font-size:18px; margin-bottom:8px; }
+  .card p { font-size:14px; color:#475569; }
+  .chips { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; max-width:860px; margin:0 auto; }
+  .chip { background:#ecfdf5; border:1px solid #d1fae5; color:#065f46; border-radius:12px; padding:12px; text-align:center; font-weight:600; font-size:14px; }
+  .services-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:18px; margin:0 auto; }
+  .svc-card { overflow:hidden; padding:0; }
+  .ph-wrap { display:grid; grid-template-columns:1fr 1fr; gap:2px; background:#e2e8f0; }
+  .ph { height:150px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:#94a3b8; font-size:14px; font-weight:600; background:#f1f5f9; line-height:1.4; }
+  .ph small { font-weight:400; font-size:11px; color:#cbd5e1; }
+  .ph-b { border-right:1px dashed #cbd5e1; }
+  .service-row { background:#fff; border:1px solid #e2e8f0; border-radius:14px; padding:18px 22px; display:flex; justify-content:space-between; align-items:center; gap:14px; flex-wrap:wrap; }
+  .service-row b { display:block; }
+  .service-row span { font-size:13px; color:#64748b; }
+  .btn-sm { padding:8px 16px; font-size:13px; border-radius:9px; }
+  footer { background:#0f172a; color:#94a3b8; text-align:center; padding:36px 24px; font-size:14px; }
+  footer b { color:#fff; display:block; margin-bottom:4px; }
+  .form-wrap { max-width:640px; margin:0 auto; }
+  label { display:block; font-size:13px; font-weight:600; color:#334155; margin:14px 0 5px; }
+  input, select, textarea { width:100%; background:#fff; border:1px solid #cbd5e1; border-radius:10px; padding:11px 14px; font-size:15px; font-family:inherit; outline:none; }
+  input:focus, select:focus, textarea:focus { border-color:#059669; }
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:560px){ .two-col { grid-template-columns:1fr; } .hero h1{font-size:32px;} }
+  .svc-checks { display:flex; flex-wrap:wrap; gap:8px; }
+  .svc-checks button { padding:8px 14px; border-radius:99px; font-size:13px; font-weight:600; border:1px solid #cbd5e1; background:#fff; color:#475569; cursor:pointer; }
+  .svc-checks button.on { background:#059669; color:#fff; border-color:#059669; }
+  .msg { text-align:center; padding:90px 20px; }
+  .msg .big { font-size:56px; margin-bottom:14px; }
+  .stars button { font-size:36px; background:none; border:none; cursor:pointer; color:#cbd5e1; }
+  .stars button.on { color:#fbbf24; }
+  .admin { background:#020617; color:#e2e8f0; min-height:100vh; }
+  .admin header { background:#0f172a; border-color:#1e293b; position:static; }
+  .admin .brand b, .admin .brand small { color:#fff; }
+  .admin .navlinks { color:#94a3b8; }
+  .atabs { display:flex; gap:4px; padding:18px 0 14px; overflow-x:auto; flex-wrap:wrap; }
+  .atabs button { background:#1e293b; color:#94a3b8; border:none; padding:8px 16px; border-radius:9px; font-size:13px; font-weight:600; cursor:pointer; white-space:nowrap; }
+  .atabs button.on { background:#059669; color:#fff; }
+  .kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; margin-bottom:22px; }
+  .kpi { background:#0f172a; border:1px solid #1e293b; border-radius:14px; padding:18px; }
+  .kpi .lbl { color:#94a3b8; font-size:12px; text-transform:uppercase; letter-spacing:.04em; }
+  .kpi .val { font-size:24px; font-weight:800; margin-top:6px; color:#fff; }
+  .panel { background:#0f172a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin-bottom:18px; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; color:#94a3b8; font-size:11px; text-transform:uppercase; letter-spacing:.05em; padding:8px 10px; border-bottom:1px solid #1e293b; }
+  td { padding:10px; border-bottom:1px solid #1e293b; color:#e2e8f0; }
+  .badge { font-size:11px; font-weight:700; padding:3px 10px; border-radius:99px; }
+  .b-green { background:#064e3b; color:#6ee7b7; } .b-amber { background:#78350f; color:#fcd34d; } .b-slate { background:#1e293b; color:#94a3b8; }
+  .req-card { background:#0f172a; border:1px solid #1e293b; border-radius:14px; padding:18px; margin-bottom:14px; }
+  .req-card .top { display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+  .req-card .meta { text-align:right; font-size:13px; color:#94a3b8; }
+  .req-card .meta b { color:#fff; }
+  .tag { display:inline-block; background:#064e3b; color:#6ee7b7; font-size:11px; font-weight:600; padding:3px 10px; border-radius:99px; margin:6px 4px 0 0; }
+  .grow { display:flex; gap:8px; margin-top:14px; }
+  .grow .btn { font-size:13px; padding:9px 16px; }
+  .btn-dark { background:#1e293b; color:#cbd5e1; }
+  .hidden { display:none; }
+  #toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#065f46; color:#fff; padding:12px 22px; border-radius:12px; font-weight:600; font-size:14px; box-shadow:0 10px 30px rgba(0,0,0,.35); z-index:99; display:none; }
+  /* ---- FONT THEME SYSTEM: change FONT_THEME below to switch the whole site ---- */
+  body[data-font="0"] { font-family:"Inter", system-ui, -apple-system, sans-serif; }
+  body[data-font="0"] h1, body[data-font="0"] h2, body[data-font="0"] h3 { font-family:"Inter", system-ui, sans-serif; letter-spacing:-0.02em; }
+  body[data-font="1"] { font-family:"Lora", Georgia, serif; }
+  body[data-font="1"] h1, body[data-font="1"] h2, body[data-font="1"] h3 { font-family:"Playfair Display", Georgia, serif; letter-spacing:0; }
+  body[data-font="2"] { font-family:"Mulish", system-ui, sans-serif; }
+  body[data-font="2"] h1, body[data-font="2"] h2, body[data-font="2"] h3 { font-family:"Mulish", system-ui, sans-serif; font-weight:800; letter-spacing:-0.03em; }
+  body[data-font="3"] { font-family:"Raleway", system-ui, sans-serif; }
+  body[data-font="3"] h1, body[data-font="3"] h2, body[data-font="3"] h3 { font-family:"Raleway", system-ui, sans-serif; font-weight:800; letter-spacing:0.01em; }
+  body[data-font="4"] { font-family:"Work Sans", system-ui, sans-serif; }
+  body[data-font="4"] h1, body[data-font="4"] h2, body[data-font="4"] h3 { font-family:"Work Sans", system-ui, sans-serif; font-weight:700; }
+  #font-pick { display:none; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Lora:wght@400;600;700&family=Playfair+Display:wght@700;900&family=Mulish:wght@400;600;800&family=Raleway:wght@400;600;800&family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body data-font="2">
+<div id="toast"></div>
+
+<!-- ============ CUSTOMER SIDE ============ -->
+<div id="site">
+  <header>
+    <div class="container nav">
+      <a href="#" onclick="go('home')" class="brand" style="text-decoration:none">
+        <img src="logo.png" alt="MJ's Home Improvement — house and tree logo" style="height:56px;width:auto;flex:none" />
+        <div><b style="color:#0f172a">MJ'S HOME IMPROVEMENT</b><small>Minneapolis-St. Paul</small></div>
+      </a>
+      <nav class="navlinks">
+        <a href="#" onclick="go('home')">Home</a>
+        <a href="#" onclick="go('about')">About</a>
+        <a href="#" onclick="go('services')">Services</a>
+        <a href="#" onclick="go('quote')">Get a Quote</a>
+        <a href="#" onclick="go('review')">Leave a Review</a>
+        <a href="#" onclick="go('admin')" style="color:#94a3b8">Management</a>
+      </nav>
+    </div>
+  </header>
+
+  <div id="page-home">
+    <div class="hero">
+      <div class="hero-banner">
+        <img src="hero.jpg" alt="MJ's Home Improvement crew" onerror="this.parentElement.style.display='none'">
+        <div class="hero-overlay">
+          <h1 style="color:#fff;margin:0">Your yard. Your home.<br>Our hard work.</h1>
+          <div class="hero-overlay-cap">Locally owned · Fully insured · Serving the Twin Cities</div>
+        </div>
+      </div>
+      <p>From landscaping and tree work to snow removal and gutter cleaning, MJ's Home Improvement helps keep your property looking its best year-round. Locally owned, fully insured, and proudly serving the Twin Cities.</p>
+      <a href="#" onclick="go('quote')" class="btn btn-light">Get a Free Quote</a>&nbsp;
+      <a href="#" onclick="go('services')" class="btn btn-outline">Our Services</a>
+    </div>
+    <section class="container">
+      <div class="grid3">
+        <div class="card"><h3>Fast Quotes</h3><p>Request online in under a minute — hear back within 1-2 business days.</p></div>
+        <div class="card"><h3>Local &amp; Trusted</h3><p>Minneapolis-St. Paul based. Referrals and repeat clients are our biggest source.</p></div>
+        <div class="card"><h3>Full-Service</h3><p>One crew for mowing, mulching, gutters, minor tree work, snow removal and more.</p></div>
+      </div>
+    </section>
+    <section style="background:#fff;border-top:1px solid #e2e8f0">
+      <div class="container">
+        <h2>Popular services</h2>
+        <div class="chips" id="home-chips"></div>
+        <p style="text-align:center;margin-top:22px"><a href="#" onclick="go('services')" style="color:#047857;font-weight:600">See all services →</a></p>
+      </div>
+    </section>
+    <section style="background:#ecfdf5;border-top:1px solid #e2e8f0">
+      <div class="container" style="text-align:center">
+        <h2 style="margin-bottom:8px">Local, owner-operated, full-service</h2>
+        <p style="max-width:640px;margin:0 auto 18px;color:#334155">Minneapolis-St. Paul–based. Referrals and repeat clients are our biggest source of work.</p>
+        <a href="#" onclick="go('about')" class="btn btn-outline">Learn More About Us</a>
+      </div>
+    </section>
+  </div>
+
+  <div id="page-about" class="hidden">
+    <div class="hero" style="padding:56px 24px">
+      <img src="about-header.jpg" alt="MJ's Home Improvement crew at work" style="width:100%;max-width:900px;border-radius:14px;margin:0 auto 20px;display:block;box-shadow:0 14px 32px rgba(0,0,0,.3)" onerror="this.style.display='none'">
+      <h1 style="font-size:34px">About MJ's Home Improvement</h1>
+      <p style="margin-bottom:0">Local crew · Full service · Minneapolis-St. Paul</p>
+    </div>
+    <section class="container">
+      <div class="two-col" style="align-items:center">
+        <div>
+          <h2 style="margin-top:0">Owner-operated in Minneapolis-St. Paul</h2>
+          <p>MJ's Home Improvement is a small, locally owned, and fully insured company serving homeowners throughout Minneapolis, St. Paul, and the surrounding Twin Cities area.</p>
+          <p>We offer reliable help with landscaping, property maintenance, seasonal cleanups, snow removal, and other outdoor projects. Our goal is simple: do quality work, communicate clearly, and make the entire process easy — from the initial estimate to the final cleanup.</p>
+          <ul style="color:#334155;line-height:2">
+            <li><b>Local &amp; owner-operated</b> — Minneapolis-St. Paul and surrounding areas</li>
+            <li><b>One crew, full service</b> — no juggling multiple contractors</li>
+            <li><b>Free quotes</b> — honest pricing, no pressure</li>
+          </ul>
+        </div>
+        <div class="card" style="text-align:center">
+          <div style="font-size:52px">🏡</div>
+          <h3 style="margin:10px 0 6px">Minneapolis-St. Paul</h3>
+          <p style="margin:0">Fully insured<br>Serving the Twin Cities metro<br>All seasons — mow to snow</p>
+        </div>
+      </div>
+      <h2 style="margin-top:40px">Meet the Team</h2>
+      <div class="grid3" style="margin-top:18px">
+        <div class="card team-card">
+          <div class="headshot"><img src="mj.jpg" alt="MJ O'Hara" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.parentElement.innerHTML='📷'"></div>
+          <h3 style="margin:14px 0 2px">MJ O'Hara</h3>
+          <small style="color:#047857;font-weight:700;text-transform:uppercase;letter-spacing:1px">President · Crew Leader · Sales</small>
+          <p style="color:#475569;font-size:14px;margin:10px 0">I'm MJ, the owner of MJ's Home Improvement. I started this business three years ago by going door to door, introducing myself to homeowners, and asking if they wanted pressure washing services. It slowly expanded into general landscaping, started with smaller jobs, and I slowly built it into the business it is today — taking on projects I had never dreamed of.</p>
+          <p style="color:#475569;font-size:14px;margin:10px 0">I've personally built MJ's Home Improvement from the ground up. I still talk directly with customers, prepare estimates, and work solo or with my crew on our projects. When you hire us, you're not dealing with a salesperson or a large company — you're working directly with the person responsible for making sure the job gets done right, so nothing is lost in communication.</p>
+          <p style="color:#475569;font-size:14px;margin:10px 0">Since starting, we've worked with more than 250 local customers in the Twin Cities and surrounding communities. A lot of our work now comes from repeat customers and referrals, which means a lot to me because that's how I know people trust our work. I take pride in being dependable, keeping customers updated, and leaving every property looking better than when we arrived.</p>
+          <p style="font-size:13px;color:#334155;margin:0;line-height:1.8">
+            📞 <a href="tel:651-870-0943" style="color:#334155">651-870-0943</a><br>
+            ✉️ <a href="mailto:MJ@mjshomeimprovements.net" style="color:#334155">MJ@mjshomeimprovements.net</a>
+          </p>
+        </div>
+        <div class="card team-card">
+          <div class="headshot"><img src="marco.jpg" alt="Marco Rodriguez-House" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.parentElement.innerHTML='📷'"></div>
+          <h3 style="margin:14px 0 2px">Marco Rodriguez-House</h3>
+          <small style="color:#047857;font-weight:700;text-transform:uppercase;letter-spacing:1px">Crew Leader · General Company Consult</small>
+          <p style="color:#475569;font-size:14px;margin:10px 0">The most recent addition to our team, Marco has joined with the goal of company growth. He mainly runs the management side of the business, while still working in the field, with expertise in property maintenance and landscape design. When not working for MJ's, he is an avid nordic skier with a love for the outdoors.</p>
+        </div>
+        <div class="card team-card">
+          <div class="headshot"><img src="team3.jpg" alt="Team member" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.parentElement.innerHTML='📷'"></div>
+          <h3 style="margin:14px 0 2px">Coming soon</h3>
+          <small style="color:#047857;font-weight:700;text-transform:uppercase;letter-spacing:1px">To Be Announced</small>
+          <p style="color:#475569;font-size:14px;margin:10px 0">A third team member profile will be announced soon.</p>
+        </div>
+      </div>
+      <p style="text-align:center;margin-top:28px">
+        <a href="#" onclick="go('quote')" class="btn">Get a Free Quote</a>&nbsp;
+        <a href="#" onclick="go('services')" class="btn btn-outline">Our Services</a>
+      </p>
+    </section>
+  </div>
+
+  <div id="page-services" class="hidden">
+    <div class="container">
+      <section>
+        <h2 style="text-align:left;margin-bottom:8px">Services &amp; Pricing</h2>
+        <div class="services-list" id="svc-list" style="margin-top:20px"></div>
+      </section>
+    </div>
+  </div>
+
+  <div id="page-quote" class="hidden">
+    <div class="container">
+      <section>
+        <div class="form-wrap">
+          <h2 style="text-align:left;margin-bottom:6px">Get a Fast Quote</h2>
+          <p style="color:#64748b;margin-bottom:20px">Tell us about the job — we reply within 1-2 business days.</p>
+          <form class="card" style="padding:26px" onsubmit="submitQuote(event)">
+            <div class="two-col">
+              <div><label>Your Name *</label><input id="q-name" required></div>
+              <div><label>Phone *</label><input id="q-phone" required></div>
+            </div>
+            <label>Email</label><input id="q-email" type="email">
+            <label>Service Address (Minneapolis-St. Paul area) *</label><input id="q-address" required>
+            <label>What do you need done? *</label>
+            <div class="svc-checks" id="q-services"></div>
+            <label>Describe the job in your own words *</label><textarea id="q-details" rows="3" required></textarea>
+            <div class="two-col">
+              <div><label>When would you like it done?</label><input id="q-when" type="date"></div>
+              <div><label>How urgent is it?</label>
+                <select id="q-urgency">
+                  <option>This week</option><option>Next two weeks</option><option selected>Flexible</option><option>Recurring (weekly or biweekly)</option>
+                </select>
+              </div>
+            </div>
+            <label>How did you hear about us?</label>
+            <select id="q-source">
+              <option>Repeat Client</option><option>Referral</option><option>Facebook/Instagram</option><option selected>Google</option><option>Yard Sign</option><option>Other</option>
+            </select>
+            <label style="display:flex;gap:9px;align-items:flex-start;font-size:13px;color:#334155;margin-top:16px;cursor:pointer">
+              <input type="checkbox" id="q-optin" style="margin-top:2px">
+              <span>📧 Email me monthly service updates and special offers from MJ's Home Improvement. <span style="color:#94a3b8">(No spam — unsubscribe anytime.)</span></span>
+            </label>
+            <button class="btn" style="width:100%;margin-top:22px">Request My Quote</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div id="page-thanks" class="hidden"><div class="msg"><div class="big">✅</div><h2>Thank You!</h2>
+    <p style="color:#475569">Thank you for your quote request! You can expect a response by text within 1-2 business days.</p>
+    <p style="margin-top:18px"><button class="btn" onclick="go('home')">Back to Home</button></p></div></div>
+
+  <div id="page-review" class="hidden">
+    <div class="container"><section><div class="form-wrap">
+      <h2 style="text-align:left;margin-bottom:6px">How Did We Do?</h2>
+      <p style="color:#64748b;margin-bottom:20px">Your feedback helps us grow.</p>
+      <div class="card" style="padding:26px;text-align:center">
+        <div class="stars" id="stars"></div>
+        <textarea id="rev-text" rows="4" placeholder="Tell us about your experience…" style="margin-top:16px"></textarea>
+        <button class="btn" style="width:100%;margin-top:16px" onclick="submitReview()">Submit Review</button>
+        <p id="rev-success" style="display:none;color:#047857;font-weight:600;margin:14px 0 0">✅ Thank you! Your review has been added below.</p>
+      </div>
+      <h3 style="margin:30px 0 12px">Customer Reviews</h3>
+      <div id="review-list" class="grid3"></div>
+    </div></section></div>
+  </div>
+
+  <div id="page-rthanks" class="hidden"><div class="msg"><div class="big">🙏</div><h2>Thank you!</h2>
+    <p style="color:#475569">Your review was logged and will appear on our site soon.</p></div></div>
+
+  <footer>
+    <b>MJ Home Improvements</b>
+    Minneapolis-St. Paul · Fully insured · Cash, check or card
+  </footer>
+</div>
+
+<!-- ============ MANAGEMENT SIDE ============ -->
+<div id="admin" class="admin hidden">
+  <header>
+    <div class="container">
+      <div class="nav">
+        <div class="brand"><div class="logo">MJ</div><div><b>MJ Management Console</b><small>mjshomeimprovements.net</small></div></div>
+        <nav class="navlinks"><a href="#" onclick="go('home')" style="color:#94a3b8">View customer site ↗</a></nav>
+      </div>
+    </div>
+  </header>
+
+  <div id="admin-login" class="container" style="display:flex;justify-content:center;padding:80px 0">
+    <div class="panel" style="width:100%;max-width:360px">
+      <h2 style="text-align:left;font-size:22px;margin-bottom:4px;color:#fff">MJ Management</h2>
+      <p style="color:#94a3b8;font-size:13px;margin-bottom:18px">Management access only.</p>
+      <input id="admin-pw" type="password" placeholder="Enter passcode" onkeydown="if(event.key==='Enter')adminLogin()">
+      <button class="btn" style="width:100%;margin-top:12px" onclick="adminLogin()">Sign in</button>
+    </div>
+  </div>
+
+  <div id="admin-app" class="hidden">
+    <div class="container">
+      <div class="atabs">
+        <button class="on" onclick="aTab('tbq',this)">To Be Quoted</button>
+        <button onclick="aTab('tbc',this)">To Be Completed</button>
+        <button onclick="aTab('done',this)">Completed</button>
+        <button onclick="aTab('fin',this)">Finances</button>
+        <button onclick="aTab('payroll',this)">Payroll</button>
+        <button onclick="aTab('expenses',this)">Expenses</button>
+        <button onclick="aTab('tax',this)">Taxes</button>
+        <button onclick="aTab('crew',this)">Crew</button>
+        <button onclick="aTab('clients',this)">Clients</button>
+      </div>
+      <div id="a-content"></div>
+      <p style="color:#475569;font-size:12px;padding:20px 0">MJ Data Server · mjshomeimprovements.net</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   CONFIG — set this to your Apps Script Web App URL after
+   deploying (Extensions → Apps Script → Deploy → Web app).
+   Until set, the site runs in demo mode with sample data.
+   ========================================================= */
+var API_URL = ""; // e.g. "https://script.google.com/macros/s/AKfyc.../exec"
+var FONT_THEME = 2; // 0=Inter · 1=Lora/Playfair · 2=Mulish · 3=Raleway · 4=Work Sans
+
+function setFont(n){
+  document.body.setAttribute("data-font", String(n));
+}
+setFont(FONT_THEME);
+
+var SERVICES = [
+  ["Mowing","Weekly or biweekly mowing, trimming, and blow-down."],
+  ["Weeding / Spraying","Bed weeding and spot spraying to keep beds and drives clean."],
+  ["Mulching","Mulch delivery and spread — freshen beds in one visit."],
+  ["Gutter Cleaning","Gutter cleaning and downspout flush."],
+  ["Minor Tree Work","Trimming, small removals, and limb cleanup."],
+  ["Staining / Painting","Decks, fences, and exterior wood staining and painting."],
+  ["Power Washing","Siding, driveways, patios, and walkways."],
+  ["Sod / Grass Seeding","New lawns and patch repair."],
+  ["Window Cleaning","Interior & exterior window washing."],
+  ["Snow Removal","Driveways and walkways, on-call or contract."],
+  ["Patios / Retaining Walls","Paver patios, retaining walls, and hardscape installs."],
+  ["Landscaping & Design","Bed design, plants, and full landscape installs."],
+  ["Yard Maintenance","Ongoing upkeep — cleanup, pruning, and seasonal care."]
+];
+var CREW = [
+  /* photo: put the employee photo filename here when you send them,
+     e.g. photo:"matt.jpg" — file goes in the same site folder */
+  { name:"Matt", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Marco", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Carson", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Ruben", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Riley", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Nadav", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Ismeal", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Gabe", wage:0, photo:"", hoursYTD:0, assignments:[] },
+  { name:"Sergio", wage:0, photo:"", hoursYTD:0, assignments:[] }
+];
+var selectedServices = [];
+
+/* ---------- API layer (falls back to demo data when API_URL unset or unreachable) ---------- */
+function api(action, body) {
+  if (!API_URL) return demo(action, body);
+  var url = API_URL + "?action=" + encodeURIComponent(action);
+  var opts = body
+    ? { method:"post", headers:{ "Content-Type":"text/plain;charset=utf-8" }, body: JSON.stringify(body), redirect:"follow" }
+    : { method:"get", redirect:"follow" };
+  return fetch(url, opts)
+    .then(function(r){ return r.json(); })
+    .then(function(j){ if (!j.ok) throw new Error(j.error || "API error"); return j.data; })
+    .catch(function(){ toast("Live API unreachable — showing demo data"); return demo(action, body); });
+}
+var demoState = {
+  requests: [],
+  scheduled: [],
+  completed: [],
+  clients: [],
+  hoursLog: [],
+  payroll: [],
+  expenses: [],
+  nextId: 1,
+  cfg: { fed:0, mn:0, suta:0.03, futa:0.006 }
+};
+function demo(action, body) {
+  return new Promise(function(resolve){ setTimeout(function(){
+    var s = demoState;
+    switch (action) {
+      case "submitQuote":
+        s.requests.push({ ts:new Date().toLocaleString(), name:body.name, phone:body.phone, email:body.email,
+          address:body.address, services:body.services, details:body.details, when:body.when,
+          urgency:body.urgency, source:body.source, optin:!!body.optin });
+        var exists=s.clients.some(function(c){ return c.name===body.name; });
+        if(exists){ s.clients.forEach(function(c){ if(c.name===body.name && body.optin) c.optin=true; }); }
+        else s.clients.push({ name:body.name, phone:body.phone, email:body.email, address:body.address,
+          status:"One Time", source:body.source||"Other", optin:!!body.optin });
+        return resolve({ received:true });
+      case "submitReview":
+        if(!s.reviews) s.reviews=[];
+        s.reviews.unshift({ stars:body.stars, review:body.review, date:new Date().toLocaleDateString() });
+        return resolve({ received:true });
+      case "reviews": return resolve(s.reviews || []);
+      case "login": return resolve({ ok: true }); // demo: any passcode
+      case "tbq": return resolve(s.requests);
+      case "tbc": return resolve(s.scheduled);
+      case "done": return resolve(s.completed);
+      case "clients": return resolve(s.clients);
+      case "quoteJob": {
+        var r = s.requests.splice(Number(body.index),1)[0]; if(!r) return resolve({ok:false});
+        s.scheduled.push({ id:s.nextId++, client:r.name, phone:r.phone, email:r.email, address:r.address,
+          services:r.services, details:r.details, source:r.source,
+          laborEst:Number(body.labor)||0, materialsEst:Number(body.materials)||0, gasEst:Number(body.gas)||0,
+          materialsList:(body.materialsList||[]),
+          taxExempt:!!body.taxExempt, taxRate:Number(body.taxRate)||0.09875, scheduleDate:body.scheduleDate, crew:[], laborPaid:0,
+          recurring:body.recurring||"" });
+        return resolve({ok:true}); }
+      case "completeJob": {
+        var j=null;
+        s.scheduled = s.scheduled.filter(function(x){ if(x.id===Number(body.id)){ j=x; return false; } return true; });
+        if(!j) return resolve({ok:false});
+        j.actualMaterials = Number(body.materials)||0;
+        j.actualGas = Number(body.gas)||0;
+        j.receipts = body.receipts||[];
+        j.photos = body.photos||[];
+        j.completedDate = new Date().toLocaleDateString();
+        s.completed.unshift(j);
+        if(j.recurring){
+          var d=new Date(j.scheduleDate+"T12:00:00");
+          if(j.recurring==="weekly") d.setDate(d.getDate()+7);
+          else if(j.recurring==="biweekly") d.setDate(d.getDate()+14);
+          else if(j.recurring==="monthly") d.setMonth(d.getMonth()+1);
+          else if(j.recurring==="quarterly") d.setMonth(d.getMonth()+3);
+          s.scheduled.push({ id:s.nextId++, client:j.client, phone:j.phone, email:j.email, address:j.address,
+            services:j.services, details:j.details, source:j.source,
+            laborEst:j.laborEst, materialsEst:j.materialsEst, gasEst:j.gasEst, materialsList:j.materialsList,
+            taxExempt:j.taxExempt, taxRate:j.taxRate, scheduleDate:d.toISOString().slice(0,10), crew:[], laborPaid:0,
+            recurring:j.recurring });
+          return resolve({ok:true, recur:true, nextDate:d.toISOString().slice(0,10)});
+        }
+        return resolve({ok:true}); }
+      case "toggleTax": {
+        s.scheduled.concat(s.completed).forEach(function(j){ if(j.id===Number(body.id)) j.taxExempt=!j.taxExempt; });
+        return resolve({ok:true}); }
+      case "dismiss": s.requests.splice(Number(body.index),1); return resolve({ok:true});
+      case "assignCrew":
+        s.scheduled.concat(s.completed).forEach(function(j){ if(j.id===Number(body.jobId)){ j.crew=(j.crew||[]).concat([body.name]); } });
+        CREW.forEach(function(c){ if(c.name===body.name){ c.assignments.push({ jobId:Number(body.jobId), hours:0 }); } });
+        return resolve({ok:true});
+      case "setWage":
+        CREW.forEach(function(c){ if(c.name===body.name) c.wage=Number(body.wage)||0; });
+        return resolve({ok:true});
+      case "submitHours": {
+        var out = { owed:0 };
+        CREW.forEach(function(c){ if(c.name===body.name){
+          c.assignments.forEach(function(a){ if(a.jobId===Number(body.jobId)){
+            var pay = Number(body.hours) * (c.wage||0);
+            a.hours = (a.hours||0) + Number(body.hours);
+            c.hoursYTD = (c.hoursYTD||0) + Number(body.hours);
+            out.owed = pay; } }); } });
+        s.hoursLog.push({ ts:new Date(), name:body.name, jobId:Number(body.jobId), hours:Number(body.hours)||0, owed:out.owed });
+        s.scheduled.concat(s.completed).forEach(function(j){ if(j.id===Number(body.jobId)){ j.laborPaid = (j.laborPaid||0) + out.owed; } });
+        return resolve(out); }
+      case "payroll": return resolve({ hours:s.hoursLog,
+        crew:CREW.map(function(c){ return { name:c.name, wage:c.wage||0, type:"W-2 Employee" }; }),
+        paid:s.payroll, cfg:s.cfg });
+      case "payEmployee":
+        s.payroll.push({ WeekStart:body.weekStart, Name:body.name, Hours:Number(body.hours)||0,
+          Gross:Number(body.gross)||0, FedWH:Number(body.fed)||0, MNWH:Number(body.mn)||0,
+          FICA:Number(body.fica)||0, Net:Number(body.net)||0, EmployerCost:Number(body.employer)||0,
+          Status:"Paid", PaidDate:new Date().toLocaleDateString(), CheckNo:body.checkNo||"" });
+        return resolve({ ok:true });
+      case "setConfig":
+        if(body.key) s.cfg[body.key]=Number(body.value)||0;
+        return resolve({ ok:true });
+      case "expenses": return resolve(s.expenses);
+      case "addExpense":
+        s.expenses.push({ ID:"EX-"+String(s.expenses.length+1).padStart(4,"0"),
+          Date:body.date, Category:body.category, Vendor:body.vendor, Description:body.description,
+          Amount:Number(body.amount)||0, SalesTaxPaid:Number(body.salesTax)||0,
+          Deductible:body.deductible?"Yes":"No", Method:body.method });
+        return resolve({ ok:true });
+      case "delExpense":
+        s.expenses = s.expenses.filter(function(x){ return x.ID!==body.id; });
+        return resolve({ ok:true });
+      default: return resolve([]);
+    }
+  }, 120); });
+}
+
+/* ---------- helpers ---------- */
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){
+  return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+function toast(msg){ var t=$("toast"); t.textContent=msg; t.style.display="block";
+  setTimeout(function(){ t.style.display="none"; }, 2600); }
+function money(n){ return "$" + (Number(n)||0).toLocaleString(); }
+
+/* ---------- customer routing ---------- */
+function go(page){
+  ["home","services","quote","thanks","review","rthanks","about"].forEach(function(p){
+    $("page-"+p).classList.add("hidden"); });
+  $("admin").classList.add("hidden"); $("site").classList.remove("hidden");
+  if (page==="admin") {
+    $("site").classList.add("hidden"); $("admin").classList.remove("hidden");
+    $("admin-app").classList.add("hidden"); $("admin-login").style.display="flex";
+    $("admin-pw").value=""; return;
+  }
+  $("page-"+(page==="home"?"home":page)).classList.remove("hidden");
+  if(page==="review") loadReviews();
+  window.scrollTo(0,0);
+  return false;
+}
+
+/* ---------- customer: services ---------- */
+var svcImgs = {
+  "Mowing": { pair: "mowing.jpg", orient: "v" },
+  "Weeding / Spraying": { pair: "weeding-spraying.jpg", orient: "v" },
+  "Mulching": { pair: "mulching.jpg", orient: "h" },
+  "Gutter Cleaning": { pair: "gutter-cleaning.jpg", orient: "h" },
+  "Minor Tree Work": { before: "minor-tree-work-before.jpg", after: "minor-tree-work-after.jpg" },
+  "Staining / Painting": { before: "staining-painting-before.jpg", after: "staining-painting-after.jpg" },
+  "Power Washing": { pair: "power-washing.jpg", orient: "h" },
+  "Sod / Grass Seeding": { pair: "sod-seeding.jpg", orient: "v" },
+  "Window Cleaning": { pair: "window-cleaning.jpg", orient: "h" },
+  "Snow Removal": { pair: "snow-removal.jpg", orient: "h" },
+  "Patios / Retaining Walls": { before: "patios-walls-before.jpg", after: "patios-walls-after.jpg" },
+  "Landscaping & Design": { before: "landscaping-design-before.jpg", after: "landscaping-design-after.jpg" },
+  "Yard Maintenance": { before: "yard-maintenance-before.jpg", after: "yard-maintenance-after.jpg" }
+};
+function phFallback(img, kind){
+  img.outerHTML = '<div class="ph '+(kind===1?'ph-b':'ph-a')+'">📷 '+(kind===1?'Before':'After')+' photo<br><small>coming soon</small></div>';
+}
+function phImg(src, alt, kind){
+  return '<img src="'+src+'" alt="'+esc(alt)+'" style="width:100%;height:150px;object-fit:cover" onerror="phFallback(this,'+kind+')">';
+}
+/* composite before/after photo: crop one half into each slot */
+function phPair(src, alt, orient, kind){
+  var h = orient!=="v";
+  var size = h ? "200% 100%" : "100% 200%";
+  var pos = h ? (kind===1?"left":"right") : (kind===1?"top":"bottom");
+  return '<div role="img" aria-label="'+esc(alt)+'" style="height:150px;background-image:url(\''+src+'\');background-size:'+size+';background-position:'+pos+';background-repeat:no-repeat;background-color:#f1f5f9"></div>';
+}
+function svcCard(s){
+  var name = esc(s[0]);
+  var imgs = svcImgs[s[0]];
+  var beforeHtml = imgs.pair ? phPair(imgs.pair, name+' — before', imgs.orient, 1) : phImg(imgs.before, name+' — before', 1);
+  var afterHtml = imgs.pair ? phPair(imgs.pair, name+' — after', imgs.orient, 2) : phImg(imgs.after, name+' — after', 2);
+  return '<div class="card svc-card">'
+    + '<div class="ph-wrap">' + beforeHtml + afterHtml + '</div>'
+    + '<div style="padding:16px"><b style="font-size:17px"><a href="#" onclick="quoteFor(\''+esc(s[0]).replace(/'/g,"\\'")+'\');return false" style="color:inherit;text-decoration:none" title="Get a quote for '+name+'">'+name+'</a></b>'
+    + '<p style="color:#475569;margin:8px 0 0;font-size:14px">'+esc(s[1])+'</p>'
+    + '<a href="#" onclick="quoteFor(\''+esc(s[0]).replace(/'/g,"\\'")+'\');return false" class="btn" style="display:inline-block;margin-top:12px;padding:8px 16px;font-size:13px">Get a quote ▸</a></div>'
+    + '</div>';
+}
+function quoteFor(svc){
+  go("quote");
+  var q=$("q-services");
+  if(!q) return false;
+  for(var i=0;i<q.children.length;i++){
+    var b=q.children[i];
+    if(b.textContent===svc && !b.classList.contains("on")) b.onclick();
+  }
+  return false;
+}
+(function(){
+  var chips=$("home-chips");
+  SERVICES.slice(0,8).forEach(function(s){
+    var d=document.createElement("div"); d.className="chip"; d.textContent=s[0]; chips.appendChild(d); });
+  var list=$("svc-list");
+  SERVICES.forEach(function(s){
+    list.insertAdjacentHTML("beforeend", svcCard(s)); });
+  var q=$("q-services");
+  SERVICES.forEach(function(s){
+    var b=document.createElement("button"); b.type="button"; b.textContent=s[0];
+    b.onclick=function(){ b.classList.toggle("on");
+      selectedServices = selectedServices.indexOf(s[0])<0 ? selectedServices.concat([s[0]])
+        : selectedServices.filter(function(x){return x!==s[0];}); };
+    q.appendChild(b); });
+})();
+
+/* ---------- customer: quote + review ---------- */
+function submitQuote(e){
+  e.preventDefault();
+  if (!selectedServices.length) { toast("Please pick at least one service"); return false; }
+  api("submitQuote", {
+    name:$("q-name").value, phone:$("q-phone").value, email:$("q-email").value,
+    address:$("q-address").value, services:selectedServices, details:$("q-details").value,
+    when:$("q-when").value, urgency:$("q-urgency").value, source:$("q-source").value,
+    optin:$("q-optin").checked
+  }).then(function(){
+    // booking confirmation email (real sending happens in the Apps Script backend)
+    if($("q-email").value) toast("Confirmation email sent to "+$("q-email").value);
+    go("thanks");
+  })
+    .catch(function(err){ toast("Could not send: " + err.message); });
+  return false;
+}
+(function(){ var st=$("stars"); for(var i=1;i<=5;i++){ (function(n){
+  var b=document.createElement("button"); b.textContent="★";
+  b.onclick=function(){ reviewStars=n; for(var k=1;k<=5;k++) st.children[k-1].classList.toggle("on",k<=n); };
+  st.appendChild(b); })(i);} })();
+var reviewStars=0;
+function reviewCard(r, isNew){
+  var tag = isNew ? ' <span style="background:#ecfdf5;color:#047857;font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;vertical-align:middle">New</span>' : "";
+  var starsOn = "", starsOff = "";
+  for(var i=0;i<(r.stars||5);i++) starsOn += "★";
+  for(var j=0;j<5-(r.stars||5);j++) starsOff += "★";
+  var dateStr = r.date || new Date().toLocaleDateString();
+  return '<div class="card" style="padding:20px;'+(isNew?'border:1px solid #047857;':'')+'">'
+    + '<div style="color:#fbbf24;font-size:18px">'+starsOn+'<span style="color:#cbd5e1">'+starsOff+'</span></div>'
+    + '<p style="color:#334155;margin:10px 0">"'+esc(r.review||"")+'"</p>'
+    + '<small style="color:#94a3b8">MJ\'s Home Improvement customer · '+dateStr+tag+'</small>'
+    + '</div>';
+}
+function loadReviews(){
+  var list = $("review-list");
+  if(!list) return;
+  list.innerHTML = '<div class="card" style="padding:20px;color:#94a3b8">Loading reviews…</div>';
+  api("reviews").then(function(rows){
+    if(!rows || !rows.length){
+      list.innerHTML = '<div class="card" style="padding:20px;color:#94a3b8">No reviews yet — be the first to leave one!</div>';
+      return;
+    }
+    list.innerHTML = rows.map(function(r){ return reviewCard(r,false); }).join("");
+  }).catch(function(){
+    list.innerHTML = '<div class="card" style="padding:20px;color:#94a3b8">Reviews are unavailable right now.</div>';
+  });
+}
+function submitReview(){
+  if(!reviewStars){ toast("Please pick a star rating"); return; }
+  var text = $("rev-text").value.trim();
+  if(!text){ toast("Please write a few words about your experience"); return; }
+  var stars = reviewStars;
+  // show the new review immediately at the top of the list below
+  var list = $("review-list");
+  list.insertAdjacentHTML("afterbegin", reviewCard({ stars:stars, review:text }, true));
+  $("rev-success").style.display = "block";
+  // reset the form
+  $("rev-text").value = ""; reviewStars = 0;
+  var st = $("stars"); for(var k=1;k<=5;k++) st.children[k-1].classList.remove("on");
+  // log it to the backend (non-blocking)
+  api("submitReview",{ stars:stars, review:text });
+}
+
+/* ---------- management ---------- */
+var TAX_RATE = 0.09875;
+var calView = "month";
+var calRef = new Date();
+var finScope = "year";
+
+function adminLogin(){
+  api("login",{ passcode:$("admin-pw").value }).then(function(r){
+    if(r && r.ok !== false){
+      $("admin-login").style.display="none"; $("admin-app").classList.remove("hidden");
+      aTab("tbq", document.querySelector(".atabs button"));
+    } else toast("Wrong passcode");
+  });
+}
+function aTab(name, btn){
+  document.querySelectorAll(".atabs button").forEach(function(b){ b.classList.remove("on"); });
+  if(btn) btn.classList.add("on");
+  var c=$("a-content");
+  if(name==="tbq") api("tbq").then(function(rows){
+    c.innerHTML = !rows.length ? '<div class="panel">No new requests — you\'re all caught up.</div>'
+      : rows.map(function(r,i){ return tbqCard(r,i); }).join(""); });
+  if(name==="tbc") api("tbc").then(function(rows){ c.innerHTML=tbcHTML(rows); });
+  if(name==="done") api("done").then(function(rows){ c.innerHTML=doneHTML(rows); });
+  if(name==="fin") Promise.all([api("done"),api("expenses")]).then(function(a){ c.innerHTML=finHTML(a[0],a[1]); });
+  if(name==="payroll") api("payroll").then(function(r){ c.innerHTML=payrollHTML(r); });
+  if(name==="expenses") api("expenses").then(function(rows){ c.innerHTML=expensesHTML(rows); });
+  if(name==="tax") Promise.all([api("done"),api("expenses"),api("payroll")]).then(function(a){ c.innerHTML=taxHTML(a[0],a[1],a[2]); });
+  if(name==="clients") api("clients").then(function(rows){ c.innerHTML=clientsHTML(rows); });
+  if(name==="crew") c.innerHTML=crewHTML();
+}
+
+/* ---------- math helpers (company standards) ---------- */
+function quotedTotal(j){ return (Number(j.laborEst)||0)+(Number(j.materialsEst)||0)+(Number(j.gasEst)||0); }
+function salesTax(j){ return j.taxExempt ? 0 : quotedTotal(j)*(Number(j.taxRate)||TAX_RATE); }
+function jobCosts(j){ return (Number(j.laborPaid)||0)+(Number(j.actualMaterials)||0)+(Number(j.actualGas)||0); }
+function jobProfit(j){ return quotedTotal(j)-jobCosts(j); }
+function monthName(n){ return ["January","February","March","April","May","June","July","August","September","October","November","December"][n]; }
+function kpi(l,v){ return '<div class="kpi"><div class="lbl">'+esc(l)+'</div><div class="val">'+esc(v)+'</div></div>'; }
+
+/* ---------- MN sales-tax rules (per MNDOR lawn/tree/landscaping guidance) ---------- */
+var TAXABLE_SVC = {
+  "Mowing": true, "Weeding / Spraying": true, "Mulching": true, "Minor Tree Work": true,
+  "Yard Maintenance": true,
+  "Gutter Cleaning": false, "Staining / Painting": false, "Power Washing": false,
+  "Sod / Grass Seeding": false, "Window Cleaning": false, "Snow Removal": false,
+  "Patios / Retaining Walls": false, "Landscaping & Design": false
+};
+var RATES = [
+  ["Minneapolis", 0.08525], ["St. Paul", 0.09875], ["Other suburb", 0.08525]
+];
+function taxableSvcList(svcs){
+  return (svcs||[]).filter(function(s){ return TAXABLE_SVC[s]!==false; });
+}
+
+/* ---------- modal ---------- */
+function modal(inner){
+  closeModal();
+  var d=document.createElement("div"); d.className="modal-overlay"; d.id="modal";
+  d.innerHTML='<div class="modal-box">'+inner+'</div>';
+  d.onclick=function(e){ if(e.target===d) closeModal(); };
+  document.body.appendChild(d);
+}
+function closeModal(){ var m=$("modal"); if(m) m.remove(); }
+
+/* ---------- TO BE QUOTED ---------- */
+function tbqCard(r,i){
+  return '<div class="req-card"><div class="top"><div>'+
+    '<b style="font-size:17px">'+esc(r.name)+'</b> <span style="color:#94a3b8;font-size:13px">· '+esc(r.phone)+' · '+esc(r.email||"no email")+'</span>'+
+    '<div style="color:#94a3b8;font-size:13px;margin-top:2px">'+esc(r.address||"")+'</div>'+
+    (r.services||[]).map(function(s){return '<span class="tag">'+esc(s)+'</span>';}).join("")+
+    (r.details?'<div style="color:#cbd5e1;font-size:13px;margin-top:8px">“'+esc(r.details)+'”</div>':"")+
+    '</div><div class="meta"><div>Urgency: <b>'+esc(r.urgency||"—")+'</b></div><div>Wanted: <b>'+esc(r.when||"flexible")+'</b></div><div>Source: <b>'+esc(r.source||"—")+'</b></div></div></div>'+
+    '<div class="grow"><button class="btn" onclick="openQuoteForm('+i+')">QUOTE</button>'+
+    '<button class="btn btn-dark" onclick="dismiss('+i+')">Dismiss</button></div></div>';
+}
+function dismiss(i){ api("dismiss",{index:i}).then(function(){ toast("Request dismissed"); aTab("tbq",document.querySelectorAll(".atabs button")[0]); }); }
+function openQuoteForm(i){
+  api("tbq").then(function(rows){
+    var r=rows[i]; if(!r){ toast("Request no longer exists"); return; }
+    currentQuoteServices=r.services||[];
+    modal('<h3 style="margin:0 0 4px">Quote — '+esc(r.name)+'</h3>'+
+      '<p style="color:#94a3b8;font-size:13px;margin:0 0 16px">'+esc((r.services||[]).join(", "))+'</p>'+
+      '<div class="mrow"><label>Labor estimate ($)</label><input id="qf-labor" type="number" min="0" step="1" value="0" oninput="quotePreview()"></div>'+
+      '<div class="mrow"><label>Materials — itemize each one (what it is, how many, unit price)</label>'+
+      '<div id="qf-mats"></div>'+
+      '<button type="button" class="btn btn-sm btn-dark" onclick="addMatRow()">+ Add Material</button></div>'+
+      '<div class="mrow"><label>Gas estimate ($)</label><input id="qf-gas" type="number" min="0" step="1" value="0" oninput="quotePreview()"></div>'+
+      '<div class="mrow"><label>Schedule date</label><input id="qf-date" type="date" value="'+esc(r.when||"")+'"></div>'+
+      '<div class="mrow"><label>Recurring service? (auto-schedules the next job on completion)</label><select id="qf-recur">'+
+      '<option value="">One-time job</option>'+
+      '<option value="weekly">Weekly</option>'+
+      '<option value="biweekly">Every 2 weeks</option>'+
+      '<option value="monthly">Monthly</option>'+
+      '<option value="quarterly">Quarterly (seasonal)</option>'+
+      '</select></div>'+
+      '<div class="mrow"><label>Job location (sets the sales tax rate)</label><select id="qf-city" onchange="quotePreview()">'+
+      RATES.map(function(x){ return '<option value="'+x[1]+'">'+x[0]+' ('+(x[1]*100).toFixed(3)+'%)</option>'; }).join("")+'</select></div>'+
+      '<div class="mrow"><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input id="qf-exempt" type="checkbox" onchange="quotePreview()"> Tax-exempt (overrides auto-tax below)</label></div>'+
+      '<div id="qf-taxnote" style="font-size:12px;color:#94a3b8;margin:-6px 0 10px"></div>'+
+      '<div class="costbox" id="qf-preview"></div>'+
+      '<button class="btn" style="width:100%;margin-top:12px" onclick="submitQuoteForm('+i+')">Submit — Officially Quote Job</button>');
+    var taxable = taxableSvcList(r.services);
+    $("qf-exempt").checked = taxable.length===0 && (r.services||[]).length>0;
+    addMatRow();
+  });
+}
+var matRowId=0;
+function addMatRow(){
+  matRowId++;
+  var d=document.createElement("div"); d.className="mrow"; d.id="matrow-"+matRowId;
+  d.innerHTML='<div class="mats-grid">'+
+    '<input id="md-'+matRowId+'" placeholder="Material (e.g. mulch)" oninput="quotePreview()">'+
+    '<input id="mq-'+matRowId+'" type="number" min="0" step="1" placeholder="Qty" oninput="quotePreview()">'+
+    '<input id="mp-'+matRowId+'" type="number" min="0" step="0.01" placeholder="Unit $" oninput="quotePreview()">'+
+    '<button type="button" class="btn btn-sm btn-dark" onclick="removeMatRow('+matRowId+')">✕</button></div>';
+  $("qf-mats").appendChild(d);
+  quotePreview();
+}
+function removeMatRow(id){ var d=$("matrow-"+id); if(d) d.remove(); quotePreview(); }
+function matList(){
+  var out=[];
+  for(var i=1;i<=matRowId;i++){
+    var d=$("md-"+i); if(!d || !d.value || !d.value.trim()) continue;
+    var q=parseFloat($("mq-"+i).value)||0, p=parseFloat($("mp-"+i).value)||0;
+    out.push({ desc:d.value.trim(), qty:q, price:p, total:q*p });
+  }
+  return out;
+}
+function matTotal(list){ return (list||[]).reduce(function(t,m){ return t+(m.total||0); },0); }
+var currentQuoteServices=[];
+function r0servicesTaxNote(taxable, exempt){
+  if(exempt) return "⚠ Tax-exempt toggled ON for this job — no sales tax will be charged.";
+  if(!currentQuoteServices.length) return "";
+  if(!taxable.length) return "None of the selected services are taxable in MN — tax auto-set to $0.";
+  return "Taxable in MN: <b style=\"color:#e2e8f0\">"+taxable.map(esc).join(", ")+"</b> — tax applied to those services' share of the quote.";
+}
+function quotePreview(){
+  var l=parseFloat($("qf-labor").value)||0, g=parseFloat($("qf-gas").value)||0;
+  var mList=matList(), m=matTotal(mList);
+  var tot=l+m+g;
+  var rate=parseFloat($("qf-city").value)||TAX_RATE;
+  var taxable=taxableSvcList(currentQuoteServices);
+  var exempt=$("qf-exempt").checked;
+  var tax=exempt?0:(tot*(taxable.length?Math.max(taxable.length,1)/Math.max((currentQuoteServices||[""]).length,1):0))*rate;
+  $("qf-taxnote").innerHTML = (r0servicesTaxNote(taxable, exempt));
+  $("qf-preview").innerHTML=
+    '<div class="crow"><span>Materials — '+mList.length+' item'+(mList.length===1?"":"s")+'</span><b>'+money(m)+'</b></div>'+
+    '<div class="crow"><span>Quote total</span><b>'+money(tot)+'</b></div>'+
+    '<div class="crow"><span>Sales tax ('+($("qf-exempt").checked?"exempt":(parseFloat($("qf-city").value)*100).toFixed(3)+"% on taxable services")+')</span><b>'+money(tax)+'</b></div>'+
+    '<div class="crow" style="color:#6ee7b7"><span>Client pays</span><b>'+money(tot+tax)+'</b></div>'+
+    '<div style="font-size:11px;color:#94a3b8;margin-top:8px">Company standard: 50% of labor ('+money(l/2)+') stays with the company · 50% ('+money(l/2)+') is the employee pool.</div>';
+}
+function submitQuoteForm(i){
+  var labor=parseFloat($("qf-labor").value)||0, gas=parseFloat($("qf-gas").value)||0;
+  var mList=matList(), mat=matTotal(mList);
+  var date=$("qf-date").value;
+  var exempt=$("qf-exempt").checked;
+  if(!labor && !mat && !gas){ toast("Enter at least one cost estimate"); return; }
+  if(!date){ toast("Pick a schedule date"); return; }
+  api("tbq").then(function(rows){
+    var r=rows[i]; if(!r){ toast("Request no longer exists"); return; }
+    api("quoteJob",{ index:i, labor:labor, materials:mat, gas:gas, scheduleDate:date, taxExempt:exempt, taxRate:parseFloat($("qf-city").value)||TAX_RATE, materialsList:mList, recurring:$("qf-recur").value })
+      .then(function(){
+        closeModal(); toast("Quoted — official quote document opened");
+        docWindow(quoteDocHTML(r, labor, mat, mList, gas, exempt, date, $("qf-city")?$("qf-city").value:TAX_RATE), "Quote — "+r.name);
+        aTab("tbc",document.querySelectorAll(".atabs button")[1]);
+      });
+  });
+}
+
+/* ---------- TO BE COMPLETED (calendar) ---------- */
+function dkey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function firstOfWeek(d){ var x=new Date(d); x.setDate(x.getDate()-((x.getDay()+6)%7)); return x; }
+function tbcHTML(rows){
+  var byDate={}; rows.forEach(function(j){ var k=String(j.scheduleDate||""); (byDate[k]=byDate[k]||[]).push(j); });
+  var html='<div class="grow" style="justify-content:space-between;margin-bottom:12px;flex-wrap:wrap">'+
+    '<div><button class="btn btn-sm btn-dark" onclick="calNav(-1)">‹</button> '+
+    '<b style="color:#fff;margin:0 8px">'+(calView==="month" ? monthName(calRef.getMonth())+" "+calRef.getFullYear()
+      : "Week of "+firstOfWeek(calRef).toLocaleDateString())+'</b>'+
+    '<button class="btn btn-sm btn-dark" onclick="calNav(1)">›</button></div>'+
+    '<div><button class="btn btn-sm '+(calView==="week"?"":"btn-dark")+'" onclick="calSet(\'week\')">Week</button> '+
+    '<button class="btn btn-sm '+(calView==="month"?"":"btn-dark")+'" onclick="calSet(\'month\')">Month</button> '+
+    '<button class="btn btn-sm btn-dark" onclick="calSet(\'today\')">Today</button></div></div>';
+  var cells=[]; var today=dkey(new Date());
+  if(calView==="month"){
+    var first=new Date(calRef.getFullYear(), calRef.getMonth(), 1);
+    var lead=(first.getDay()+6)%7;
+    var dim=new Date(calRef.getFullYear(), calRef.getMonth()+1, 0).getDate();
+    var total=lead+dim; while(total%7) total++;
+    for(var i=0;i<lead;i++) cells.push(null);
+    for(var d=1; d<=dim; d++) cells.push(new Date(calRef.getFullYear(), calRef.getMonth(), d));
+    while(cells.length<total) cells.push(null);
+  } else {
+    var s=firstOfWeek(calRef);
+    for(var w=0; w<7; w++){ var x=new Date(s); x.setDate(s.getDate()+w); cells.push(x); }
+  }
+  html+='<div class="cal">'+
+    ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(function(d){ return '<div class="cal-head">'+d+'</div>'; }).join("");
+  cells.forEach(function(d){
+    if(!d){ html+='<div class="cal-cell" style="opacity:.35"></div>'; return; }
+    var k=dkey(d);
+    var jobs=byDate[k]||[];
+    html+='<div class="cal-cell'+(k===today?" today":"")+'">'+
+      '<div class="cal-num">'+d.getDate()+'</div>'+
+      jobs.map(function(j){ return '<div class="cal-job" onclick="openJobDetail('+j.id+')">'+(j.recurring?'🔁 ':'')+'#'+j.id+' '+esc(j.client)+' · '+money(quotedTotal(j))+'</div>'; }).join("")+
+      '</div>';
+  });
+  html+='</div>';
+  if(!rows.length) html+='<p style="color:#94a3b8;font-size:13px;margin-top:12px">No quoted jobs waiting to be completed. Quote a request first.</p>';
+  return html;
+}
+function calSet(v){ if(v==="today"){ calRef=new Date(); } else { calView=v; } api("tbc").then(function(rows){ $("a-content").innerHTML=tbcHTML(rows); }); }
+function calNav(n){ if(calView==="month") calRef.setMonth(calRef.getMonth()+n); else calRef.setDate(calRef.getDate()+7*n); api("tbc").then(function(rows){ $("a-content").innerHTML=tbcHTML(rows); }); }
+function openJobDetail(id){
+  api("tbc").then(function(rows){
+    var j=null;
+    rows.forEach(function(x){ if(x.id===id) j=x; });
+    if(j){ modal(jobDetailHTML(j,true)); return; }
+    api("done").then(function(doneRows){
+      doneRows.forEach(function(x){ if(x.id===id) j=x; });
+      if(j) modal(jobDetailHTML(j,false));
+    });
+  });
+}
+function jobDetailHTML(j, scheduled){
+  return '<h3 style="margin:0 0 2px">Job #'+j.id+' — '+esc(j.client)+'</h3>'+
+    '<p style="color:#94a3b8;font-size:13px;margin:0 0 12px">'+esc((j.services||[]).join(", "))+' · '+esc(j.address||"")+'</p>'+
+    (j.details?'<p style="color:#cbd5e1;font-size:13px">'+esc(j.details)+'</p>':"")+
+    '<div class="costbox">'+
+    '<div class="crow"><span>Quoted labor</span><b>'+money(j.laborEst)+'</b></div>'+
+    '<div class="crow"><span>— Company (50%)</span><b>'+money((j.laborEst||0)/2)+'</b></div>'+
+    '<div class="crow"><span>— Employee pool (50%)</span><b>'+money((j.laborEst||0)/2)+'</b></div>'+
+    '<div class="crow"><span>Quoted materials</span><b>'+money(j.materialsEst)+'</b></div>'+
+    ((j.materialsList||[]).map(function(m){
+      return '<div class="crow" style="font-size:11px;color:#94a3b8;padding-left:14px"><span>'+esc(m.desc)+' × '+(m.qty||0)+' @ '+money(m.price)+'</span><b>'+money(m.total||0)+'</b></div>';
+    }).join(""))+
+    '<div class="crow"><span>Quoted gas</span><b>'+money(j.gasEst)+'</b></div>'+
+    '<div class="crow"><span>Quote total</span><b>'+money(quotedTotal(j))+'</b></div>'+
+    '<div class="crow"><span>Sales tax '+(j.taxExempt?"(exempt)":"("+((Number(j.taxRate)||TAX_RATE)*100).toFixed(3)+"%)")+'</span><b>'+money(salesTax(j))+'</b></div>'+
+    '<div class="crow"><span>Scheduled</span><b>'+esc(j.scheduleDate||"—")+'</b></div>'+
+    '<div class="crow"><span>Recurring</span><b>'+(j.recurring?({"weekly":"Weekly","biweekly":"Every 2 weeks","monthly":"Monthly","quarterly":"Quarterly"})[j.recurring]:"One-time")+'</b></div>'+
+    '<div class="crow"><span>Crew</span><b>'+((j.crew&&j.crew.length)?esc(j.crew.join(", ")):"—")+'</b></div>'+
+    '<div class="crow"><span>Wages paid (hours sheets)</span><b>'+money(j.laborPaid||0)+'</b></div>'+
+    (scheduled?"":'<div class="crow"><span>Actual materials / gas</span><b>'+money(j.actualMaterials||0)+' / '+money(j.actualGas||0)+'</b></div>')+
+    '</div>'+
+    '<div class="grow" style="margin-top:12px">'+
+    (scheduled?'<button class="btn" onclick="openCompleteForm('+j.id+')">Complete Job</button>':"")+
+    '<button class="btn btn-dark" onclick="toggleTax('+j.id+')">'+(j.taxExempt?"Remove tax exemption":"Tax exempt")+'</button>'+
+    '<button class="btn btn-dark" onclick="closeModal()">Close</button></div>';
+}
+function toggleTax(id){ api("toggleTax",{id:id}).then(function(){ toast("Tax setting updated"); openJobDetail(id); }); }
+
+/* ---------- COMPLETE JOB ---------- */
+function openCompleteForm(id){
+  api("tbc").then(function(rows){
+    var j=null; rows.forEach(function(x){ if(x.id===id) j=x; });
+    if(!j){ toast("Job not found"); return; }
+    modal('<h3 style="margin:0 0 4px">Complete Job #'+id+'</h3>'+
+      '<p style="color:#94a3b8;font-size:13px;margin:0 0 14px">Labor is constant — it comes from crew hours sheets. Wages logged so far: <b style="color:#e2e8f0">'+money(j.laborPaid||0)+'</b>.</p>'+
+      '<div class="mrow"><label>Actual labor (from hours sheets — constant)</label><input value="'+money(j.laborPaid||0)+'" disabled></div>'+
+      '<div class="mrow"><label>Actual materials ($)</label><input id="cf-mat" type="number" min="0" step="1" value="'+(j.materialsEst||0)+'"></div>'+
+      '<div class="mrow"><label>Actual gas ($)</label><input id="cf-gas" type="number" min="0" step="1" value="'+(j.gasEst||0)+'"></div>'+
+      '<div class="mrow"><label>Receipt photos — MATERIALS (for tax filing)</label><input id="cf-rec-mat" type="file" accept="image/*" multiple></div>'+
+      '<div class="mrow"><label>Receipt photos — GAS (for tax filing)</label><input id="cf-rec-gas" type="file" accept="image/*" multiple></div>'+
+      '<div class="mrow"><label>Job photos (up to 3)</label><input id="cf-photos" type="file" accept="image/*" multiple></div>'+
+      '<button class="btn" style="width:100%;margin-top:12px" onclick="submitComplete('+id+')">Submit — Move to Completed</button>');
+  });
+}
+function submitComplete(id){
+  var mat=parseFloat($("cf-mat").value)||0, gas=parseFloat($("cf-gas").value)||0;
+  var pIn=$("cf-photos");
+  var recMatFiles=Array.prototype.slice.call($("cf-rec-mat").files||[]);
+  var recGasFiles=Array.prototype.slice.call($("cf-rec-gas").files||[]);
+  var photoFiles=Array.prototype.slice.call(pIn.files||[], 0, 3); // max 3
+  var loaded={ receipts:[], photos:[] };
+  var total=recMatFiles.length+recGasFiles.length+photoFiles.length, done=0;
+  function fin(){
+    api("completeJob",{ id:id, materials:mat, gas:gas, receipts:loaded.receipts, photos:loaded.photos })
+      .then(function(r){
+        closeModal();
+        toast((r&&r.recur) ? "Job #"+id+" completed — next visit auto-scheduled for "+r.nextDate : "Job #"+id+" completed — invoice opened");
+        aTab("done",document.querySelectorAll(".atabs button")[2]);
+        api("done").then(function(rows){
+          var j=null; (rows||[]).forEach(function(x){ if(x.id===id) j=x; });
+          if(j) docWindow(invoiceDocHTML(j), "Invoice — "+j.client);
+        });
+      });
+  }
+  function loadOne(f, kind, cat){
+    var reader=new FileReader();
+    reader.onload=function(){ loaded[kind].push({ name:f.name, url:reader.result, category:cat }); done++; if(done>=total) fin(); };
+    reader.readAsDataURL(f);
+  }
+  recMatFiles.forEach(function(f){ loadOne(f,"receipts","materials"); });
+  recGasFiles.forEach(function(f){ loadOne(f,"receipts","gas"); });
+  photoFiles.forEach(function(f){ loadOne(f,"photos"); });
+  if(!total) fin();
+}
+
+/* ---------- COMPLETED ---------- */
+function doneHTML(rows){
+  var year=new Date().getFullYear();
+  var yj=rows.filter(function(j){ return new Date(j.completedDate).getFullYear()===year; });
+  var profit=yj.reduce(function(t,j){ return t+jobProfit(j); },0);
+  var costs=yj.reduce(function(t,j){ return t+jobCosts(j); },0);
+  return '<div class="kpis">'+
+    kpi("Year profit",money(profit))+kpi("Year costs",money(costs))+kpi("Jobs completed",yj.length)+'</div>'+
+    (!rows.length ? '<div class="panel" style="margin-top:14px">No completed jobs yet.</div>'
+      : '<div style="margin-top:14px">'+rows.map(function(j){ return doneCard(j); }).join("")+'</div>');
+}
+function doneCard(j){
+  return '<div class="panel" style="margin-bottom:14px">'+
+    '<div class="grow" style="justify-content:space-between;align-items:center">'+
+    '<div><b style="color:#fff">Job #'+j.id+' — '+esc(j.client)+'</b>'+
+    '<div style="color:#94a3b8;font-size:12px">'+esc((j.services||[]).join(", "))+' · completed '+esc(j.completedDate||"")+'</div></div>'+
+    '<div style="text-align:right"><b style="color:#6ee7b7">'+money(jobProfit(j))+'</b>'+
+    '<div style="color:#94a3b8;font-size:12px">profit</div></div></div>'+
+    '<table class="mini-t"><tr><th></th><th>Quoted</th><th>Actual</th></tr>'+
+    '<tr><td>Labor</td><td>'+money(j.laborEst)+'</td><td>'+money(j.laborPaid||0)+' (wages)</td></tr>'+
+    '<tr><td>Materials</td><td>'+money(j.materialsEst)+'</td><td>'+money(j.actualMaterials||0)+'</td></tr>'+
+    '<tr><td>Gas</td><td>'+money(j.gasEst)+'</td><td>'+money(j.actualGas||0)+'</td></tr>'+
+    '<tr><td>Sales tax '+(j.taxExempt?"(exempt)":"(9.875%)")+'</td><td colspan="2">'+money(salesTax(j))+'</td></tr>'+
+    '<tr><td><b>Client pays</b></td><td colspan="2"><b>'+money(quotedTotal(j)+salesTax(j))+'</b></td></tr></table>'+
+    receiptStrip(j.receipts,"materials")+receiptStrip(j.receipts,"gas")+photoStrip(j.photos,"Job photos")+
+    '</div>';
+}
+function receiptStrip(arr, cat){
+  var list=(arr||[]).filter(function(p){ return (p.category||"")===cat; });
+  return photoStrip(list, "Receipts — "+cat+" (tax filing)");
+}
+function photoStrip(arr,label){
+  if(!arr||!arr.length) return "";
+  return '<div style="margin-top:10px"><div style="color:#94a3b8;font-size:11px;margin-bottom:4px">'+label+'</div><div class="thumbs">'+
+    arr.map(function(p){ return '<img src="'+esc(p.url)+'" title="'+esc(p.name||"")+'">'; }).join("")+'</div></div>';
+}
+
+/* ---------- FINANCES ---------- */
+function dedExp(exps){
+  return (exps||[]).filter(function(x){ return x.Deductible==="Yes" || x.Deductible===true; })
+    .reduce(function(t,x){ return t+(Number(x.Amount)||0); },0);
+}
+function finHTML(rows, exps){
+  var year=new Date().getFullYear();
+  var jf=rows.filter(function(j){
+    var d=new Date(j.completedDate||""); if(d.getFullYear()!==year) return false;
+    return finScope==="year" || d.getMonth()===finScope;
+  });
+  var ef=(exps||[]).filter(function(x){
+    var d=new Date(x.Date||""); if(d.getFullYear()!==year) return false;
+    return finScope==="year" || d.getMonth()===finScope;
+  });
+  var oth=dedExp(ef);
+  var rev=jf.reduce(function(t,j){ return t+quotedTotal(j); },0);
+  var wages=jf.reduce(function(t,j){ return t+(Number(j.laborPaid)||0); },0);
+  var mats=jf.reduce(function(t,j){ return t+(Number(j.actualMaterials)||0); },0);
+  var gas=jf.reduce(function(t,j){ return t+(Number(j.actualGas)||0); },0);
+  var tax=jf.reduce(function(t,j){ return t+salesTax(j); },0);
+  var btns='<button class="btn btn-sm '+(finScope==="year"?"":"btn-dark")+'" onclick="finSet(\'year\')">Whole year</button> ';
+  for(var m=0;m<12;m++) btns+='<button class="btn btn-sm '+(finScope===m?"":"btn-dark")+'" onclick="finSet('+m+')">'+monthName(m).slice(0,3)+'</button> ';
+  return '<div class="grow" style="margin-bottom:14px;flex-wrap:wrap">'+btns+'</div>'+
+    '<div class="kpis">'+kpi("Revenue",money(rev))+kpi("Costs",money(wages+mats+gas+oth))+
+    kpi("Profit",money(rev-wages-mats-gas-oth))+kpi("Other business expenses",money(oth))+kpi("Sales tax collected",money(tax))+'</div>'+
+    '<div class="panel" style="overflow-x:auto;margin-top:14px"><table><tr><th>Job</th><th>Client</th><th>Completed</th><th>Revenue</th><th>Wages</th><th>Materials</th><th>Gas</th><th>Tax</th><th>Profit</th><th>Exempt</th></tr>'+
+    (jf.length? jf.map(function(j){ return '<tr><td>#'+j.id+'</td><td>'+esc(j.client)+'</td><td>'+esc(j.completedDate||"")+'</td>'+
+      '<td>'+money(quotedTotal(j))+'</td><td>'+money(j.laborPaid||0)+'</td><td>'+money(j.actualMaterials||0)+'</td>'+
+      '<td>'+money(j.actualGas||0)+'</td><td>'+money(salesTax(j))+'</td><td>'+money(jobProfit(j))+'</td>'+
+      '<td>'+(j.taxExempt?"✓":"")+'</td></tr>'; }).join("")
+      : '<tr><td colspan="10" style="color:#64748b">No completed jobs in this period.</td></tr>')+'</table></div>'+
+    '<p style="color:#94a3b8;font-size:12px;margin-top:10px">Totals — revenue '+money(rev)+' · wages '+money(wages)+' · materials '+money(mats)+' · gas '+money(gas)+' · other business expenses '+money(oth)+' · profit '+money(rev-wages-mats-gas-oth)+' · sales tax collected (owed to state) '+money(tax)+'</p>';
+}
+function finSet(v){ finScope=v; Promise.all([api("done"),api("expenses")]).then(function(a){ $("a-content").innerHTML=finHTML(a[0],a[1]); }); }
+
+/* ---------- TAXES ---------- */
+function taxHTML(rows, exps, pay){
+  var year=new Date().getFullYear();
+  var jf=rows.filter(function(j){ return new Date(j.completedDate||"").getFullYear()===year; });
+  var ef=(exps||[]).filter(function(x){ return new Date(x.Date||"").getFullYear()===year; });
+  var oth=dedExp(ef);
+  var expTaxPaid=(exps||[]).reduce(function(t,x){ return t+(Number(x.SalesTaxPaid)||0); },0);
+  var empTax=(pay&&pay.paid?pay.paid:[]).reduce(function(t,p){ return t+(Number(p.EmployerCost)||0); },0);
+  var rev=jf.reduce(function(t,j){ return t+quotedTotal(j); },0);
+  var wages=jf.reduce(function(t,j){ return t+(Number(j.laborPaid)||0); },0);
+  var mats=jf.reduce(function(t,j){ return t+(Number(j.actualMaterials)||0); },0);
+  var gas=jf.reduce(function(t,j){ return t+(Number(j.actualGas)||0); },0);
+  var tax=jf.reduce(function(t,j){ return t+salesTax(j); },0);
+  var exempt=jf.filter(function(j){ return j.taxExempt; });
+  var netProfit=rev-wages-mats-gas-oth-empTax;
+  var seTax=netProfit>0 ? netProfit*0.9235*0.153 : 0;
+  var q = [0,0,0,0];
+  jf.forEach(function(j){ var m=new Date(j.completedDate).getMonth(); q[Math.floor(m/3)]+=jobProfit(j); });
+  var qNames=["Q1 (Jan–Mar)","Q2 (Apr–Jun)","Q3 (Jul–Sep)","Q4 (Oct–Dec)"];
+  var receipts=jf.reduce(function(t,j){ return t+((j.receipts&&j.receipts.length)||0); },0);
+  var matRecs=jf.reduce(function(t,j){ return t+((j.receipts||[]).filter(function(p){ return (p.category||"")==="materials"; }).length); },0);
+  var gasRecs=jf.reduce(function(t,j){ return t+((j.receipts||[]).filter(function(p){ return (p.category||"")==="gas"; }).length); },0);
+
+  return '<h2 style="color:#fff;font-size:20px;margin:6px 0 14px">Tax filing — '+year+' (small business)</h2>'+
+
+    '<div class="kpis">'+kpi("Gross receipts",money(rev))+kpi("Total expenses",money(wages+mats+gas+oth+empTax))+
+    kpi("Net profit",money(netProfit))+kpi("Est. self-employment tax",money(seTax))+
+    kpi("Sales tax to remit",money(tax))+'</div>'+
+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">1 · Federal — Schedule C (sole proprietor)</b>'+
+    '<table class="mini-t" style="margin-top:10px">'+
+    '<tr><th>Schedule C line</th><th>Amount</th><th>Source in this system</th></tr>'+
+    '<tr><td>Gross receipts (line 1)</td><td>'+money(rev)+'</td><td>All completed jobs, quoted totals</td></tr>'+
+    '<tr><td>Wages — part-time W-2 employees (line 26)</td><td>'+money(wages)+'</td><td>Crew tab → HoursLog</td></tr>'+
+    '<tr><td>Employer payroll taxes (line 23)</td><td>'+money(empTax)+'</td><td>Payroll tab — recorded FICA/FUTA/SUTA per check</td></tr>'+
+    '<tr><td>Supplies / materials (line 22, or COGS)</td><td>'+money(mats)+'</td><td>Job actuals + material receipts</td></tr>'+
+    '<tr><td>Car &amp; truck expenses (line 9)</td><td>'+money(gas)+' + mileage</td><td>Gas actuals + gas receipts; log miles separately</td></tr>'+
+    '<tr><td>Other business expenses (line 27a)</td><td>'+money(oth)+'</td><td>Expenses tab (non-job: tools, insurance, ads, fees…)</td></tr>'+
+    '<tr><td>Net profit (line 31)</td><td><b>'+money(netProfit)+'</b></td><td>Flows to Form 1040 Schedule 1</td></tr></table>'+
+    '<ul style="color:#94a3b8;font-size:12px;line-height:1.8;margin:8px 0 0;padding-left:18px">'+
+    '<li>Self-employment tax (Schedule SE): ~<b>'+money(seTax)+'</b> (92.35% × 15.3% of net profit).</li>'+
+    '<li>Half of SE tax is deductible on the 1040.</li>'+
+    '<li><b>Crew are set up as part-time employees (W-2).</b> On each paycheck withhold the employee 7.65% FICA (+ federal/MN income tax if they elect) and pay the employer 7.65% FICA; register with MN Unemployment Insurance (SUTA) and get workers comp coverage — both legally required in MN for employees.</li>'+
+    '<li>Deposit federal withholdings with Form 941 each quarter; issue W-2s by Jan 31.</li></ul></div>'+
+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">2 · Quarterly estimated taxes</b>'+
+    '<table class="mini-t" style="margin-top:10px"><tr><th>Quarter</th><th>Profit earned</th><th>Payment due (federal + MN)</th></tr>'+
+    q.map(function(p,i){ return '<tr><td>'+qNames[i]+'</td><td>'+money(p)+'</td><td>Apr 15 · Jun 15 · Sep 15 · Jan 15 (following the quarter)</td></tr>'; }).join("")+
+    '</table><p style="color:#94a3b8;font-size:12px;margin:8px 0 0">Rule of thumb: set aside ~25–30% of each quarter\'s profit for federal income + SE tax, plus ~7.05–9.85% for Minnesota income tax.</p></div>'+
+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">3 · Minnesota sales & use tax (9.875%)</b>'+
+    '<ul style="color:#cbd5e1;font-size:13px;line-height:1.8;margin:10px 0 0;padding-left:18px">'+
+    '<li>Collected on <b>'+(jf.length-exempt.length)+' of '+jf.length+'</b> jobs ('+exempt.length+' exempt) — total <b>'+money(tax)+'</b> to remit to MN Dept. of Revenue.</li>'+
+    '<li>Home services (lawn care, snow removal, cleaning/maintenance of residential property) are generally <b>not taxable</b> in Minnesota — confirm which of your services are taxable; use the per-job exempt toggle accordingly.</li>'+
+    '<li>File MN sales tax returns by the 20th of the month after each quarter (monthly if liability is high).</li>'+
+    '<li>Sales tax paid on business purchases (Expenses tab): <b>'+money(expTaxPaid)+'</b> — keep receipts; tax paid on business supplies is generally part of the deductible expense, not a credit.</li></ul></div>'+
+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">4 · Year-round records (already tracked here)</b>'+
+    '<table class="mini-t" style="margin-top:10px"><tr><th>Record</th><th>Status</th></tr>'+
+    '<tr><td>Receipts on file</td><td>'+receipts+' photo(s): '+matRecs+' materials · '+gasRecs+' gas</td></tr>'+
+    '<tr><td>Labor documentation</td><td>HoursLog — every hours sheet with wage owed per job</td></tr>'+
+    '<tr><td>Per-job financials</td><td>Quoted vs. actual: labor, materials, gas</td></tr>'+
+    '<tr><td>Invoices issued</td><td>Every completed job has an official invoice (INV-####)</td></tr>'+
+    '<tr><td>Mileage rate if claimed</td><td>$0.70/mi (IRS standard) — keep a mileage log</td></tr></table></div>'+
+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">5 · Filing calendar</b>'+
+    '<ul style="color:#cbd5e1;font-size:13px;line-height:1.8;margin:10px 0 0;padding-left:18px">'+
+    '<li><b>Jan 31:</b> W-2s to all crew + W-3 to SSA; no 1099s needed (crew are employees).</li>'+
+    '<li><b>Quarterly:</b> federal + MN estimated payments (above); MN sales tax returns.</li>'+
+    '<li><b>Mar/Apr 15:</b> Form 1040 with Schedule C, Schedule SE, and MN M1 (+ schedule for credits).</li>'+
+    '<li><b>Keep records 7 years</b> — this workbook\'s year-end archive (startNewYear) preserves each year\'s tabs.</li></ul></div>'+
+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff">6 · Minnesota employer compliance checklist (W-2 crew)</b>'+
+    '<table class="mini-t" style="margin-top:10px"><tr><th>Requirement</th><th>Where / how this system covers it</th></tr>'+
+    '<tr><td>Federal EIN (employer ID number)</td><td>Apply free at IRS.gov if not already held — needed for W-2s, 941s, and MN UI</td></tr>'+
+    '<tr><td>MN Unemployment Insurance employer account</td><td>Register at uimn.org — new employers within 90 days of first hire; this system records SUTA cost per check</td></tr>'+
+    '<tr><td>Workers\' compensation insurance</td><td><b>Legally required in MN for all employees — no exceptions for part-time.</b> Get a policy (MN assigned-risk pool if declined elsewhere); this system assumes coverage in the Employment Agreement</td></tr>'+
+    '<tr><td>Form I-9 for every employee</td><td>Complete within 3 days of first day of work; keep 3 years after hire / 1 year after separation</td></tr>'+
+    '<tr><td>Form W-4 + MN Form MW-4</td><td>Both signed at onboarding; withholding rates feed the Payroll tab</td></tr>'+
+    '<tr><td>MN new-hire reporting</td><td>Report each new hire within 20 days to the MN New Hire Reporting Center (mn-newhire.com)</td></tr>'+
+    '<tr><td>Payday notice + earnings statements</td><td>Weekly payday documented in the Employment Agreement; ✅ pay stubs auto-generated in Payroll tab (MN requires an earnings statement every pay period)</td></tr>'+
+    '<tr><td>Minimum wage &amp; overtime</td><td>Pay at least the current MN minimum wage (adjusted annually — verify at mn.gov/deed); MN overtime = 1.5× over 48 hrs/week</td></tr>'+
+    '<tr><td>Written employment agreements</td><td>✅ Generate per employee from the Crew tab → "📋 Employment contract"</td></tr>'+
+    '<tr><td>Year-end W-2s + W-3</td><td>Issue to employees by Jan 31; payroll records in this system give every figure needed</td></tr>'+
+    '<tr><td>Federal Form 941 (quarterly)</td><td>Deposit federal withholding + employee FICA each quarter; employer FICA/FUTA totals are in the Payroll tab</td></tr></table>'+
+    '<p style="color:#94a3b8;font-size:11px;margin:10px 0 0">This checklist organizes common requirements; it is not legal advice. Verify current rules with MN DLI, DEED, and the IRS, or have a payroll service or attorney confirm.</p></div>'+
+
+    '<p style="color:#94a3b8;font-size:11px;margin:14px 0 0">This page organizes your records; it is not tax advice. Crew are recorded as part-time employees — have a payroll service or CPA set up withholdings, MN UI, and workers comp correctly.</p>'+
+
+    '<div class="panel" style="overflow-x:auto;margin-top:14px"><table><tr><th>Job</th><th>Client</th><th>Completed</th><th>Revenue</th><th>Tax collected</th><th>Wages</th><th>Materials</th><th>Gas</th><th>Profit</th><th>Receipts</th></tr>'+
+    (jf.length? jf.map(function(j){ return '<tr><td>#'+j.id+'</td><td>'+esc(j.client)+'</td><td>'+esc(j.completedDate||"")+'</td>'+
+      '<td>'+money(quotedTotal(j))+'</td><td>'+(j.taxExempt?"exempt":money(salesTax(j)))+'</td>'+
+      '<td>'+money(j.laborPaid||0)+'</td><td>'+money(j.actualMaterials||0)+'</td><td>'+money(j.actualGas||0)+'</td>'+
+      '<td>'+money(jobProfit(j))+'</td><td>'+((j.receipts&&j.receipts.length)||0)+'</td></tr>'; }).join("")
+      : '<tr><td colspan="10" style="color:#64748b">No completed jobs yet this year.</td></tr>')+'</table></div>';
+}
+/* ---------- OFFICIAL DOCUMENTS (auto-generated on quote & completion) ---------- */
+var BIZ = {
+  name: "MJ's Home Improvement",
+  addr: "5653 Garfield Ave., Minneapolis, MN",
+  phone: "651-870-0943",
+  email: "mjs.home.improvements27@gmail.com",
+  licensed: "Fully insured"
+};
+function docWindow(inner, title){
+  var w = window.open("", "_blank");
+  if(!w){ toast("Allow pop-ups to view the document"); return; }
+  w.document.write('<!DOCTYPE html><html><head><title>'+title+'</title><style>'+
+    'body{font-family:Georgia,"Times New Roman",serif;color:#111;margin:40px auto;max-width:720px;padding:0 20px}'+
+    '.lh{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:4px double #14532d;padding-bottom:16px}'+
+    '.lh img{height:72px;width:auto}'+
+    '.lh h1{margin:0;font-size:22px;color:#14532d;letter-spacing:1px}'+
+    '.lh .sub{font-size:12px;color:#444;margin-top:4px;line-height:1.6}'+
+    '.doc-title{text-align:center;font-size:15px;letter-spacing:5px;margin:30px 0 6px;font-weight:bold}'+
+    '.meta{display:flex;justify-content:space-between;margin:18px 0;font-size:13px}'+
+    '.meta b{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#14532d;margin-bottom:4px}'+
+    'table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}'+
+    'th{background:#14532d;color:#fff;text-align:left;padding:8px 10px;font-size:11px;letter-spacing:1px}'+
+    'td{padding:8px 10px;border-bottom:1px solid #ddd}'+
+    '.r{text-align:right}.tot td{border:none;padding:5px 10px}'+
+    '.tot .g{font-size:16px;font-weight:bold;border-top:2px solid #14532d}'+
+    '.notes{font-size:11px;color:#444;margin-top:20px;line-height:1.7}'+
+    '.sig{margin-top:48px;display:flex;justify-content:space-between;font-size:12px}'+
+    '.sig div{width:260px;border-top:1px solid #111;padding-top:6px}'+
+    '.btn{position:fixed;top:14px;right:14px;background:#14532d;color:#fff;border:none;padding:10px 18px;border-radius:8px;font-size:14px;cursor:pointer;font-family:Arial}'+
+    '@media print{.btn{display:none}body{margin:0}}'+
+    '</style></head><body>'+
+    '<button class="btn" onclick="window.print()">Print / Save as PDF</button>'+inner+
+    '</body></html>');
+  w.document.close();
+}
+function docMeta(docNo, dateStr, client, addr){
+  return '<div class="meta"><div><b>Document #</b>'+docNo+'<br><b>Date</b>'+dateStr+'</div>'+
+    '<div style="text-align:right"><b>Bill To</b>'+esc(client)+'<br>'+esc(addr||"")+'</div></div>';
+}
+function letterhead(){
+  return '<div class="lh"><div><h1>'+BIZ.name.toUpperCase()+'</h1>'+
+    '<div class="sub">'+BIZ.addr+'<br>'+BIZ.phone+' · '+BIZ.email+'<br>'+BIZ.licensed+'</div></div>'+
+    '<img src="logo.png" alt="logo" onerror="this.style.display=\'none\'"></div>';
+}
+function quoteDocHTML(r, labor, mat, mList, gas, exempt, date, qRate){
+  var tot=labor+mat+gas, tax=exempt?0:tot*(parseFloat(qRate)||TAX_RATE);
+  var docNo="Q-"+String(demoState.nextId-1).padStart(4,"0");
+  return letterhead()+
+    '<div class="doc-title">ESTIMATE / QUOTE</div>'+
+    docMeta(docNo, new Date().toLocaleDateString(), r.name, r.address)+
+    '<table><tr><th>Service</th><th class="r">Amount</th></tr>'+
+    '<tr><td>Labor — '+esc((r.services||[]).join(", "))+'</td><td class="r">'+money(labor)+'</td></tr>'+
+    ((mList&&mList.length)? mList.map(function(m){
+      return '<tr><td>Materials — '+esc(m.desc)+' ('+(m.qty||0)+' @ '+money(m.price)+' ea.)</td><td class="r">'+money(m.total||0)+'</td></tr>';
+    }).join("") : '<tr><td>Materials</td><td class="r">'+money(mat)+'</td></tr>')+
+    '<tr><td>Gas / equipment</td><td class="r">'+money(gas)+'</td></tr>'+
+    (r.details?'<tr><td colspan="2" style="color:#555;font-style:italic">“'+esc(r.details)+'”</td></tr>':"")+
+    '</table>'+
+    '<table class="tot"><tr><td class="r">Subtotal</td><td class="r" style="width:120px">'+money(tot)+'</td></tr>'+
+    '<tr><td class="r">Sales tax'+(exempt?' (exempt)':' ('+(parseFloat(qRate)*100).toFixed(3)+'%)')+'</td><td class="r">'+money(tax)+'</td></tr>'+
+    '<tr><td class="r g">TOTAL</td><td class="r g">'+money(tot+tax)+'</td></tr></table>'+
+    '<div class="notes"><b>Proposed schedule date:</b> '+esc(date)+' · <b>Valid for 30 days.</b><br>'+
+    'Payment due on completion: cash or check. This quote covers the services listed above; any additional work will be quoted separately before it is performed.</div>'+
+    '<div class="sig"><div>Authorized signature — '+BIZ.name+'</div><div>Client acceptance signature</div></div>';
+}
+function invoiceDocHTML(j){
+  var tot=quotedTotal(j), tax=salesTax(j), jRate=(Number(j.taxRate)||TAX_RATE)*100;
+  var docNo="INV-"+String(j.id).padStart(4,"0");
+  return letterhead()+
+    '<div class="doc-title">INVOICE</div>'+
+    docMeta(docNo, j.completedDate||new Date().toLocaleDateString(), j.client, j.address)+
+    '<table><tr><th>Service</th><th class="r">Quoted amount</th></tr>'+
+    '<tr><td>Labor — '+esc((j.services||[]).join(", "))+'</td><td class="r">'+money(j.laborEst||0)+'</td></tr>'+
+    ((j.materialsList&&j.materialsList.length)? j.materialsList.map(function(m){
+      return '<tr><td>Materials — '+esc(m.desc)+' ('+(m.qty||0)+' @ '+money(m.price)+' ea.)</td><td class="r">'+money(m.total||0)+'</td></tr>';
+    }).join("") : '<tr><td>Materials</td><td class="r">'+money(j.materialsEst||0)+'</td></tr>')+
+    '<tr><td>Gas / equipment</td><td class="r">'+money(j.gasEst||0)+'</td></tr>'+
+    (j.details?'<tr><td colspan="2" style="color:#555;font-style:italic">“'+esc(j.details)+'”</td></tr>':"")+
+    '</table>'+
+    '<table class="tot"><tr><td class="r">Subtotal</td><td class="r" style="width:120px">'+money(tot)+'</td></tr>'+
+    '<tr><td class="r">Sales tax'+(j.taxExempt?' (exempt)':' ('+jRate.toFixed(3)+'%)')+'</td><td class="r">'+money(tax)+'</td></tr>'+
+    '<tr><td class="r g">TOTAL DUE</td><td class="r g">'+money(tot+tax)+'</td></tr></table>'+
+    '<div class="notes">Job #'+j.id+' completed on '+esc(j.completedDate||"")+' · Payment due upon receipt: cash or check.<br>'+
+    'Thank you for choosing '+BIZ.name+' — referrals are the heart of our business.</div>'+
+    '<div class="sig"><div>Received payment — '+BIZ.name+'</div><div>Client signature</div></div>';
+}
+
+/* ---------- CLIENTS ---------- */
+function clientsHTML(rows){
+  var subs=rows.filter(function(c){ return c.optin; }).length;
+  return '<div class="kpis">'+kpi("Clients",rows.length)+kpi("Email subscribers",subs)+'</div>'+
+    '<div class="panel" style="overflow-x:auto;margin-top:14px"><table><tr><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Status</th><th>Source</th><th>Updates</th></tr>'+
+    (rows.length?rows.map(function(c){ return '<tr><td>'+esc(c.name)+'</td><td>'+esc(c.phone)+'</td><td>'+esc(c.email)+'</td><td>'+esc(c.address)+'</td><td>'+esc(c.status)+'</td><td>'+esc(c.source)+'</td><td>'+(c.optin?'✅ Subscribed':'—')+'</td></tr>'; }).join("")
+    :'<tr><td colspan="6" style="color:#64748b">No clients yet.</td></tr>')+'</table></div>';
+}
+
+/* ---------- CREW (unchanged behavior; assignments point at scheduled jobs) ---------- */
+function crewHTML(){
+  return '<div class="crew-grid">'+CREW.map(function(c,i){
+    var photo = c.photo
+      ? '<img src="'+esc(c.photo)+'" alt="'+esc(c.name)+'" style="width:84px;height:84px;border-radius:50%;object-fit:cover;margin:0 auto 10px;display:block">'
+      : '<div class="crew-ph">📷</div>';
+    var assigned = c.assignments.length
+      ? c.assignments.map(function(a){
+          return '<div class="crew-assign"><b>Job #'+a.jobId+'</b> · '+(a.hours||0)+' hrs logged'+
+            '<div class="hrs-row"><input id="hrs-'+i+'-'+a.jobId+'" type="number" min="0" step="0.5" placeholder="Hours">'+
+            '<button class="btn btn-sm" onclick="submitHours('+i+','+a.jobId+')">Submit Hours Sheet</button></div></div>'; }).join("")
+      : '<div style="color:#64748b;font-size:12px;margin-top:8px">Not assigned to any job yet.</div>';
+    return '<div class="panel crew-card">'+photo+
+      '<b style="font-size:16px">'+esc(c.name)+'</b><div style="color:#6ee7b7;font-size:11px;font-weight:700;letter-spacing:1px;margin-top:2px">W-2 · PART-TIME EMPLOYEE</div>'+
+      '<div class="crew-stat">Hourly wage: <b>$'+(c.wage||0)+'/hr</b> <a href="#" onclick="setWage('+i+');return false" style="font-size:11px;color:#6ee7b7">edit</a></div>'+
+      '<div class="crew-stat">Hours worked this year: <b>'+(c.hoursYTD||0)+'</b></div>'+
+      '<div class="crew-stat">Earned this year: <b>$'+((c.hoursYTD||0)*(c.wage||0)).toFixed(2)+'</b></div>'+
+      '<button class="btn btn-sm" style="width:100%;margin:10px 0 4px" onclick="addToJob('+i+')">ADD TO JOB #…</button>'+
+      '<button class="btn btn-sm btn-dark" style="width:100%;margin:0 0 4px" onclick="printContract('+i+')">📋 Employment contract</button>'+
+      assigned+'</div>';
+  }).join("")+'</div>';
+}
+
+/* ---------- EMPLOYMENT CONTRACT (printable, at-will part-time W-2) ---------- */
+function contractDocHTML(c){
+  var today = new Date().toLocaleDateString();
+  return letterhead()+
+    '<div class="doc-title">PART-TIME EMPLOYMENT AGREEMENT</div>'+
+    '<div class="meta"><div><b>Employee</b>'+esc(c.name)+'<br><b>Position</b>Crew Member — Landscaping / Property Maintenance</div>'+
+    '<div style="text-align:right"><b>Employer</b>'+BIZ.name+'<br><b>Date</b>'+today+'</div></div>'+
+    '<p style="font-size:13px"><b>1 · Employment &amp; Classification.</b> '+BIZ.name+' ("the Company") employs '+esc(c.name)+' ("the Employee") as a part-time Crew Member. The Employee is a common-law employee and will be paid as a W-2 employee; the Company withholds and pays all legally required payroll taxes. This is not an independent-contractor arrangement.</p>'+
+    '<p style="font-size:13px"><b>2 · Duties.</b> Duties include lawn mowing, landscaping, yard maintenance, snow removal, gutter cleaning, and other property-maintenance work as assigned, together with related tasks such as loading/unloading equipment, job-site cleanup, and safe operation and care of Company equipment.</p>'+
+    '<p style="font-size:13px"><b>3 · Schedule &amp; Hours.</b> Employment is part-time and as-needed. Work hours and scheduling vary with customer demand and season; the Company cannot guarantee any minimum number of hours per week. Hours worked must be recorded via the Company\'s hours sheets; Employee shall record hours accurately and promptly.</p>'+
+    '<p style="font-size:13px"><b>4 · Compensation.</b> The Employee is paid '+money2(c.wage||0)+' per hour worked, payable weekly by check or direct deposit. Payday is weekly. The Employee\'s rate will never be below the applicable Minnesota minimum wage. Overtime is paid at 1.5× the regular rate for hours worked over 48 in a workweek, as required by Minnesota law. The Company provides a written earnings statement (pay stub) with each payment.</p>'+
+    '<p style="font-size:13px"><b>5 · Withholding &amp; Required Filings.</b> The Company will withhold federal and Minnesota income tax (as elected on the Employee\'s Form W-4/MW-4), and the Employee\'s share of Social Security and Medicare (FICA). The Company pays the employer share of FICA, Minnesota Unemployment Insurance, and federal unemployment (FUTA), and carries workers\' compensation coverage as required by Minnesota law.</p>'+
+    '<p style="font-size:13px"><b>6 · Expenses &amp; Equipment.</b> The Company provides all tools, equipment, and materials required for the work. The Employee is not required to purchase tools or equipment. Job-related fuel is provided or reimbursed by the Company.</p>'+
+    '<p style="font-size:13px"><b>7 · Conduct, Safety &amp; Customers.</b> The Employee agrees to follow all safety instructions, use provided safety equipment, and comply with Company policies. Customer information is confidential and may not be used or shared outside of work. The Employee will treat customers courteously; soliciting Company customers for outside work during employment is prohibited.</p>'+
+    '<p style="font-size:13px"><b>8 · At-Will Employment.</b> Employment is at-will: either the Employee or the Company may end the employment relationship at any time, with or without cause and with or without notice. Nothing in this agreement alters the at-will nature of employment, and no oral statements do so.</p>'+
+    '<p style="font-size:13px"><b>9 · Final Pay.</b> Upon separation, the Employee will be paid all earned wages in accordance with Minnesota law (within the time required by Minn. Stat. § 181.13 or as applicable).</p>'+
+    '<p style="font-size:13px"><b>10 · Required Onboarding.</b> This agreement is effective once the Employee completes Form I-9 (employment eligibility verification), federal Form W-4, and Minnesota Form MW-4. The Company reports new hires to the Minnesota New Hire Reporting Center as required by law.</p>'+
+    '<div class="sig"><div>'+BIZ.name+' — Owner signature</div><div>Employee signature — '+esc(c.name)+'</div></div>'+
+    '<div class="notes">Both parties keep a signed copy. Minnesota is an at-will employment state; this agreement documents the terms of employment and does not create a contract for a fixed term. For questions about wage and hour rules, contact the Minnesota Dept. of Labor and Industry.</div>';
+}
+function printContract(i){
+  var c = CREW[i];
+  if(!c.wage){ toast("Set "+c.name+"'s hourly wage first (click edit)"); return; }
+  docWindow(contractDocHTML(c), "Employment Agreement — "+c.name);
+}
+
+function addToJob(i){
+  var c = CREW[i];
+  api("tbc").then(function(rows){
+    if(!rows || !rows.length){ toast("No scheduled jobs — quote a request first"); return; }
+    var list = rows.map(function(j){ return "#"+j.id+" — "+j.client+" ("+(j.scheduleDate||"unscheduled")+")"; }).join("\n");
+    var v = prompt("Assign "+c.name+" to which job #?\n\n"+list);
+    if(!v) return;
+    var id = parseInt(v,10);
+    var found = rows.some(function(j){ return j.id===id; });
+    if(!found){ toast("Job #"+id+" not found"); return; }
+    if(c.assignments.some(function(a){ return a.jobId===id; })){ toast(c.name+" is already on Job #"+id); return; }
+    api("assignCrew",{ name:c.name, jobId:id }).then(function(){
+      toast(c.name+" assigned to Job #"+id);
+      aTab("crew", document.querySelectorAll(".atabs button")[7]);
+    });
+  });
+}
+function setWage(i){
+  var c = CREW[i];
+  var v = prompt("Hourly wage for "+c.name+" (numbers only):", c.wage||"");
+  if(v===null) return;
+  api("setWage",{ name:c.name, wage:parseFloat(v)||0 }).then(function(){
+    toast(c.name+" → $"+(parseFloat(v)||0)+"/hr");
+    aTab("crew", document.querySelectorAll(".atabs button")[7]);
+  });
+}
+function submitHours(i, jobId){
+  var c = CREW[i];
+  var inp = $("hrs-"+i+"-"+jobId);
+  var h = parseFloat(inp && inp.value);
+  if(!h || h<=0){ toast("Enter hours first"); return; }
+  if(!c.wage){ toast("Set "+c.name+"'s hourly wage first (click edit)"); return; }
+  api("submitHours",{ name:c.name, jobId:jobId, hours:h }).then(function(r){
+    toast("Logged "+h+" hrs for "+c.name+" — owed "+money(r.owed)+", added to Job #"+jobId+" labor cost");
+    aTab("crew", document.querySelectorAll(".atabs button")[7]);
+  });
+}
+
+/* =========================================================
+   PAYROLL — weekly W-2 checks (direct deposit amounts to
+   record + pay stubs). Employer writes/sends checks manually.
+   ========================================================= */
+var payWeekRef = null;
+var payCache = null;
+function money2(n){ return "$" + (Number(n)||0).toFixed(2); }
+function weekStartOf(d){ var x=new Date(d); x.setHours(0,0,0,0); x.setDate(x.getDate()-x.getDay()); return x; }
+function isoDate(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function payRowsFor(r, start){
+  var end = start.getTime()+7*864e5;
+  var byName = {};
+  (r.hours||[]).forEach(function(h){
+    var t = new Date(h.ts || h.Timestamp || "");
+    if(t.getTime()>=start.getTime() && t.getTime()<end && t.getTime()){
+      var n = h.name || h.CrewName;
+      byName[n] = (byName[n]||0) + (Number(h.hours!=null?h.hours:h.Hours)||0);
+    }
+  });
+  return (r.crew||[]).map(function(c){
+    var hours = byName[c.name]||0;
+    if(!hours) return null;
+    var gross = hours*c.wage;
+    var fica = gross*0.0765;
+    var fed = gross*(Number(r.cfg&&r.cfg.fed)||0);
+    var mn = gross*(Number(r.cfg&&r.cfg.mn)||0);
+    var employer = gross*(0.0765+(Number(r.cfg&&r.cfg.suta)||0)+(Number(r.cfg&&r.cfg.futa)||0));
+    return { name:c.name, wage:c.wage, type:c.type||"W-2 Employee", hours:hours,
+      gross:gross, fica:fica, fed:fed, mn:mn, net:gross-fica-fed-mn, employer:employer };
+  }).filter(Boolean);
+}
+function payrollHTML(r){
+  if(!payWeekRef) payWeekRef = weekStartOf(new Date());
+  var start = payWeekRef, ws = isoDate(start);
+  var endD = new Date(start.getTime()+6*864e5);
+  var list = payRowsFor(r, start);
+  var paidMap = {};
+  (r.paid||[]).forEach(function(p){ if(String(p.WeekStart).slice(0,10)===ws) paidMap[p.Name]=p; });
+  payCache = { list:list, ws:ws, r:r };
+  var tH=0,tG=0,tN=0,tE=0;
+  list.forEach(function(x){ tH+=x.hours; tG+=x.gross; tN+=x.net; tE+=x.employer; });
+  var range = (start.getMonth()+1)+"/"+start.getDate()+" – "+(endD.getMonth()+1)+"/"+endD.getDate()+"/"+endD.getFullYear();
+  var fedPct = ((Number(r.cfg&&r.cfg.fed)||0)*100), mnPct = ((Number(r.cfg&&r.cfg.mn)||0)*100);
+  return '<h2 style="color:#fff;font-size:20px;margin:6px 0 14px">Payroll — weekly W-2 checks</h2>'+
+    '<div class="grow" style="margin-bottom:14px;align-items:center">'+
+    '<button class="btn btn-sm btn-dark" onclick="payWeekPrev()">◀ Prev week</button>'+
+    '<b style="color:#fff;font-size:15px;margin:0 12px">'+range+'</b>'+
+    '<button class="btn btn-sm btn-dark" onclick="payWeekNext()">Next week ▶</button>'+
+    '<button class="btn btn-sm" style="margin-left:auto" onclick="printAllStubs()">🖨 Print all stubs for week</button></div>'+
+    '<div class="kpis">'+kpi("Hours",tH.toFixed(1))+kpi("Gross payroll",money2(tG))+
+    kpi("Checks to write (net)",money2(tN))+kpi("Employer taxes",money2(tE))+'</div>'+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff;font-size:13px">Withholding rates</b>'+
+    '<div class="grow" style="margin-top:8px;flex-wrap:wrap;gap:10px;font-size:13px;color:#cbd5e1">'+
+    '<span>Federal income % <input id="pay-fed" type="number" step="0.5" min="0" style="width:70px" value="'+fedPct+'"></span>'+
+    '<span>MN income % <input id="pay-mn" type="number" step="0.5" min="0" style="width:70px" value="'+mnPct+'"></span>'+
+    '<button class="btn btn-sm" onclick="saveWH()">Save</button>'+
+    '<span style="color:#64748b">FICA 7.65% fixed · employer adds FICA 7.65% + SUTA 3% + FUTA 0.6% (set in sheet Config)</span></div></div>'+
+    (list.length ?
+    '<div class="panel" style="overflow-x:auto;margin-top:14px"><table><tr><th>Employee (W-2)</th><th>Hours</th><th>Rate</th><th>Gross</th><th>Fed W/H</th><th>MN W/H</th><th>FICA 7.65%</th><th>Net — check to write</th><th>Status</th><th></th></tr>'+
+    list.map(function(x,i){
+      var p = paidMap[x.name];
+      return '<tr><td><b>'+esc(x.name)+'</b></td><td>'+x.hours.toFixed(1)+'</td><td>'+money2(x.wage)+'</td>'+
+      '<td>'+money2(x.gross)+'</td><td>'+money2(x.fed)+'</td><td>'+money2(x.mn)+'</td><td>'+money2(x.fica)+'</td>'+
+      '<td><b style="color:#6ee7b7">'+money2(x.net)+'</b></td>'+
+      '<td>'+(p ? '✅ Paid'+(p.CheckNo?' — check #'+esc(p.CheckNo):'')+' · '+esc(String(p.PaidDate).slice(0,10)) : '<span style="color:#fbbf24">Not paid</span>')+'</td>'+
+      '<td><button class="btn btn-sm btn-dark" onclick="printStub('+i+')">Stub</button> '+
+      (p ? '' : '<button class="btn btn-sm" onclick="recordPay('+i+')">Record check sent</button>')+'</td></tr>';
+    }).join("")+'</table>'+
+    '<p style="color:#94a3b8;font-size:12px;margin:10px 0 0">Net amounts are what to pay each employee (direct deposit or manual check). "Record check sent" logs the payment, feeds YTD on stubs, and adds employer taxes to the Taxes page.</p></div>'
+    : '<div class="panel" style="margin-top:14px;color:#94a3b8">No hours logged for this week yet — log hours on the Crew tab, or ◀ to a past week.</div>');
+}
+function payWeekPrev(){ payWeekRef = new Date(payWeekRef.getTime()-7*864e5); refreshPay(); }
+function payWeekNext(){ payWeekRef = new Date(payWeekRef.getTime()+7*864e5); refreshPay(); }
+function refreshPay(){ api("payroll").then(function(r){ $("a-content").innerHTML=payrollHTML(r); }); }
+function saveWH(){
+  var f = parseFloat($("pay-fed").value)||0, m = parseFloat($("pay-mn").value)||0;
+  Promise.all([
+    api("setConfig",{ key:"fed", value:(f/100) }),
+    api("setConfig",{ key:"mn", value:(m/100) })
+  ]).then(function(){ toast("Withholding rates saved"); refreshPay(); });
+}
+function recordPay(i){
+  var x = payCache.list[i];
+  var chk = prompt("Check / deposit reference # for "+x.name+" (optional):","");
+  api("payEmployee",{ weekStart:payCache.ws, name:x.name, hours:x.hours, gross:x.gross,
+    fed:x.fed, mn:x.mn, fica:x.fica, net:x.net, employer:x.employer, checkNo:(chk||"") })
+  .then(function(){
+    toast(x.name+" — recorded "+money2(x.net)+" net · write check"+(chk?" #"+chk:"")+" · stub ready");
+    refreshPay();
+  });
+}
+function ytdFor(name, ws, paid){
+  var y = { hours:0, gross:0, fed:0, mn:0, fica:0, net:0, employer:0 };
+  (paid||[]).forEach(function(p){
+    if(p.Name===name && String(p.WeekStart).slice(0,10)<=ws){
+      y.hours += Number(p.Hours)||0; y.gross += Number(p.Gross)||0;
+      y.fed += Number(p.FedWH)||0; y.mn += Number(p.MNWH)||0; y.fica += Number(p.FICA)||0;
+      y.net += Number(p.Net)||0; y.employer += Number(p.EmployerCost)||0;
+    }
+  });
+  return y;
+}
+function payStubDoc(x, ctx, ytd, checkNo, payDate){
+  var start = new Date(ctx.ws+"T12:00:00");
+  var endD = new Date(start.getTime()+6*864e5);
+  var range = (start.getMonth()+1)+"/"+start.getDate()+" – "+(endD.getMonth()+1)+"/"+endD.getDate()+"/"+endD.getFullYear();
+  var totDed = x.fed+x.mn+x.fica;
+  return letterhead()+
+    '<div class="doc-title">EARNINGS STATEMENT</div>'+
+    '<div class="meta"><div><b>Employee</b>'+esc(x.name)+'<br><b>Classification</b>Part-time employee (W-2)</div>'+
+    '<div style="text-align:right"><b>Pay period</b>'+range+'<br><b>Pay date</b>'+esc(payDate)+' · <b>Check #</b>'+esc(checkNo||"—")+'</div></div>'+
+    '<table><tr><th>Earnings</th><th class="r">Hours</th><th class="r">Rate</th><th class="r">Amount</th></tr>'+
+    '<tr><td>Hourly wages</td><td class="r">'+x.hours.toFixed(1)+'</td><td class="r">'+money2(x.wage)+'</td><td class="r">'+money2(x.gross)+'</td></tr></table>'+
+    '<table><tr><th>Deductions</th><th class="r">Amount</th><th class="r">YTD</th></tr>'+
+    '<tr><td>Federal income tax withheld</td><td class="r">'+money2(x.fed)+'</td><td class="r">'+money2(ytd.fed)+'</td></tr>'+
+    '<tr><td>Minnesota income tax withheld</td><td class="r">'+money2(x.mn)+'</td><td class="r">'+money2(ytd.mn)+'</td></tr>'+
+    '<tr><td>FICA (Social Security + Medicare 7.65%)</td><td class="r">'+money2(x.fica)+'</td><td class="r">'+money2(ytd.fica)+'</td></tr>'+
+    '<tr><td><b>Total deductions</b></td><td class="r"><b>'+money2(totDed)+'</b></td><td class="r"></td></tr></table>'+
+    '<table class="tot"><tr><td class="r">Gross pay</td><td class="r">'+money2(x.gross)+'</td></tr>'+
+    '<tr><td class="r">Total deductions</td><td class="r">−'+money2(totDed)+'</td></tr>'+
+    '<tr><td class="r g">NET PAY</td><td class="r g">'+money2(x.net)+'</td></tr></table>'+
+    '<table><tr><th>Year to date</th><th class="r">Hours</th><th class="r">Gross</th><th class="r">Deductions</th><th class="r">Net pay</th></tr>'+
+    '<tr><td>'+new Date().getFullYear()+' totals</td><td class="r">'+(ytd.hours+x.hours).toFixed(1)+'</td><td class="r">'+money2(ytd.gross+x.gross)+'</td>'+
+    '<td class="r">'+money2(ytd.fed+ytd.mn+ytd.fica+totDed)+'</td><td class="r">'+money2(ytd.net+x.net)+'</td></tr></table>'+
+    '<div class="notes"><b>Employer-paid (not deducted from employee):</b> FICA 7.65% + MN SUTA + federal FUTA = '+money2(x.employer)+' this period.'+
+    ' These flow to Schedule C line 23 and Form 941 deposits.<br>'+
+    'Employee is classified part-time W-2; this statement is not a W-2. Keep with payroll records.</div>';
+}
+function printStub(i){
+  var x = payCache.list[i];
+  var p = {};
+  (payCache.r.paid||[]).forEach(function(q){ if(q.Name===x.name && String(q.WeekStart).slice(0,10)===payCache.ws) p=q; });
+  var ytd = ytdFor(x.name, payCache.ws, payCache.r.paid);
+  docWindow(payStubDoc(x, payCache, ytd, p.CheckNo||"", p.PaidDate ? new Date(p.PaidDate).toLocaleDateString() : "—"), "Pay stub — "+x.name);
+}
+function printAllStubs(){
+  if(!payCache || !payCache.list.length){ toast("No hours this week to stub"); return; }
+  var parts = payCache.list.map(function(x){
+    var p = {};
+    (payCache.r.paid||[]).forEach(function(q){ if(q.Name===x.name && String(q.WeekStart).slice(0,10)===payCache.ws) p=q; });
+    var ytd = ytdFor(x.name, payCache.ws, payCache.r.paid);
+    return payStubDoc(x, payCache, ytd, p.CheckNo||"", p.PaidDate ? new Date(p.PaidDate).toLocaleDateString() : "—")+
+      '<div style="page-break-after:always"></div>';
+  });
+  docWindow(parts.join(""), "Pay stubs — week of "+payCache.ws);
+}
+
+/* =========================================================
+   BUSINESS EXPENSES — not tied to jobs (tools, insurance,
+   ads, fees…) → Schedule C line 27a + sales tax paid.
+   ========================================================= */
+var EXP_CATS = ["Tools / Equipment","Vehicle / Fuel (non-job)","Insurance","Advertising / Marketing","Phone / Internet","Office / Supplies","Professional Fees","Licenses / Permits","Rent / Storage","Other"];
+function expDed(x){ return x.Deductible==="Yes" || x.Deductible===true; }
+function expensesHTML(rows){
+  var tot=0,ded=0,st=0;
+  rows.forEach(function(x){ var a=Number(x.Amount)||0; tot+=a; st+=Number(x.SalesTaxPaid)||0; if(expDed(x)) ded+=a; });
+  var today = new Date().toLocaleDateString();
+  return '<h2 style="color:#fff;font-size:20px;margin:6px 0 14px">Business expenses (non-job)</h2>'+
+    '<div class="kpis">'+kpi("Total spent",money2(tot))+kpi("Tax-deductible",money2(ded))+kpi("Sales tax paid",money2(st))+'</div>'+
+    '<div class="panel" style="margin-top:14px"><b style="color:#fff;font-size:13px">Add an expense</b>'+
+    '<div class="mrow-grid" style="margin-top:10px">'+
+    '<div class="mrow"><label>Date</label><input id="exp-date" type="date" value="'+today+'"></div>'+
+    '<div class="mrow"><label>Category</label><select id="exp-cat">'+EXP_CATS.map(function(c){ return '<option>'+esc(c)+'</option>'; }).join("")+'</select></div>'+
+    '<div class="mrow"><label>Vendor</label><input id="exp-vendor" placeholder="Home Depot…"></div>'+
+    '<div class="mrow"><label>Description</label><input id="exp-desc" placeholder="Chainsaw repair"></div>'+
+    '<div class="mrow"><label>Amount (before tax)</label><input id="exp-amt" type="number" min="0" step="0.01" placeholder="0.00"></div>'+
+    '<div class="mrow"><label>Sales tax paid</label><input id="exp-st" type="number" min="0" step="0.01" placeholder="0.00"></div>'+
+    '<div class="mrow"><label>Payment method</label><select id="exp-method"><option>Cash</option><option>Check</option><option>Card</option><option>ACH / Bank</option></select></div>'+
+    '<div class="mrow"><label>Tax-deductible?</label><select id="exp-ded"><option value="yes">Yes — count on Schedule C</option><option value="no">No</option></select></div>'+
+    '</div><button class="btn" style="margin-top:10px" onclick="addExpense()">Add expense</button></div>'+
+    '<div class="panel" style="overflow-x:auto;margin-top:14px"><table><tr><th>ID</th><th>Date</th><th>Category</th><th>Vendor</th><th>Description</th><th>Amount</th><th>Sales tax</th><th>Method</th><th>Deductible</th><th></th></tr>'+
+    (rows.length ? rows.slice().reverse().map(function(x){
+      return '<tr><td>'+esc(x.ID)+'</td><td>'+esc(String(x.Date).slice(0,10))+'</td><td>'+esc(x.Category)+'</td><td>'+esc(x.Vendor)+'</td>'+
+      '<td>'+esc(x.Description)+'</td><td><b>'+money2(x.Amount)+'</b></td><td>'+money2(x.SalesTaxPaid)+'</td><td>'+esc(x.Method)+'</td>'+
+      '<td>'+(expDed(x)?'✅':'—')+'</td>'+
+      '<td><button class="btn btn-sm btn-dark" onclick="delExpense(\''+esc(x.ID)+'\')">Delete</button></td></tr>';
+    }).join("") : '<tr><td colspan="10" style="color:#64748b">No business expenses yet — add tools, insurance, ads, fees and anything else not billed to a job.</td></tr>')+'</table>'+
+    '<p style="color:#94a3b8;font-size:12px;margin:10px 0 0">Deductible expenses subtract from profit on the Finances page and appear on Schedule C line 27a on the Taxes page. Sales tax paid is tracked for records.</p></div>';
+}
+function addExpense(){
+  var amt = parseFloat($("exp-amt").value);
+  if(!amt || amt<=0){ toast("Enter the amount first"); return; }
+  api("addExpense",{
+    date: $("exp-date").value || new Date().toLocaleDateString(),
+    category: $("exp-cat").value,
+    vendor: $("exp-vendor").value || "",
+    description: $("exp-desc").value || "",
+    amount: amt,
+    salesTax: parseFloat($("exp-st").value)||0,
+    method: $("exp-method").value,
+    deductible: $("exp-ded").value==="yes"
+  }).then(function(){ toast("Expense recorded"); api("expenses").then(function(rows){ $("a-content").innerHTML=expensesHTML(rows); }); });
+}
+function delExpense(id){
+  api("delExpense",{ id:id }).then(function(){ toast("Expense deleted"); api("expenses").then(function(rows){ $("a-content").innerHTML=expensesHTML(rows); }); });
+}
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" nonce="mtKP1mDpdx8d62v7WHVPHg==" data-cf-beacon='{"version":"2024.11.0","token":"36b4216ae2dc4d5488c249161e71fe1e","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
