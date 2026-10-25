@@ -404,6 +404,7 @@
         <button onclick="aTab('tax',this)">Taxes</button>
         <button onclick="aTab('crew',this)">Crew</button>
         <button onclick="aTab('clients',this)">Clients</button>
+        <button onclick="aTab('qbuilder',this)">Quote Builder</button>
       </div>
       <div id="a-content"></div>
       <p style="color:#475569;font-size:12px;padding:20px 0">MJ Data Server · mjshomeimprovements.net</p>
@@ -457,7 +458,8 @@ var SERVICES = [
   ["Snow Removal","Driveways and walkways, on-call or contract."],
   ["Patios / Retaining Walls","Paver patios, retaining walls, and hardscape installs."],
   ["Landscaping & Design","Bed design, plants, and full landscape installs."],
-  ["Yard Maintenance","Ongoing upkeep — cleanup, pruning, and seasonal care."]
+  ["Yard Maintenance","Ongoing upkeep — cleanup, pruning, and seasonal care."],
+  ["Grounds Maintenance Contracts","Seasonal contracts for commercial properties, HOAs, and senior communities — weekly mowing, spring & fall cleanups, fertilization, mulching, and shrub trimming. Same crew, same day every week. Ask about 2027 season pricing."]
 ];
 var CREW = [
   /* Matt is the one official contractor (1099, W-9 on file, paid 75% of job labor).
@@ -694,7 +696,8 @@ var svcImgs = {
   "Snow Removal": { pair: "snow-removal.jpg", orient: "h" },
   "Patios / Retaining Walls": { before: "patios-walls-before.jpg", after: "patios-walls-after.jpg" },
   "Landscaping & Design": { before: "landscaping-design-before.jpg", after: "landscaping-design-after.jpg" },
-  "Yard Maintenance": { before: "yard-maintenance-before.jpg", after: "yard-maintenance-after.jpg" }
+  "Yard Maintenance": { before: "yard-maintenance-before.jpg", after: "yard-maintenance-after.jpg" },
+  "Grounds Maintenance Contracts": { before: "yard-maintenance-before.jpg", after: "yard-maintenance-after.jpg" }
 };
 function phFallback(img, kind){
   img.outerHTML = '<div class="ph '+(kind===1?'ph-b':'ph-a')+'">📷 '+(kind===1?'Before':'After')+' photo<br><small>coming soon</small></div>';
@@ -884,6 +887,7 @@ function aTab(name, btn){
   if(name==="expenses") api("expensesView").then(function(rows){ c.innerHTML=expensesHTML(rows); });
   if(name==="tax") api("taxData").then(function(r){ c.innerHTML=taxHTML(r.done, r.expenses, r.payroll); });
   if(name==="clients") api("clients").then(function(rows){ c.innerHTML=clientsHTML(rows); });
+  if(name==="qbuilder") c.innerHTML=quoteBuilderHTML();
   if(name==="crew") api("crewData").then(function(a){
     var KEY={W9Date:"w9",AgreementDate:"contract",COIDate:"coi",NECSentDate:"nec"};
     var ob={}, ad={};
@@ -1144,11 +1148,12 @@ function submitComplete(id){
     api("completeJob",{ id:id, materials:mat, gas:gas, receipts:loaded.receipts, photos:loaded.photos })
       .then(function(r){
         closeModal();
+        if(r&&r.recur) window.__nextVisit=r.nextDate||""; else window.__nextVisit="";
         toast((r&&r.recur) ? "Job #"+id+" completed — next visit auto-scheduled for "+r.nextDate : "Job #"+id+" completed — invoice opened");
         aTab("done",document.querySelectorAll(".atabs button")[2]);
         api("done").then(function(rows){
           var j=null; (rows||[]).forEach(function(x){ if(x.id===id) j=x; });
-          if(j) docWindow(invoiceDocHTML(j), "Invoice — "+j.client);
+          if(j){ j.nextVisit=window.__nextVisit||""; docWindow(invoiceDocHTML(j), "Invoice — "+j.client); }
         });
       });
   }
@@ -1409,9 +1414,103 @@ function invoiceDocHTML(j){
     '<table class="tot"><tr><td class="r">Subtotal</td><td class="r" style="width:120px">'+money(tot)+'</td></tr>'+
     '<tr><td class="r">Sales tax'+(j.taxExempt?' (exempt)':' ('+jRate.toFixed(3)+'%)')+'</td><td class="r">'+money(tax)+'</td></tr>'+
     '<tr><td class="r g">TOTAL DUE</td><td class="r g">'+money(tot+tax)+'</td></tr></table>'+
-    '<div class="notes">Job #'+j.id+' completed on '+esc(j.completedDate||"")+' · Payment due upon receipt: cash or check.<br>'+
+    (j.recurring?'<div class="notes" style="color:#059669">✓ This visit is part of your '+({weekly:"weekly",biweekly:"bi-weekly",monthly:"monthly",quarterly:"quarterly"})[j.recurring]+' maintenance agreement'+(j.nextVisit?' — next visit '+esc(j.nextVisit):'')+'.</div>':"")+
+    '<div class="notes">Job #'+j.id+' completed on '+esc(j.completedDate||"")+' · Payment due upon receipt — cash, check, or card. Contract accounts: net 15.<br>'+
     'Thank you for choosing '+BIZ.name+' — referrals are the heart of our business.</div>'+
     '<div class="sig"><div>Received payment — '+BIZ.name+'</div><div>Client signature</div></div>';
+}
+
+/* ---------- QUOTE BUILDER (2027 maintenance contracts) ---------- */
+var QB_DEF = { perAcre:75, perCutRes:50, spring:300, fall:300, fert:60, mulch:80, trim:12, minJob:65 };
+var QB_RATES = null;
+function qbRates(){
+  if(QB_RATES) return QB_RATES;
+  try { QB_RATES = Object.assign({}, QB_DEF, JSON.parse(localStorage.getItem("mj_qb_rates")||"{}")); }
+  catch(e){ QB_RATES = Object.assign({}, QB_DEF); }
+  return QB_RATES;
+}
+function qbSaveRates(){
+  var r=qbRates();
+  ["perAcre","perCutRes","spring","fall","fert","mulch","trim","minJob"].forEach(function(k){
+    var v=parseFloat($("qb-"+k).value); if(!isNaN(v)) r[k]=v;
+  });
+  localStorage.setItem("mj_qb_rates", JSON.stringify(r)); QB_RATES=r;
+  toast("Rates saved on this device"); qbCalc();
+}
+function qbVal(id, d){ var v=parseFloat(($(id)||{}).value); return isNaN(v)?d:v; }
+function qbOn(id, d){ return !!($(id)||{}).checked || (d&&!$(id)); }
+function qbCalc(){
+  var r=qbRates(), out=$("qb-out"); if(!out) return;
+  var acres=qbVal("qb-acres",0), cuts=qbVal("qb-cuts",26), shrubs=qbVal("qb-shrubs",0), yards=qbVal("qb-yards",0);
+  var spring=qbOn("qb-spring"), fall=qbOn("qb-fall"), fert=qbOn("qb-fert"), trim=qbOn("qb-trim",true), mulch=qbOn("qb-mulch",true);
+  var mow=acres>0 ? (acres<=0.4 ? r.perCutRes*cuts : r.perAcre*acres*cuts) : 0;
+  var springC=spring?Math.max(r.spring, r.minJob):0;
+  var fallC=fall?Math.max(r.fall, r.minJob):0;
+  var fertC=fert?r.fert*acres*4:0;
+  var trimC=trim?r.trim*shrubs:0;
+  var mulchC=mulch?r.mulch*yards:0;
+  var total=mow+springC+fallC+fertC+trimC+mulchC;
+  var perVisit=acres>0 ? (acres<=0.4 ? r.perCutRes : r.perAcre*acres) : 0;
+  out.innerHTML=
+    '<table class="mini-t"><tr><th>Line item</th><th class="r">Amount</th></tr>'+
+    (mow?'<tr><td>Mowing, trimming & blowing — '+cuts+' visits</td><td class="r">'+money(mow)+'</td></tr>':"")+
+    (springC?'<tr><td>Spring cleanup</td><td class="r">'+money(springC)+'</td></tr>':"")+
+    (fallC?'<tr><td>Fall cleanup</td><td class="r">'+money(fallC)+'</td></tr>':"")+
+    (fertC?'<tr><td>Fertilization & weed program (4 apps)</td><td class="r">'+money(fertC)+'</td></tr>':"")+
+    (trimC?'<tr><td>Shrub trimming ('+shrubs+')</td><td class="r">'+money(trimC)+'</td></tr>':"")+
+    (mulchC?'<tr><td>Mulch refresh ('+yards+' yd installed)</td><td class="r">'+money(mulchC)+'</td></tr>':"")+
+    (total?'<tr><td><b>Season total (plus sales tax)</b></td><td class="r g">'+money(total)+'</td></tr>'+
+    '<tr><td>≈ monthly billing (7 months)</td><td class="r">'+money(total/7)+'</td></tr>'+
+    '<tr><td>Per-visit mowing</td><td class="r">'+money(perVisit)+'</td></tr>'
+    :'<tr><td style="color:#94a3b8">Enter property size to price it.</td><td></td></tr>')+
+    '</table>';
+}
+function quoteBuilderHTML(){
+  var r=qbRates();
+  var inp=function(id,label,val,ph){ return '<div class="mrow" style="display:inline-block;width:140px;margin:4px 8px 4px 0;vertical-align:top"><label style="font-size:11px">'+label+'</label><input id="'+id+'" type="number" min="0" step="any" value="'+val+'" placeholder="'+(ph||"")+'" oninput="qbCalc()" style="width:100%"></div>'; };
+  return '<div class="panel"><b>🧮 Maintenance Quote Builder</b>'+
+    '<p style="color:#94a3b8;font-size:12px;margin:6px 0 10px">Price a season in seconds — for commercial properties, HOAs, and campuses. Rates live on this device; edit them once.</p>'+
+    '<div class="costbox" style="margin-bottom:10px">'+
+    '<div class="crow"><span>Per-acre commercial mowing (per cut)</span><b>$<input id="qb-perAcre" type="number" value="'+r.perAcre+'" oninput="qbCalc()" style="width:70px;background:transparent;border:none;color:inherit;font:inherit;text-align:right"></b></div>'+
+    '<div class="crow"><span>Per-cut, small lot (≤0.4 acre)</span><b>$<input id="qb-perCutRes" type="number" value="'+r.perCutRes+'" oninput="qbCalc()" style="width:70px;background:transparent;border:none;color:inherit;font:inherit;text-align:right"></b></div>'+
+    '<div class="crow"><span>Spring cleanup (flat)</span><b>$<input id="qb-spring" type="number" value="'+r.spring+'" oninput="qbCalc()" style="width:70px;background:transparent;border:none;color:inherit;font:inherit;text-align:right"></b></div>'+
+    '<div class="crow"><span>Fall cleanup (flat)</span><b>$<input id="qb-fall" type="number" value="'+r.fall+'" oninput="qbCalc()" style="width:70px;background:transparent;border:none;color:inherit;font:inherit;text-align:right"></b></div>'+
+    '<div class="crow"><span>Fertilization per acre, per application</span><b>$<input id="qb-fert" type="number" value="'+r.fert+'" oninput="qbCalc()" style="width:70px;background:transparent;border:none;color:inherit;font:inherit;text-align:right"></b></div>'+
+    '<div class="crow"><span>Mulch installed, per yard</span><b>$<input id="qb-mulch" type="number" value="'+r.mulch+'" oninput="qbCalc()" style="width:70px;background:transparent;border:none;color:inherit;font:inherit;text-align:right"></b></div>'+
+    '<div class="crow"><span>Shrub trim, per shrub</span><b>$<input id="qb-trim" type="number" value="'+r.trim+'" oninput="qbCalc()" style="width:70px;background:transparent;border:none;color:inherit;font:inherit;text-align:right"></b></div>'+
+    '<div class="crow"><span>Minimum job / service call</span><b>$<input id="qb-minJob" type="number" value="'+r.minJob+'" oninput="qbCalc()" style="width:70px;background:transparent;border:none;color:inherit;font:inherit;text-align:right"></b></div>'+
+    '</div>'+
+    '<button class="btn btn-sm" onclick="qbSaveRates()">Save rates</button>'+
+    '</div>'+
+    '<div class="panel" style="margin-top:14px"><b>Property being quoted</b>'+
+    '<div class="mrow" style="margin-top:8px"><label>Property / client name</label><input id="qb-name" placeholder="e.g., Oakdale Senior Campus"></div>'+
+    '<div class="mrow"><label>Address</label><input id="qb-addr" placeholder="Street, city"></div>'+
+    inp("qb-acres","Mowable acres","2")+inp("qb-cuts","Cuts/season (26 = weekly)","26")+inp("qb-shrubs","Shrubs to trim","10")+inp("qb-yards","Mulch yards","0")+
+    '<div style="margin:10px 0">'+
+    '<label style="font-size:12px;color:#94a3b8"><input type="checkbox" id="qb-spring" checked onchange="qbCalc()"> Spring cleanup</label> &nbsp; '+
+    '<label style="font-size:12px;color:#94a3b8"><input type="checkbox" id="qb-fall" checked onchange="qbCalc()"> Fall cleanup</label> &nbsp; '+
+    '<label style="font-size:12px;color:#94a3b8"><input type="checkbox" id="qb-fert" checked onchange="qbCalc()"> Fertilization (4 apps)</label> &nbsp; '+
+    '<label style="font-size:12px;color:#94a3b8"><input type="checkbox" id="qb-trim" checked onchange="qbCalc()"> Shrub trim</label> &nbsp; '+
+    '<label style="font-size:12px;color:#94a3b8"><input type="checkbox" id="qb-mulch" checked onchange="qbCalc()"> Mulch</label>'+
+    '</div>'+
+    '<div id="qb-out"></div>'+
+    '<div class="grow" style="margin-top:12px"><button class="btn" onclick="qbPrint()">📄 Print / save maintenance quote</button></div>'+
+    '</div>';
+}
+function qbPrint(){
+  var name=($("qb-name")||{}).value||"Prospect", addr=($("qb-addr")||{}).value||"";
+  var n=parseInt(localStorage.getItem("mj_qb_no")||"1",10); localStorage.setItem("mj_qb_no", String(n+1));
+  var docNo="QT-2027-"+String(n).padStart(3,"0");
+  var lines=$("qb-out").innerHTML.replace(/<input[^>]*>/g,"");
+  docWindow(letterhead()+
+    '<div class="doc-title">LANDSCAPE MAINTENANCE QUOTE</div>'+
+    docMeta(docNo, new Date().toLocaleDateString(), name, addr)+
+    '<p style="font-size:13px;color:#555;margin:0 0 10px">Season: 2027 (approx. April 1 – October 31) · Valid for 30 days</p>'+
+    lines+
+    '<div class="notes">Includes: same crew, same scheduled day each week · clippings off pavement every visit · fully insured (COI on request) · either party may cancel with 14 days’ written notice. One-off jobs (single cleanups, mulching, plantings, repairs) welcome anytime.<br>'+
+    'Payment: cash, check, or card · monthly billing available · contract accounts net 15.<br><br>Accepted by: ______________________________  Date: ____________</div>'+
+    '<div class="sig"><div>'+BIZ.name+'</div><div>Client signature</div></div>',
+    "Quote — "+name);
 }
 
 /* ---------- CLIENTS ---------- */
@@ -1755,5 +1854,6 @@ function delExpense(id){
 }
 </script>
 <script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" nonce="Z0aXm0ztDxKhnuTYNC9czQ==" data-cf-beacon='{"version":"2024.11.0","token":"36b4216ae2dc4d5488c249161e71fe1e","spa":2}' crossorigin="anonymous"></script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" nonce="IumPsA6bpkM/4klYcvnhNQ==" data-cf-beacon='{"version":"2024.11.0","token":"36b4216ae2dc4d5488c249161e71fe1e","spa":2}' crossorigin="anonymous"></script>
 </body>
 </html>
