@@ -300,7 +300,7 @@ fbq('track', 'PageView');
   .foot-grid a { display:block; color:#cbd5e1; margin:6px 0; }
   .foot-grid a:hover { color:#6ee7b7; }
   .foot-bottom { max-width:1080px; margin:26px auto 0; padding-top:18px; border-top:1px solid rgba(255,255,255,.08); display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:12px; color:#64748b; }
-  .foot-bottom a { color:#475569; }
+  .foot-bottom a { color:#94a3b8; text-decoration:underline; }
   .admin-logo { height:40px; width:auto; background:#fff; border-radius:10px; padding:4px 8px; }
   .btn-signout { background:transparent; border:1px solid rgba(148,163,184,.35); color:#cbd5e1; border-radius:10px; padding:7px 14px; font:inherit; font-size:13px; cursor:pointer; }
   .btn-signout:hover { border-color:#f87171; color:#fecaca; }
@@ -666,8 +666,7 @@ fbq('track', 'PageView');
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© <span id="yr">2026</span> MJ's Home Improvements · Cash, check or card</span>
-      <a href="#" onclick="go('admin');return false">Owner login</a>
+      <span>© <span id="yr">2026</span> MJ's Home Improvements · Cash, check or card · <a href="#admin" onclick="go('admin');return false">Owner login</a></span>
     </div>
   </footer>
 </div>
@@ -1125,7 +1124,7 @@ document.addEventListener("DOMContentLoaded", function(){ loadHomeReviews(); var
 document.addEventListener("DOMContentLoaded", function(){
   var h = decodeURIComponent((location.hash||"").slice(1)); if(!h) return;
   var parts = h.split(":"), page = parts[0];
-  if(["quote","services","about","review"].indexOf(page) < 0) return;
+  if(["quote","services","about","review","admin"].indexOf(page) < 0) return;
   if(page === "quote" && parts[1]) quoteFor(parts.slice(1).join(":")); else go(page);
   window.scrollTo(0,0);
 });
