@@ -3,18 +3,18 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>MJ Home Improvements — Minneapolis-St. Paul, MN</title>
+<title>MJ's Home Improvements — Minneapolis-St. Paul, MN</title>
 <meta name="description" content="Mowing, mulching, gutter cleaning, minor tree work, landscaping and more — serving Minneapolis-St. Paul and surrounding areas. Fast quotes, fair prices, local crew." />
 <meta name="referrer" content="strict-origin-when-cross-origin" />
 <meta name="theme-color" content="#047857" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="MJ's Home Improvement — Twin Cities Yard Care, Every Season" />
+<meta property="og:title" content="MJ's Home Improvements — Twin Cities Yard Care, Every Season" />
 <meta property="og:description" content="Mowing, mulching, gutters, tree work, power washing and snow removal across Minneapolis-St. Paul. Free quotes from a local, fully insured crew." />
 <meta property="og:image" content="https://mjshomeimprovements.net/hero.jpg" />
 <meta property="og:url" content="https://mjshomeimprovements.net/" />
 <link rel="icon" href="assets/logo.png" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"LandscapingBusiness","name":"MJ's Home Improvement",
+{"@context":"https://schema.org","@type":"LandscapingBusiness","name":"MJ's Home Improvements",
  "url":"https://mjshomeimprovements.net/","telephone":"+1-651-870-0943","email":"MJ@mjshomeimprovements.net",
  "image":"https://mjshomeimprovements.net/hero.jpg","logo":"https://mjshomeimprovements.net/assets/logo.png",
  "areaServed":["Minneapolis, MN","St. Paul, MN","Twin Cities metro"],"priceRange":"$$",
@@ -296,8 +296,150 @@ fbq('track', 'PageView');
     .foot-grid img { margin:0 auto 12px; }
     .foot-bottom { justify-content:center; text-align:center; }
   }
+
+  /* ================= DESIGN DIRECTIONS (customer site only) =================
+     body[data-theme] picks one. Console (#admin) is untouched. */
+  body[data-theme] #site section[style] { backdrop-filter:none !important; -webkit-backdrop-filter:none !important; }
+  body[data-theme] #site .hero-home { padding:0; }
+  body[data-theme] #site .hero-home .hero-banner { max-width:none; margin:0; border-radius:0; border:none; box-shadow:none; min-height:600px; }
+  body[data-theme] #site .hero-home .hero-banner img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 30%; }
+  body[data-theme] #site .hero::before, body[data-theme] #site .hero::after { display:none; }
+  body[data-theme] #site .seasonal-banner { border-radius:0; max-width:none; }
+  body[data-theme] #site .hero-home .seasonal-banner { margin:0; }
+  body[data-theme] #site .hero-overlay-full h1 { font-size:54px; line-height:1.05; }
+  @media (max-width:700px){ body[data-theme] #site .hero-overlay-full h1 { font-size:34px; } body[data-theme] #site .hero-home .hero-banner { min-height:520px; } }
+
+  /* ---------- 1 · EVERGREEN — classic, trustworthy, editorial serif ---------- */
+  body[data-theme="1"] #site { font-family:"Inter",system-ui,sans-serif; color:#1c2b22; background:#fbfaf6; }
+  body[data-theme="1"] #site h1, body[data-theme="1"] #site h2, body[data-theme="1"] #site h3 { font-family:"Fraunces",Georgia,serif; font-weight:800; letter-spacing:-.01em; color:#14361f; }
+  body[data-theme="1"] #site .hero-overlay-full h1 { color:#fff; }
+  body[data-theme="1"] #site header { background:#fbfaf6; box-shadow:none; border-bottom:1px solid #e7e2d5; }
+  body[data-theme="1"] #site .hero-overlay-full { align-items:flex-start; text-align:left; padding:0 8vw; background:linear-gradient(90deg,rgba(14,42,24,.88) 0%,rgba(14,42,24,.55) 55%,rgba(14,42,24,.1) 100%); }
+  body[data-theme="1"] #site .hero-sub { margin-left:0; color:#e9e4d4; }
+  body[data-theme="1"] #site .hero-cta { justify-content:flex-start; }
+  body[data-theme="1"] #site .btn, body[data-theme="1"] #site .navlinks a.nav-cta, body[data-theme="1"] #site .btn-call { background:#1f5130; border:none; border-radius:6px; box-shadow:none; }
+  body[data-theme="1"] #site .btn:hover { background:#14361f; }
+  body[data-theme="1"] #site .btn-light { background:#f3ecd8; color:#14361f; }
+  body[data-theme="1"] #site .seasonal-banner { background:#c9a227; color:#1c2b22; }
+  body[data-theme="1"] #site .trust-strip { background:#14361f; border:none; }
+  body[data-theme="1"] #site .trust-items, body[data-theme="1"] #site .trust-items span b, body[data-theme="1"] #site .trust-rating { color:#f3ecd8; }
+  body[data-theme="1"] #site section[style] { background:#f1ede2 !important; border:none !important; }
+  body[data-theme="1"] #site .hs-card, body[data-theme="1"] #site .ba, body[data-theme="1"] #site .card, body[data-theme="1"] #site .step, body[data-theme="1"] #site .faq-list details { background:#fff; border:1px solid #e7e2d5; border-radius:6px; box-shadow:none; backdrop-filter:none; }
+  body[data-theme="1"] #site .hs-cta, body[data-theme="1"] #site .ba-cap a { color:#1f5130; }
+  body[data-theme="1"] #site .step .n { background:#c9a227; color:#14361f; border-radius:6px; }
+  body[data-theme="1"] #site footer { background:#14361f; }
+
+  /* ---------- 2 · GROUNDWORK — bold contractor, black + safety yellow ---------- */
+  body[data-theme="2"] #site { font-family:"Archivo",system-ui,sans-serif; color:#111; background:#f4f4f2; }
+  body[data-theme="2"] #site h1, body[data-theme="2"] #site h2, body[data-theme="2"] #site h3 { font-family:"Archivo Black",Impact,sans-serif; text-transform:uppercase; letter-spacing:.01em; font-weight:400; }
+  body[data-theme="2"] #site h2 { font-size:34px; }
+  body[data-theme="2"] #site header { background:#111; border:none; box-shadow:none; }
+  body[data-theme="2"] #site .brand-name b { color:#fff !important; } body[data-theme="2"] #site .brand-name small, body[data-theme="2"] #site .navlinks { color:#d4d4d4; }
+  body[data-theme="2"] #site .brand img { background:#fff; padding:4px 8px; }
+  body[data-theme="2"] #site .hero-overlay-full { align-items:flex-start; text-align:left; padding:0 7vw; background:linear-gradient(90deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.45) 60%,rgba(0,0,0,.2) 100%); }
+  body[data-theme="2"] #site .hero-overlay-full h1 { text-transform:uppercase; font-size:60px; text-shadow:none; }
+  body[data-theme="2"] #site .hero-overlay-full h1::after { content:""; display:block; width:120px; height:8px; background:#facc15; margin-top:18px; }
+  body[data-theme="2"] #site .hero-sub { margin-left:0; color:#e5e5e5; }
+  body[data-theme="2"] #site .hero-cta { justify-content:flex-start; }
+  body[data-theme="2"] #site .btn, body[data-theme="2"] #site .navlinks a.nav-cta, body[data-theme="2"] #site .btn-call, body[data-theme="2"] #sticky-bar .sb-quote { background:#facc15; color:#111; border:none; border-radius:0; box-shadow:4px 4px 0 #111; text-transform:uppercase; font-weight:800; letter-spacing:.04em; }
+  body[data-theme="2"] #site .navlinks a.nav-cta, body[data-theme="2"] #site .btn-call { box-shadow:none; }
+  body[data-theme="2"] #site .btn:hover { background:#fde047; color:#111; transform:translate(-2px,-2px); box-shadow:6px 6px 0 #111; }
+  body[data-theme="2"] #site .btn-light { background:#fff; }
+  body[data-theme="2"] #site .seasonal-banner { background:#facc15; color:#111; text-transform:uppercase; letter-spacing:.05em; }
+  body[data-theme="2"] #site .trust-strip { background:#111; border:none; }
+  body[data-theme="2"] #site .trust-items, body[data-theme="2"] #site .trust-rating { color:#fff; } body[data-theme="2"] #site .trust-items span b { color:#facc15; }
+  body[data-theme="2"] #site section[style] { background:#e9e9e4 !important; border:none !important; }
+  body[data-theme="2"] #site .hs-card, body[data-theme="2"] #site .ba, body[data-theme="2"] #site .card, body[data-theme="2"] #site .step, body[data-theme="2"] #site .faq-list details { background:#fff; border:2px solid #111; border-radius:0; box-shadow:6px 6px 0 #111; backdrop-filter:none; }
+  body[data-theme="2"] #site .hs-cta, body[data-theme="2"] #site .ba-cap a { color:#111; text-decoration:underline; text-decoration-color:#facc15; text-decoration-thickness:3px; }
+  body[data-theme="2"] #site .ba-pair figure + figure figcaption { background:#facc15; color:#111; }
+  body[data-theme="2"] #site .step .n { background:#111; color:#facc15; border-radius:0; }
+  body[data-theme="2"] #site footer { background:#111; border-top:8px solid #facc15; }
+
+  /* ---------- 3 · NORDIC — calm, minimal, lots of air ---------- */
+  body[data-theme="3"] #site { font-family:"DM Sans",system-ui,sans-serif; color:#2b2b2b; background:#f6f4ef; }
+  body[data-theme="3"] #site h1, body[data-theme="3"] #site h2, body[data-theme="3"] #site h3 { font-family:"DM Serif Display",Georgia,serif; font-weight:400; letter-spacing:0; color:#2b2b2b; }
+  body[data-theme="3"] #site .hero-overlay-full h1 { color:#fff; font-size:58px; }
+  body[data-theme="3"] #site h2 { font-size:36px; }
+  body[data-theme="3"] #site section { padding:88px 0; }
+  body[data-theme="3"] #site header { background:#f6f4ef; border:none; box-shadow:none; }
+  body[data-theme="3"] #site .navlinks a.nav-cta { background:transparent; color:#2b2b2b; border:1px solid #2b2b2b; border-radius:0; box-shadow:none; }
+  body[data-theme="3"] #site .hero-home { padding:0 24px; background:#f6f4ef; }
+  body[data-theme="3"] #site .hero-home .hero-banner { max-width:1180px; margin:0 auto; min-height:560px; border-radius:4px; }
+  body[data-theme="3"] #site .hero-overlay-full { justify-content:flex-end; align-items:flex-start; text-align:left; padding:48px; background:linear-gradient(0deg,rgba(20,24,20,.85) 0%,rgba(20,24,20,.35) 55%,rgba(20,24,20,.1) 100%); }
+  body[data-theme="3"] #site .hero-sub { margin-left:0; color:#eee; }
+  body[data-theme="3"] #site .hero-cta { justify-content:flex-start; }
+  body[data-theme="3"] #site .btn, body[data-theme="3"] #site .btn-call, body[data-theme="3"] #sticky-bar .sb-quote { background:#5f7a61; border:none; border-radius:2px; box-shadow:none; font-weight:500; letter-spacing:.02em; }
+  body[data-theme="3"] #site .btn:hover { background:#4b634d; transform:none; box-shadow:none; }
+  body[data-theme="3"] #site .btn-light { background:#f6f4ef; color:#2b2b2b; }
+  body[data-theme="3"] #site .seasonal-banner { background:transparent; color:#5f7a61; font-weight:500; max-width:1180px; margin:14px auto 0 !important; border-top:1px solid #d9d4c7; border-radius:0; }
+  body[data-theme="3"] #site .trust-strip { background:transparent; border:none; }
+  body[data-theme="3"] #site .trust-items { font-weight:500; color:#555; }
+  body[data-theme="3"] #site .trust-items span b { color:#5f7a61; }
+  body[data-theme="3"] #site section[style] { background:#ecE8de !important; border:none !important; }
+  body[data-theme="3"] #site .hs-card, body[data-theme="3"] #site .ba, body[data-theme="3"] #site .card, body[data-theme="3"] #site .step, body[data-theme="3"] #site .faq-list details { background:transparent; border:none; border-top:1px solid #cfc9ba; border-radius:0; box-shadow:none; backdrop-filter:none; }
+  body[data-theme="3"] #site .hs-card:hover { transform:none; box-shadow:none; }
+  body[data-theme="3"] #site .hs-ph, body[data-theme="3"] #site .ba-pair figure { border-radius:2px; }
+  body[data-theme="3"] #site .hs-body { padding:14px 0; }
+  body[data-theme="3"] #site .hs-cta, body[data-theme="3"] #site .ba-cap a { color:#5f7a61; }
+  body[data-theme="3"] #site .ba-cap { padding:12px 0; }
+  body[data-theme="3"] #site .ba-pair figcaption { background:rgba(246,244,239,.9); color:#2b2b2b; }
+  body[data-theme="3"] #site .ba-pair figure + figure figcaption { background:#5f7a61; color:#fff; }
+  body[data-theme="3"] #site .step .n { background:transparent; color:#5f7a61; border:1px solid #5f7a61; font-family:"DM Serif Display",serif; font-weight:400; }
+  body[data-theme="3"] #site footer { background:#2b2f2b; }
+
+  /* ---------- 4 · BACKYARD — bright, friendly, rounded ---------- */
+  body[data-theme="4"] #site { font-family:"Nunito",system-ui,sans-serif; color:#16324f; background:#fffdf7; }
+  body[data-theme="4"] #site h1, body[data-theme="4"] #site h2, body[data-theme="4"] #site h3 { font-family:"Nunito",system-ui,sans-serif; font-weight:900; letter-spacing:-.01em; color:#16324f; }
+  body[data-theme="4"] #site .hero-overlay-full h1 { color:#fff; }
+  body[data-theme="4"] #site header { background:#fffdf7; border:none; box-shadow:0 2px 0 #e8f5e1; }
+  body[data-theme="4"] #site .hero-home { padding:18px; background:#fffdf7; }
+  body[data-theme="4"] #site .hero-home .hero-banner { border-radius:32px; overflow:hidden; }
+  body[data-theme="4"] #site .hero-overlay-full { background:linear-gradient(180deg,rgba(22,50,79,.25) 0%,rgba(22,50,79,.72) 100%); }
+  body[data-theme="4"] #site .btn, body[data-theme="4"] #site .navlinks a.nav-cta, body[data-theme="4"] #site .btn-call, body[data-theme="4"] #sticky-bar .sb-quote { background:#3fae49; border:none; border-radius:999px; box-shadow:0 6px 0 #2b8a34; font-weight:900; }
+  body[data-theme="4"] #site .btn:hover { background:#4cc256; transform:translateY(2px); box-shadow:0 4px 0 #2b8a34; }
+  body[data-theme="4"] #site .btn-light { background:#fff; color:#16324f; box-shadow:0 6px 0 #d6e4f0; }
+  body[data-theme="4"] #site .seasonal-banner { background:#ffe58a; color:#16324f; border-radius:999px; max-width:620px; margin:16px auto 0 !important; }
+  body[data-theme="4"] #site .trust-strip { background:transparent; border:none; }
+  body[data-theme="4"] #site .trust-items span { background:#e8f5e1; padding:6px 14px; border-radius:999px; }
+  body[data-theme="4"] #site .trust-items span b { color:#2b8a34; }
+  body[data-theme="4"] #site section[style] { background:#eaf5ff !important; border:none !important; border-radius:40px; margin:0 14px; }
+  body[data-theme="4"] #site .hs-card, body[data-theme="4"] #site .ba, body[data-theme="4"] #site .card, body[data-theme="4"] #site .step, body[data-theme="4"] #site .faq-list details { background:#fff; border:2px solid #e3eef8; border-radius:24px; box-shadow:0 8px 0 #e3eef8; backdrop-filter:none; }
+  body[data-theme="4"] #site .hs-ph { border-radius:22px 22px 0 0; }
+  body[data-theme="4"] #site .hs-cta, body[data-theme="4"] #site .ba-cap a { color:#2b8a34; }
+  body[data-theme="4"] #site .ba-pair figcaption { border-radius:999px; }
+  body[data-theme="4"] #site .ba-pair figure + figure figcaption { background:#3fae49; }
+  body[data-theme="4"] #site .step .n { background:#ffe58a; color:#16324f; }
+  body[data-theme="4"] #site footer { background:#16324f; border-radius:40px 40px 0 0; }
+
+  /* ---------- 5 · NIGHTFALL — dark, premium, copper accents ---------- */
+  body[data-theme="5"] #site { font-family:"Manrope",system-ui,sans-serif; color:#e7e2d9; background:#121413; }
+  body[data-theme="5"] #site h1, body[data-theme="5"] #site h2, body[data-theme="5"] #site h3 { font-family:"Cormorant Garamond",Georgia,serif; font-weight:700; letter-spacing:.01em; color:#f3ede2; }
+  body[data-theme="5"] #site h2 { font-size:40px; }
+  body[data-theme="5"] #site .hero-overlay-full h1 { font-size:64px; }
+  body[data-theme="5"] #site p, body[data-theme="5"] #site .hs-body p, body[data-theme="5"] #site .faq-list p, body[data-theme="5"] #site .card p { color:#a9a397 !important; }
+  body[data-theme="5"] #site header { background:rgba(18,20,19,.92); border-bottom:1px solid #2a2d2b; box-shadow:none; }
+  body[data-theme="5"] #site .brand-name b { color:#f3ede2 !important; } body[data-theme="5"] #site .navlinks { color:#c9c2b5; }
+  body[data-theme="5"] #site .brand img { background:#f3ede2; border-radius:6px; padding:3px 6px; }
+  body[data-theme="5"] #site .hero-overlay-full { background:radial-gradient(ellipse at center,rgba(18,20,19,.55) 0%,rgba(18,20,19,.88) 80%); }
+  body[data-theme="5"] #site .hero-overlay-full h1 { color:#f3ede2; }
+  body[data-theme="5"] #site .hero-overlay-full h1::before { content:"Est. Twin Cities · Fully insured"; display:block; font-family:"Manrope",sans-serif; font-size:12px; letter-spacing:4px; text-transform:uppercase; color:#c08a4b; margin-bottom:16px; font-weight:600; }
+  body[data-theme="5"] #site .btn, body[data-theme="5"] #site .navlinks a.nav-cta, body[data-theme="5"] #site .btn-call, body[data-theme="5"] #sticky-bar .sb-quote { background:#c08a4b; color:#121413; border:none; border-radius:2px; box-shadow:none; font-weight:800; letter-spacing:.06em; text-transform:uppercase; font-size:14px; }
+  body[data-theme="5"] #site .btn:hover { background:#d39d5d; color:#121413; }
+  body[data-theme="5"] #site .btn-light { background:transparent; color:#f3ede2; border:1px solid #c08a4b; }
+  body[data-theme="5"] #site .seasonal-banner { background:#1b1e1c; color:#c08a4b; border-top:1px solid #2a2d2b; border-bottom:1px solid #2a2d2b; }
+  body[data-theme="5"] #site .trust-strip { background:#121413; border-bottom:1px solid #2a2d2b; border-top:none; }
+  body[data-theme="5"] #site .trust-items, body[data-theme="5"] #site .trust-rating { color:#c9c2b5; } body[data-theme="5"] #site .trust-items span b { color:#c08a4b; }
+  body[data-theme="5"] #site section[style] { background:#181b19 !important; border:none !important; }
+  body[data-theme="5"] #site .hs-card, body[data-theme="5"] #site .ba, body[data-theme="5"] #site .card, body[data-theme="5"] #site .step, body[data-theme="5"] #site .faq-list details { background:#1d201e; border:1px solid #2e322f; border-radius:4px; box-shadow:none; backdrop-filter:none; }
+  body[data-theme="5"] #site .hs-body b, body[data-theme="5"] #site .ba-cap b, body[data-theme="5"] #site .faq-list summary, body[data-theme="5"] #site .step b, body[data-theme="5"] #site .card b { color:#f3ede2; }
+  body[data-theme="5"] #site .hs-cta, body[data-theme="5"] #site .ba-cap a, body[data-theme="5"] #site a[style*="047857"] { color:#c08a4b !important; }
+  body[data-theme="5"] #site .ba-pair figure + figure figcaption { background:#c08a4b; color:#121413; }
+  body[data-theme="5"] #site .step .n { background:transparent; border:1px solid #c08a4b; color:#c08a4b; }
+  body[data-theme="5"] #site label { color:#c9c2b5; }
+  body[data-theme="5"] #site input, body[data-theme="5"] #site select, body[data-theme="5"] #site textarea { background:#1d201e; border-color:#3a3f3b; color:#f3ede2; }
+  body[data-theme="5"] #site footer { background:#0c0d0c; border-top:1px solid #2a2d2b; }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Lora:wght@400;600;700&family=Playfair+Display:wght@700;900&family=Mulish:wght@400;600;800&family=Raleway:wght@400;600;800&family=Work+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Lora:wght@400;600;700&family=Playfair+Display:wght@700;900&family=Mulish:wght@400;600;800&family=Raleway:wght@400;600;800&family=Work+Sans:wght@400;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Archivo:wght@400;600;800&family=Archivo+Black&family=DM+Sans:wght@400;500;700&family=DM+Serif+Display&family=Nunito:wght@400;700;900&family=Cormorant+Garamond:wght@500;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body data-font="2">
 <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1487405263255280&ev=PageView&noscript=1" /></noscript>
@@ -308,8 +450,8 @@ fbq('track', 'PageView');
   <header>
     <div class="container nav">
       <a href="#" onclick="go('home')" class="brand" style="text-decoration:none">
-        <img src="assets/logo.png" alt="MJ's Home Improvement — house and tree logo" style="height:56px;width:auto;flex:none" />
-        <div class="brand-name"><b style="color:#0f172a">MJ'S HOME IMPROVEMENT</b><small>Minneapolis-St. Paul</small></div>
+        <img src="assets/logo.png" alt="MJ's Home Improvements — house and tree logo" style="height:56px;width:auto;flex:none" />
+        <div class="brand-name"><b style="color:#0f172a">MJ'S HOME IMPROVEMENTS</b><small>Minneapolis-St. Paul</small></div>
       </a>
       <div class="nav-actions">
         <a href="tel:6518700943" class="btn-call">Call</a>
@@ -326,7 +468,7 @@ fbq('track', 'PageView');
   <div id="page-home">
     <div class="hero hero-home">
       <div class="hero-banner">
-        <img src="hero.jpg" alt="MJ's Home Improvement crew" onerror="this.parentElement.style.display='none'">
+        <img src="hero.jpg" alt="MJ's Home Improvements crew" onerror="this.parentElement.style.display='none'">
         <div class="hero-overlay hero-overlay-full">
           <h1 style="color:#fff;margin:0">Twin Cities Landscaping &amp; Yard Care.<br>One Crew, Every Season.</h1>
           <p class="hero-sub">Mowing, mulching, gutters, tree work, snow removal and more. Locally owned and fully insured.</p>
@@ -393,15 +535,15 @@ fbq('track', 'PageView');
 
   <div id="page-about" class="hidden">
     <div class="hero" style="padding:56px 24px">
-      <img src="about-header.jpg" alt="MJ's Home Improvement crew at work" style="width:100%;max-width:900px;border-radius:14px;margin:0 auto 20px;display:block;box-shadow:0 14px 32px rgba(0,0,0,.3)" onerror="this.style.display='none'">
-      <h1 style="font-size:34px">About MJ's Home Improvement</h1>
+      <img src="about-header.jpg" alt="MJ's Home Improvements crew at work" style="width:100%;max-width:900px;border-radius:14px;margin:0 auto 20px;display:block;box-shadow:0 14px 32px rgba(0,0,0,.3)" onerror="this.style.display='none'">
+      <h1 style="font-size:34px">About MJ's Home Improvements</h1>
       <p style="margin-bottom:0">Local crew · Full service · Minneapolis-St. Paul</p>
     </div>
     <section class="container">
       <div class="two-col" style="align-items:center">
         <div>
           <h2 style="margin-top:0">Owner-operated in Minneapolis-St. Paul</h2>
-          <p>MJ's Home Improvement is a small, locally owned, and fully insured company serving homeowners throughout Minneapolis, St. Paul, and the surrounding Twin Cities area.</p>
+          <p>MJ's Home Improvements is a small, locally owned, and fully insured company serving homeowners throughout Minneapolis, St. Paul, and the surrounding Twin Cities area.</p>
           <p>We offer reliable help with landscaping, property maintenance, seasonal cleanups, snow removal, and other outdoor projects. Our goal is simple: do quality work, communicate clearly, and make the entire process easy — from the initial estimate to the final cleanup.</p>
           <ul style="color:#334155;line-height:2">
             <li><b>Local &amp; owner-operated</b> — Minneapolis-St. Paul and surrounding areas</li>
@@ -421,8 +563,8 @@ fbq('track', 'PageView');
           <div class="headshot"><img src="mj.jpg" alt="MJ O'Hara" style="width:100%;height:100%;object-fit:cover;border-radius:50%" onerror="this.parentElement.innerHTML='📷'"></div>
           <h3 style="margin:14px 0 2px">MJ O'Hara</h3>
           <small style="color:#047857;font-weight:700;text-transform:uppercase;letter-spacing:1px">President · Crew Leader · Sales</small>
-          <p style="color:#475569;font-size:14px;margin:10px 0">I'm MJ, the owner of MJ's Home Improvement. I started this business three years ago by going door to door, introducing myself to homeowners, and asking if they wanted pressure washing services. It slowly expanded into general landscaping, started with smaller jobs, and I slowly built it into the business it is today — taking on projects I had never dreamed of.</p>
-          <p style="color:#475569;font-size:14px;margin:10px 0">I've personally built MJ's Home Improvement from the ground up. I still talk directly with customers, prepare estimates, and work solo or with my crew on our projects. When you hire us, you're not dealing with a salesperson or a large company — you're working directly with the person responsible for making sure the job gets done right, so nothing is lost in communication.</p>
+          <p style="color:#475569;font-size:14px;margin:10px 0">I'm MJ, the owner of MJ's Home Improvements. I started this business three years ago by going door to door, introducing myself to homeowners, and asking if they wanted pressure washing services. It slowly expanded into general landscaping, started with smaller jobs, and I slowly built it into the business it is today — taking on projects I had never dreamed of.</p>
+          <p style="color:#475569;font-size:14px;margin:10px 0">I've personally built MJ's Home Improvements from the ground up. I still talk directly with customers, prepare estimates, and work solo or with my crew on our projects. When you hire us, you're not dealing with a salesperson or a large company — you're working directly with the person responsible for making sure the job gets done right, so nothing is lost in communication.</p>
           <p style="color:#475569;font-size:14px;margin:10px 0">Since starting, we've worked with more than 250 local customers in the Twin Cities and surrounding communities. A lot of our work now comes from repeat customers and referrals, which means a lot to me because that's how I know people trust our work. I take pride in being dependable, keeping customers updated, and leaving every property looking better than when we arrived.</p>
           <p style="font-size:13px;color:#334155;margin:0;line-height:1.8">
             📞 <a href="tel:651-870-0943" style="color:#334155">651-870-0943</a><br>
@@ -457,7 +599,7 @@ fbq('track', 'PageView');
       <section>
         <div class="form-wrap">
           <h2 style="text-align:left;margin-bottom:6px">Get a Fast Quote</h2>
-          <p style="color:#64748b;margin-bottom:20px">Tell us about the job — [fast reply, usually same day].</p>
+          <p style="color:#64748b;margin-bottom:20px">Tell us about the job — we usually reply within 1–2 business days.</p>
           <form class="card" style="padding:26px" onsubmit="submitQuote(event)">
             <div class="two-col">
               <div><label>Your Name *</label><input id="q-name" required></div>
@@ -482,7 +624,7 @@ fbq('track', 'PageView');
             </select>
             <label style="display:flex;gap:9px;align-items:flex-start;font-size:13px;color:#334155;margin-top:16px;cursor:pointer">
               <input type="checkbox" id="q-optin" style="margin-top:2px">
-              <span>📧 Email me monthly service updates and special offers from MJ's Home Improvement. <span style="color:#94a3b8">(No spam — unsubscribe anytime.)</span></span>
+              <span>📧 Email me monthly service updates and special offers from MJ's Home Improvements. <span style="color:#94a3b8">(No spam — unsubscribe anytime.)</span></span>
             </label>
             <button class="btn" style="width:100%;margin-top:22px">Request My Quote</button>
           </form>
@@ -521,7 +663,7 @@ fbq('track', 'PageView');
   <footer>
     <div class="foot-grid">
       <div>
-        <img src="assets/logo.png" alt="MJ's Home Improvement logo">
+        <img src="assets/logo.png" alt="MJ's Home Improvements logo">
         <p style="margin:0;color:#cbd5e1">Locally owned, fully insured yard care and home improvement across Minneapolis-St. Paul — mow to snow.</p>
       </div>
       <div>
@@ -539,7 +681,7 @@ fbq('track', 'PageView');
       </div>
     </div>
     <div class="foot-bottom">
-      <span>© <span id="yr">2026</span> MJ's Home Improvement · Cash, check or card</span>
+      <span>© <span id="yr">2026</span> MJ's Home Improvements · Cash, check or card</span>
       <a href="#" onclick="go('admin');return false">Owner login</a>
     </div>
   </footer>
@@ -580,7 +722,7 @@ fbq('track', 'PageView');
   <header>
     <div class="container">
       <div class="nav">
-        <div class="brand"><img src="assets/logo.png" alt="MJ's Home Improvement logo" class="admin-logo"><div><b>MJ Management Console</b><small>mjshomeimprovements.net</small></div></div>
+        <div class="brand"><img src="assets/logo.png" alt="MJ's Home Improvements logo" class="admin-logo"><div><b>MJ Management Console</b><small>mjshomeimprovements.net</small></div></div>
         <nav class="navlinks" style="display:flex;gap:14px;align-items:center"><a href="#" onclick="go('home')" style="color:#94a3b8">View customer site ↗</a><button class="btn-signout" id="signout-btn" style="display:none" onclick="adminSignOut()">Sign out</button></nav>
       </div>
     </div>
@@ -639,6 +781,8 @@ function setFont(n){
   document.body.setAttribute("data-font", String(n));
 }
 setFont(FONT_THEME);
+var DEFAULT_THEME = "1";
+(function(){ var m = location.search.match(/[?&]theme=([1-5])/); document.body.setAttribute("data-theme", m ? m[1] : DEFAULT_THEME); })();
 
 var SERVICES = [
   ["Mowing","Weekly or biweekly mowing, trimming, and blow-down."],
@@ -1077,7 +1221,7 @@ function reviewCard(r, isNew){
   return '<div class="card" style="padding:20px;'+(isNew?'border:1px solid #047857;':'')+'">'
     + '<div style="color:#fbbf24;font-size:18px">'+starsOn+'<span style="color:#cbd5e1">'+starsOff+'</span></div>'
     + '<p style="color:#334155;margin:10px 0">"'+esc(r.review||"")+'"</p>'
-    + '<small style="color:#94a3b8">MJ\'s Home Improvement customer · '+dateStr+tag+'</small>'
+    + '<small style="color:#94a3b8">MJ\'s Home Improvements customer · '+dateStr+tag+'</small>'
     + '</div>';
 }
 /* Home page: show the three most recent 4–5 star reviews from the server,
@@ -1813,7 +1957,7 @@ function taxHTML(rows, exps, pay){
 }
 /* ---------- OFFICIAL DOCUMENTS (auto-generated on quote & completion) ---------- */
 var BIZ = {
-  name: "MJ's Home Improvement",
+  name: "MJ's Home Improvements",
   addr: "5653 Garfield Ave., Minneapolis, MN",
   phone: "651-870-0943",
   email: "mjs.home.improvements27@gmail.com",
