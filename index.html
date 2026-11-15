@@ -259,6 +259,23 @@ fbq('track', 'PageView');
   body[data-font="4"] h1, body[data-font="4"] h2, body[data-font="4"] h3 { font-family:"Work Sans", system-ui, sans-serif; font-weight:700; }
   #font-pick { display:none; }
 
+  .g-review { display:none; } body.has-google .g-review { display:block; } body.has-google span.g-review { display:inline; }
+  .q-photo-drop { display:inline-block; cursor:pointer; padding:10px 16px; border:1px dashed #94a3b8; border-radius:10px; font-weight:600; margin:0; }
+  .q-photo-drop:hover { border-color:#5f7a61; color:#5f7a61; }
+  .q-photo-prev { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+  .q-photo-prev div { position:relative; }
+  .q-photo-prev img { width:84px; height:84px; object-fit:cover; border-radius:8px; display:block; }
+  .q-photo-prev button { position:absolute; top:-8px; right:-8px; width:24px; height:24px; border-radius:50%; border:none; background:#2b2b2b; color:#fff; cursor:pointer; font-size:14px; line-height:24px; padding:0; }
+  /* ===== console on phones ===== */
+  @media (max-width:700px){
+    .atabs { display:flex; flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; gap:6px; padding-bottom:6px; }
+    .atabs button { flex:0 0 auto; }
+    .admin .kpis { grid-template-columns:1fr 1fr; gap:10px; }
+    .admin .kpi .val { font-size:20px; }
+    .admin .panel { padding:14px; overflow-x:auto; }
+    .admin .mini-t { font-size:12px; }
+    .admin .nav { flex-wrap:wrap; }
+  }
   /* ===== 2026-11 refresh ===== */
   .svc-grid { grid-template-columns:repeat(3,1fr); }
   .hs-ph.has-img { font-size:0; color:transparent; border:none; }
@@ -277,7 +294,7 @@ fbq('track', 'PageView');
   .ba-cap a { color:#047857; font-weight:700; font-size:13px; white-space:nowrap; }
   #home-reviews .card p { min-height:48px; }
   .rev-empty { text-align:center; padding:26px; }
-  .foot-grid { max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:28px; text-align:left; }
+  .foot-grid { max-width:1080px; margin:0 auto; display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr; gap:28px; text-align:left; }
   .foot-grid img { height:64px; width:auto; background:#fff; border-radius:12px; padding:6px 10px; margin-bottom:12px; }
   .foot-grid h4 { color:#fff; font-size:13px; letter-spacing:1.5px; text-transform:uppercase; margin:6px 0 12px; }
   .foot-grid a { display:block; color:#cbd5e1; margin:6px 0; }
@@ -422,7 +439,7 @@ fbq('track', 'PageView');
     <section class="container">
       <h2>What neighbors say</h2>
       <div class="rev-grid" id="home-reviews"></div>
-      <p style="text-align:center;margin-top:22px"><a href="#" onclick="go('review');return false" style="color:#047857;font-weight:600">See all reviews or leave one →</a></p>
+      <p style="text-align:center;margin-top:22px"><a href="#" onclick="go('review');return false" style="color:#047857;font-weight:600">See all reviews or leave one →</a><span class="g-review"> · <a class="g-review-link" target="_blank" rel="noopener" style="color:#047857;font-weight:600">Review us on Google ↗</a></span></p>
     </section>
     <section style="background:rgba(236,253,245,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.65)">
       <div class="container">
@@ -524,6 +541,9 @@ fbq('track', 'PageView');
             <label>What do you need done? *</label>
             <div class="svc-checks" id="q-services"></div>
             <label>Anything else we should know? <small style="color:#94a3b8">(optional)</small></label><textarea id="q-details" rows="3"></textarea>
+            <label>Photos of the job <small style="color:#94a3b8">(optional, up to 3 — helps us quote accurately)</small></label>
+            <label class="q-photo-drop" for="q-photos">📷 Add photos<input type="file" id="q-photos" accept="image/*" multiple onchange="addQuotePhotos(this)" style="display:none"></label>
+            <div id="q-photo-prev" class="q-photo-prev"></div>
             <div class="two-col">
               <div><label>When would you like it done?</label><input id="q-when" type="date"></div>
               <div><label>How urgent is it?</label>
@@ -561,13 +581,15 @@ fbq('track', 'PageView');
         <button class="btn" style="width:100%;margin-top:16px" onclick="submitReview()">Submit Review</button>
         <p id="rev-success" style="display:none;color:#047857;font-weight:600;margin:14px 0 0">✅ Thank you! Your review has been added below.</p>
       </div>
+      <p class="g-review" style="text-align:center;margin-top:14px">Prefer Google? <a class="g-review-link" target="_blank" rel="noopener" style="color:#5f7a61;font-weight:700">Leave a Google review ↗</a></p>
       <h3 style="margin:30px 0 12px">Customer Reviews</h3>
       <div id="review-list" class="grid3"></div>
     </div></section></div>
   </div>
 
   <div id="page-rthanks" class="hidden"><div class="msg"><div class="big">🙏</div><h2>Thank you!</h2>
-    <p style="color:#475569">Your review was logged and will appear on our site soon.</p></div></div>
+    <p style="color:#475569">Your review was logged and will appear on our site soon.</p>
+    <div class="g-review" style="margin-top:18px"><p style="color:#475569;margin-bottom:10px">Got one more minute? A Google review helps neighbors find us.</p><a class="btn g-review-link" target="_blank" rel="noopener">⭐ Review us on Google</a></div></div></div>
 
   <div id="sticky-bar">
     <a href="tel:6518700943" class="sb-call">📞 Call</a>
@@ -623,6 +645,13 @@ fbq('track', 'PageView');
         <a href="#" onclick="go('review');return false">Reviews</a>
         <a href="#" onclick="go('hours');return false">Employee hours sheet</a>
       </div>
+      <div>
+        <h4>Popular services</h4>
+        <a href="/lawn-care-minneapolis-st-paul/">Lawn care</a>
+        <a href="/snow-removal-minneapolis-st-paul/">Snow removal</a>
+        <a href="/yard-cleanup-minneapolis-st-paul/">Yard cleanup</a>
+        <a href="/power-washing-staining-minneapolis-st-paul/">Power washing &amp; staining</a>
+      </div>
     </div>
     <div class="foot-bottom">
       <span>© <span id="yr">2026</span> MJ's Home Improvements · Cash, check or card</span>
@@ -654,7 +683,8 @@ fbq('track', 'PageView');
   <div id="admin-app" class="hidden">
     <div class="container">
       <div class="atabs">
-        <button class="on" onclick="aTab('tbq',this)">To Be Quoted</button>
+        <button class="on" onclick="aTab('overview',this)">Overview</button>
+        <button onclick="aTab('tbq',this)">To Be Quoted</button>
         <button onclick="aTab('tbc',this)">To Be Completed</button>
         <button onclick="aTab('done',this)">Completed</button>
         <button onclick="aTab('fin',this)">Finances</button>
@@ -696,6 +726,13 @@ function setFont(n){
 }
 setFont(FONT_THEME);
 document.body.setAttribute("data-theme", "3"); // Nordic design
+/* Paste the Google Business Profile "Ask for reviews" link here
+   (Google Maps → your business → Ask for reviews → Copy link). Empty = buttons stay hidden. */
+var GOOGLE_REVIEW_URL = "";
+if (/^https:\/\/(g\.page|www\.google\.com|maps\.app\.goo\.gl|search\.google\.com)\//.test(GOOGLE_REVIEW_URL)) {
+  document.body.classList.add("has-google");
+  document.querySelectorAll(".g-review-link").forEach(function(a){ a.href = GOOGLE_REVIEW_URL; });
+}
 
 var SERVICES = [
   ["Mowing","Weekly or biweekly mowing, trimming, and blow-down."],
@@ -1039,6 +1076,14 @@ function quoteFor(svc){
   return false;
 }
 document.addEventListener("DOMContentLoaded", function(){ loadHomeReviews(); var y=$("yr"); if(y) y.textContent=new Date().getFullYear(); });
+/* Deep links from other pages: /#quote, /#services, /#about, /#review, or /#quote:Snow%20Removal to pre-pick a service */
+document.addEventListener("DOMContentLoaded", function(){
+  var h = decodeURIComponent((location.hash||"").slice(1)); if(!h) return;
+  var parts = h.split(":"), page = parts[0];
+  if(["quote","services","about","review"].indexOf(page) < 0) return;
+  if(page === "quote" && parts[1]) quoteFor(parts.slice(1).join(":")); else go(page);
+  window.scrollTo(0,0);
+});
 function toggleMenu(){ var n=$("main-nav"); if(n) n.classList.toggle("open"); }
 (function(){
   var HOME_SVCS = ["Snow Removal","Mowing","Weeding / Spraying","Mulching","Gutter Cleaning","Minor Tree Work","Staining / Painting","Power Washing","Sod / Grass Seeding"];
@@ -1098,17 +1143,48 @@ function submitCrewHours(e){
 }
 
 /* ---------- customer: quote + review ---------- */
+/* Quote photos: resized in the browser (max 1600px, JPEG) so uploads stay small. */
+var QPHOTOS = [];
+function addQuotePhotos(input){
+  var files = Array.prototype.slice.call(input.files || []);
+  input.value = "";
+  files.forEach(function(file){
+    if(QPHOTOS.length >= 3){ toast("Up to 3 photos"); return; }
+    if(!/^image\//.test(file.type)) return;
+    var reader = new FileReader();
+    reader.onload = function(){
+      var img = new Image();
+      img.onload = function(){
+        var max = 1600, w = img.width, h = img.height, r = Math.min(1, max / Math.max(w, h));
+        var cv = document.createElement("canvas"); cv.width = Math.round(w*r); cv.height = Math.round(h*r);
+        cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+        var data = cv.toDataURL("image/jpeg", 0.8);
+        if(QPHOTOS.length < 3){ QPHOTOS.push({ name: file.name.replace(/[^\w.\- ]/g,"").slice(0,60) || "photo.jpg", mime: "image/jpeg", base64: data.split(",")[1], preview: data }); renderQuotePhotos(); }
+      };
+      img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+function renderQuotePhotos(){
+  $("q-photo-prev").innerHTML = QPHOTOS.map(function(p,i){
+    return '<div><img src="'+p.preview+'" alt="Job photo '+(i+1)+'"><button type="button" aria-label="Remove photo" onclick="QPHOTOS.splice('+i+',1);renderQuotePhotos()">×</button></div>'; }).join("");
+}
 function submitQuote(e){
   e.preventDefault();
   if (!selectedServices.length) { toast("Please pick at least one service"); return false; }
   // stamp the campaign on the request so the lead's source travels with it
   var vsrc = VISIT_SRC.src && VISIT_SRC.src !== "direct" ? "\n[visitor came from: " + VISIT_SRC.src + "]" : "";
+  var qBtn = e.target.querySelector("button:not([type=button])"), qBtnText = qBtn ? qBtn.textContent : "";
+  if(qBtn){ qBtn.disabled = true; qBtn.textContent = QPHOTOS.length ? "Uploading photos…" : "Sending…"; }
   api("submitQuote", {
     name:$("q-name").value, phone:$("q-phone").value, email:$("q-email").value,
     address:$("q-address").value, services:selectedServices, details:$("q-details").value + vsrc,
     when:$("q-when").value, urgency:$("q-urgency").value, source:$("q-source").value,
-    optin:$("q-optin").checked
+    optin:$("q-optin").checked,
+    photos: QPHOTOS.map(function(p){ return { name:p.name, mime:p.mime, base64:p.base64 }; })
   }).then(function(){
+    QPHOTOS = []; renderQuotePhotos(); if(qBtn){ qBtn.disabled=false; qBtn.textContent=qBtnText; }
     // log the lead event with its campaign for traffic analysis
     trackVisit("quote-submit", "submit");
     // Meta Pixel: track quote request as a Lead (event code per pixel setup instructions)
@@ -1117,7 +1193,7 @@ function submitQuote(e){
     if($("q-email").value) toast("Confirmation email sent to "+$("q-email").value);
     go("thanks");
   })
-    .catch(function(err){ toast("Could not send: " + err.message); });
+    .catch(function(err){ if(qBtn){ qBtn.disabled=false; qBtn.textContent=qBtnText; } toast("Could not send: " + err.message); });
   return false;
 }
 (function(){ var st=$("stars"); for(var i=1;i<=5;i++){ (function(n){
@@ -1200,7 +1276,7 @@ function adminLogin(){
     if(r && r.ok && r.token){
       SESSION = r.token; pwFails = 0; $("signout-btn").style.display="";
       $("admin-login").style.display="none"; $("admin-app").classList.remove("hidden");
-      aTab("tbq", document.querySelector(".atabs button"));
+      aTab("overview", document.querySelector(".atabs button"));
     } else if(r && r.locked){
       toast("Too many failed attempts on the server — try again in 15 minutes");
     } else {
@@ -1225,6 +1301,7 @@ function aTab(name, btn){
   document.querySelectorAll(".atabs button").forEach(function(b){ b.classList.remove("on"); });
   if(btn) btn.classList.add("on");
   var c=$("a-content");
+  if(name==="overview"){ c.innerHTML='<div class="panel">Loading overview…</div>'; loadOverview(c); }
   if(name==="tbq") api("tbq", null, true).then(function(rows){
     TBQ = (rows||[]).map(normReq);
     TBQ.forEach(function(r){ saveReq(r, "pending"); });
@@ -1312,7 +1389,8 @@ function normReq(r){
     details: r.details || r.Details || "",
     when: when,
     urgency: r.urgency || r.Urgency || "",
-    source: r.source || r.Source || ""
+    source: r.source || r.Source || "",
+    photos: (function(v){ if(Array.isArray(v)) return v; try { var a = JSON.parse(v||"[]"); return Array.isArray(a) ? a : []; } catch(e){ return []; } })(r.photos || r.Photos)
   };
 }
 function tbqListHTML(){
@@ -1373,8 +1451,8 @@ function submitManualQuote(){
         if(String(TBQ[i].name||"").trim().toLowerCase()===name.toLowerCase()){ idx=i; break; }
       }
       if(idx>=0){ saveReq(TBQ[idx],"pending"); openQuoteForm(idx); }
-      else { toast("Saved — quote it from the list"); aTab("tbq",document.querySelectorAll(".atabs button")[0]); }
-    }).catch(function(){ aTab("tbq",document.querySelectorAll(".atabs button")[0]); });
+      else { toast("Saved — quote it from the list"); goTab("tbq"); }
+    }).catch(function(){ goTab("tbq"); });
   }).catch(function(){ toast("Could not save — check connection"); });
 }
 
@@ -1385,6 +1463,7 @@ function tbqCard(r,i){
     '<div style="color:#94a3b8;font-size:13px;margin-top:2px">'+esc(r.address||"")+'</div>'+
     (r.services||[]).map(function(s){return '<span class="tag">'+esc(s)+'</span>';}).join("")+
     (r.details?'<div style="color:#cbd5e1;font-size:13px;margin-top:8px">“'+esc(r.details)+'”</div>':"")+
+    ((r.photos||[]).length?'<div style="margin-top:8px">'+r.photos.map(function(p,k){ return /^https:\/\/drive\.google\.com\//.test(p.url||"") ? '<a class="tag" style="background:#1e3a5f" href="'+esc(p.url)+'" target="_blank" rel="noopener">📷 Photo '+(k+1)+' ↗</a>' : ""; }).join("")+'</div>':"")+
     '</div><div class="meta"><div>Received: <b>'+esc(String(r.ts||"—"))+'</b></div><div>Urgency: <b>'+esc(r.urgency||"—")+'</b></div><div>Wanted: <b>'+esc(r.when||"flexible")+'</b></div><div>Source: <b>'+esc(r.source||"—")+'</b></div></div></div>'+
     '<div class="grow"><button class="btn" onclick="openQuoteForm('+i+')">QUOTE</button>'+
     '<button class="btn btn-dark" onclick="dismiss('+i+')">Dismiss</button></div></div>';
@@ -1393,7 +1472,7 @@ function dismiss(i){
   var r = TBQ[i];
   api("dismiss",{index:i}).then(function(){
     if(r) saveReq(r, "dismissed");
-    toast("Request dismissed"); aTab("tbq",document.querySelectorAll(".atabs button")[0]);
+    toast("Request dismissed"); goTab("tbq");
   });
 }
 function openQuoteForm(i){
@@ -1485,7 +1564,7 @@ function submitQuoteForm(i){
       saveReq(r, "quoted", { quote:{ labor:labor, materials:mat, gas:gas, total:labor+mat+gas, date:date } });
       closeModal(); toast("Quoted — official quote document opened");
       docWindow(quoteDocHTML(r, labor, mat, mList, gas, exempt, date, $("qf-city")?$("qf-city").value:TAX_RATE), "Quote — "+r.name);
-      aTab("tbc",document.querySelectorAll(".atabs button")[1]);
+      goTab("tbc");
     });
 }
 
@@ -1502,12 +1581,12 @@ function markJobLost(){
     services:(j.services||[]).join(", "), address:j.address||"", scheduled:j.scheduleDate||"" };
   lsSet("mjhi_lost_jobs",h);
   closeModal(); toast("Job #"+j.id+" marked lost — removed from the calendar");
-  aTab("tbc",document.querySelectorAll(".atabs button")[1]);
+  goTab("tbc");
 }
 function restoreJob(id){
   var h=lostJobs(); delete h[String(id)]; lsSet("mjhi_lost_jobs",h);
   toast("Job #"+id+" restored to the calendar");
-  aTab("tbc",document.querySelectorAll(".atabs button")[1]);
+  goTab("tbc");
 }
 function lostHTML(){
   var h=lostJobs();
@@ -1552,12 +1631,12 @@ function saveResched(id){
   if(!d){ toast("Pick a new date"); return; }
   var m=reschedMap(); m[String(id)]=d; lsSet("mjhi_resched",m);
   closeModal(); toast("Job #"+id+" moved to "+d);
-  aTab("tbc",document.querySelectorAll(".atabs button")[1]);
+  goTab("tbc");
 }
 function markFollowUp(id){
   var f=followups(); f[String(id)]=new Date().toISOString().slice(0,10); lsSet("mjhi_followups",f);
   toast("Follow-up logged — check again in 3 days if no answer");
-  aTab("tbc",document.querySelectorAll(".atabs button")[1]);
+  goTab("tbc");
 }
 function tbcHTML(rowsIn){
   var lost=lostJobs();
@@ -1686,7 +1765,7 @@ function submitComplete(id){
       .then(function(r){
         closeModal();
         toast((r&&r.recur) ? "Job #"+id+" completed — next visit auto-scheduled for "+r.nextDate : "Job #"+id+" completed — invoice opened");
-        aTab("done",document.querySelectorAll(".atabs button")[2]);
+        goTab("done");
         api("done").then(function(rows){
           var j=null; (rows||[]).forEach(function(x){ if(x.id===id) j=x; });
           if(j) docWindow(invoiceDocHTML(j), "Invoice — "+j.client);
@@ -1745,6 +1824,55 @@ function photoStrip(arr,label){
 function dedExp(exps){
   return (exps||[]).filter(function(x){ return x.Deductible==="Yes" || x.Deductible===true; })
     .reduce(function(t,x){ return t+(Number(x.Amount)||0); },0);
+}
+/* ---------- OVERVIEW (dashboard home) — read-only, uses existing actions ---------- */
+function goTab(name){
+  var b = Array.prototype.filter.call(document.querySelectorAll(".atabs button"), function(x){ return x.getAttribute("onclick").indexOf("'"+name+"'")>-1; })[0];
+  aTab(name, b);
+}
+function ymd(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function loadOverview(c){
+  var safe = function(p, dflt){ return p.catch(function(){ return dflt; }); };
+  Promise.all([ safe(api("tbq"),[]), safe(api("tbc"),[]), safe(api("taxData"),{done:[],expenses:[]}), safe(api("pendingHours"),[]) ])
+  .then(function(r){ c.innerHTML = overviewHTML((r[0]||[]).map(normReq), r[1]||[], (r[2]&&r[2].done)||[], (r[2]&&r[2].expenses)||[], r[3]||[]); });
+}
+function overviewHTML(reqs, sched, done, exps, pend){
+  var now=new Date(), today=ymd(now), wk=new Date(now); wk.setDate(wk.getDate()+7); var weekEnd=ymd(wk);
+  var y=now.getFullYear(), m=now.getMonth();
+  var thisWeek = sched.filter(function(j){ return j.scheduleDate && j.scheduleDate>=today && j.scheduleDate<weekEnd; });
+  var overdue = sched.filter(function(j){ return j.scheduleDate && j.scheduleDate<today; });
+  var monthJobs = done.filter(function(j){ var d=new Date(j.completedDate||""); return d.getFullYear()===y && d.getMonth()===m; });
+  var monthExp = exps.filter(function(x){ var d=new Date(x.Date||""); return d.getFullYear()===y && d.getMonth()===m; });
+  var rev = monthJobs.reduce(function(t,j){ return t+quotedTotal(j); },0);
+  var cost = monthJobs.reduce(function(t,j){ return t+(Number(j.laborPaid)||0)+(Number(j.actualMaterials)||0)+(Number(j.actualGas)||0); },0) + dedExp(monthExp);
+  var upcoming = sched.filter(function(j){ return j.scheduleDate && j.scheduleDate>=today; })
+    .sort(function(a,b){ return a.scheduleDate<b.scheduleDate?-1:1; }).slice(0,6);
+  var hello = now.getHours()<12?"Good morning":(now.getHours()<17?"Good afternoon":"Good evening");
+  var row = function(cells){ return '<tr>'+cells.map(function(x){ return '<td>'+x+'</td>'; }).join("")+'</tr>'; };
+  return '<h2 style="color:#fff;text-align:left;margin:0 0 4px">'+hello+'</h2>'+
+    '<p style="color:#94a3b8;margin:0 0 18px">'+now.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"})+' · here\'s where things stand.</p>'+
+    '<div class="kpis">'+
+      kpi("New quote requests", String(reqs.length))+
+      kpi("Jobs in the next 7 days", String(thisWeek.length))+
+      kpi("Revenue — "+monthName(m), money(rev))+
+      kpi("Profit — "+monthName(m), money(rev-cost))+
+      kpi("Hours awaiting approval", String(pend.length))+
+    '</div>'+
+    (overdue.length ? '<div class="panel" style="border:1px solid #f59e0b;color:#fde68a">⚠ '+overdue.length+' scheduled job'+(overdue.length>1?'s are':' is')+' past the scheduled date and not marked complete. <a href="#" onclick="goTab(\'tbc\');return false" style="color:#fff;text-decoration:underline">Review in To Be Completed</a></div>' : '')+
+    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px">'+
+      '<div class="panel"><div class="grow" style="justify-content:space-between;margin:0 0 8px"><b style="color:#fff">Upcoming jobs</b><a href="#" onclick="goTab(\'tbc\');return false" style="color:#6ee7b7;font-size:13px">Calendar ▸</a></div>'+
+        (upcoming.length ? '<table class="mini-t"><tr><th>Date</th><th>Client</th><th>Services</th><th>Crew</th></tr>'+upcoming.map(function(j){
+          return row([esc(j.scheduleDate), esc(j.client||""), esc((j.services||[]).join(", ")), j.crew&&j.crew.length?esc(j.crew.join(", ")):'<span style="color:#f59e0b">Unassigned</span>']); }).join("")+'</table>'
+        : '<p style="color:#94a3b8">Nothing scheduled yet.</p>')+'</div>'+
+      '<div class="panel"><div class="grow" style="justify-content:space-between;margin:0 0 8px"><b style="color:#fff">Newest quote requests</b><a href="#" onclick="goTab(\'tbq\');return false" style="color:#6ee7b7;font-size:13px">Quote them ▸</a></div>'+
+        (reqs.length ? '<table class="mini-t"><tr><th>Received</th><th>Name</th><th>Services</th><th>Wanted by</th></tr>'+reqs.slice(-5).reverse().map(function(r){
+          return row([esc(r.ts||""), esc(r.name), esc((r.services||[]).join(", ")), esc(r.when||"Flexible")]); }).join("")+'</table>'
+        : '<p style="color:#94a3b8">No new requests. 🎉</p>')+'</div>'+
+      '<div class="panel"><div class="grow" style="justify-content:space-between;margin:0 0 8px"><b style="color:#fff">Hours awaiting approval</b><a href="#" onclick="goTab(\'crew\');return false" style="color:#6ee7b7;font-size:13px">Approve ▸</a></div>'+
+        (pend.length ? '<table class="mini-t"><tr><th>Name</th><th>Job</th><th>Hours</th><th>Date worked</th></tr>'+pend.slice(0,6).map(function(h){
+          return row([esc(h.Name||""), "#"+esc(h.JobID||""), esc(h.Hours||""), esc(String(h.DateWorked||"").slice(0,10))]); }).join("")+'</table>'
+        : '<p style="color:#94a3b8">All caught up.</p>')+'</div>'+
+    '</div>';
 }
 function finHTML(rows, exps){
   var year=new Date().getFullYear();
@@ -2074,14 +2202,14 @@ function pendingHoursHTML(p){
 function confirmHours(id){
   api("confirmHours",{ id:id }).then(function(r){
     toast(r && r.name ? r.name+" — "+r.hours+" hrs logged to the schedule" : "Approved");
-    aTab("crew", document.querySelectorAll(".atabs button")[7]);
+    goTab("crew");
   });
 }
 function rejectHours(id){
   if(!confirm("Reject these hours? The employee will need to resubmit.")) return;
   api("rejectHours",{ id:id }).then(function(){
     toast("Hours rejected");
-    aTab("crew", document.querySelectorAll(".atabs button")[7]);
+    goTab("crew");
   });
 }
 /* ---------- EMPLOYEE LEGAL FILE (I-9 / W-4 / MW-4 / wage notice / new-hire) ---------- */
@@ -2109,16 +2237,16 @@ function markOb(i,k){
   c.ob=c.ob||{}; c.ob[k]=d;
   api("setOnboard",{ name:c.name, field:k, value:d }).then(function(){
     toast(obLabel(k)+" — recorded "+d+" (keep the signed paper copy on file)");
-    aTab("crew", document.querySelectorAll(".atabs button")[7]);
+    goTab("crew");
   });
 }
-function clearOb(i,k){ var c=CREW[i]; c.ob[k]=""; api("setOnboard",{ name:c.name, field:k, value:"" }).then(function(){ aTab("crew", document.querySelectorAll(".atabs button")[7]); }); }
+function clearOb(i,k){ var c=CREW[i]; c.ob[k]=""; api("setOnboard",{ name:c.name, field:k, value:"" }).then(function(){ goTab("crew"); }); }
 function setAddr(i){
   var c=CREW[i];
   var v=prompt("Mailing address for "+c.name+" (for payment records + 1099):", c.addr||"");
   if(v===null) return;
   c.addr=v;
-  api("setCrewAddr",{ name:c.name, address:v }).then(function(){ toast("Address saved"); aTab("crew", document.querySelectorAll(".atabs button")[7]); });
+  api("setCrewAddr",{ name:c.name, address:v }).then(function(){ toast("Address saved"); goTab("crew"); });
 }
 function necSummaryDoc(c, paidRows){
   var year=new Date().getFullYear();
@@ -2219,7 +2347,7 @@ function addToJob(i){
     if(c.assignments.some(function(a){ return a.jobId===id; })){ toast(c.name+" is already on Job #"+id); return; }
     api("assignCrew",{ name:c.name, jobId:id }).then(function(){
       toast(c.name+" assigned to Job #"+id);
-      aTab("crew", document.querySelectorAll(".atabs button")[7]);
+      goTab("crew");
     });
   });
 }
@@ -2229,7 +2357,7 @@ function setWage(i){
   if(v===null) return;
   api("setWage",{ name:c.name, wage:parseFloat(v)||0 }).then(function(){
     toast(c.name+" → $"+(parseFloat(v)||0)+"/hr");
-    aTab("crew", document.querySelectorAll(".atabs button")[7]);
+    goTab("crew");
   });
 }
 function submitHours(i, jobId){
@@ -2240,7 +2368,7 @@ function submitHours(i, jobId){
   if(!c.wage){ toast("Set "+c.name+"'s hourly wage first (click edit)"); return; }
   api("submitHours",{ name:c.name, jobId:jobId, hours:h }).then(function(r){
     toast("Logged "+h+" hrs for "+c.name+" — owed "+money(r.owed)+", added to Job #"+jobId+" labor cost");
-    aTab("crew", document.querySelectorAll(".atabs button")[7]);
+    goTab("crew");
   });
 }
 
