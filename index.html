@@ -363,6 +363,12 @@ fbq('track', 'PageView');
   body[data-theme="3"] #site .svc-checks button { border-radius:2px; background:transparent; backdrop-filter:none; }
   body[data-theme="3"] #site .svc-checks button.on { background:#5f7a61; color:#fff; border-color:#5f7a61; box-shadow:none; }
   body[data-theme="3"] #site input:focus, body[data-theme="3"] #site select:focus, body[data-theme="3"] #site textarea:focus { border-color:#5f7a61; box-shadow:0 0 0 3px rgba(95,122,97,.18); }
+  /* Get-a-quote buttons: bright green so they stand out */
+  body[data-theme="3"] #site a.btn[onclick*="'quote'"], body[data-theme="3"] #site .navlinks a.nav-cta,
+  body[data-theme="3"] #page-quote form button.btn, body[data-theme="3"] #sticky-bar .sb-quote {
+    background:#16a34a; color:#fff; border:1px solid #16a34a; box-shadow:0 4px 14px rgba(22,163,74,.3); font-weight:700; }
+  body[data-theme="3"] #site a.btn[onclick*="'quote'"]:hover, body[data-theme="3"] #site .navlinks a.nav-cta:hover,
+  body[data-theme="3"] #page-quote form button.btn:hover, body[data-theme="3"] #sticky-bar .sb-quote:hover { background:#15803d; border-color:#15803d; color:#fff; }
   body[data-theme="3"] #site .btn-ghost { background:transparent; color:#5f7a61; border:1px solid #5f7a61; }
   body[data-theme="3"] #site footer { background:#2b2f2b; }
 
