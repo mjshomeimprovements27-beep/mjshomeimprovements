@@ -339,6 +339,11 @@ fbq('track', 'PageView');
   body[data-theme="3"] #site .ba-pair figcaption { background:rgba(246,244,239,.9); color:#2b2b2b; }
   body[data-theme="3"] #site .ba-pair figure + figure figcaption { background:#5f7a61; color:#fff; }
   body[data-theme="3"] #site .step .n { background:transparent; color:#5f7a61; border:1px solid #5f7a61; font-family:"DM Serif Display",serif; font-weight:400; }
+  body[data-theme="3"] #site .hero:not(.hero-home) { background:#ece8de; color:#2b2b2b; }
+  body[data-theme="3"] #site .hero:not(.hero-home) h1 { color:#2b2b2b; text-shadow:none; }
+  body[data-theme="3"] #site .hero:not(.hero-home) p, body[data-theme="3"] #site .hero:not(.hero-home) .hero-overlay-cap { color:#5f7a61; text-shadow:none; }
+  body[data-theme="3"] #site .hero:not(.hero-home) .hero-banner { box-shadow:none; border-radius:4px; border:none; }
+  body[data-theme="3"] #site .btn-ghost { background:transparent; color:#5f7a61; border:1px solid #5f7a61; }
   body[data-theme="3"] #site footer { background:#2b2f2b; }
 
   @media (max-width:700px){
@@ -569,33 +574,6 @@ fbq('track', 'PageView');
     <a href="#" onclick="go('quote');return false" class="sb-quote">Get a Free Quote</a>
   </div>
 
-  <footer>
-    <div class="foot-grid">
-      <div>
-        <img src="assets/logo.png" alt="MJ's Home Improvements logo">
-        <p style="margin:0;color:#cbd5e1">Locally owned, fully insured yard care and home improvement across Minneapolis-St. Paul — mow to snow.</p>
-      </div>
-      <div>
-        <h4>Contact</h4>
-        <a href="tel:6518700943">📞 651-870-0943</a>
-        <a href="mailto:MJ@mjshomeimprovements.net">✉️ MJ@mjshomeimprovements.net</a>
-        <a href="#" onclick="go('quote');return false">📝 Request a free quote</a>
-      </div>
-      <div>
-        <h4>Explore</h4>
-        <a href="#" onclick="go('services');return false">Services &amp; pricing</a>
-        <a href="#" onclick="go('about');return false">About the crew</a>
-        <a href="#" onclick="go('review');return false">Reviews</a>
-        <a href="#" onclick="go('hours');return false">Employee hours sheet</a>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span>© <span id="yr">2026</span> MJ's Home Improvements · Cash, check or card</span>
-      <a href="#" onclick="go('admin');return false">Owner login</a>
-    </div>
-  </footer>
-</div>
-
   <div id="page-hours" class="hidden">
     <div class="container">
       <section>
@@ -625,6 +603,33 @@ fbq('track', 'PageView');
       </section>
     </div>
   </div>
+
+  <footer>
+    <div class="foot-grid">
+      <div>
+        <img src="assets/logo.png" alt="MJ's Home Improvements logo">
+        <p style="margin:0;color:#cbd5e1">Locally owned, fully insured yard care and home improvement across Minneapolis-St. Paul — mow to snow.</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <a href="tel:6518700943">📞 651-870-0943</a>
+        <a href="mailto:MJ@mjshomeimprovements.net">✉️ MJ@mjshomeimprovements.net</a>
+        <a href="#" onclick="go('quote');return false">📝 Request a free quote</a>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#" onclick="go('services');return false">Services &amp; pricing</a>
+        <a href="#" onclick="go('about');return false">About the crew</a>
+        <a href="#" onclick="go('review');return false">Reviews</a>
+        <a href="#" onclick="go('hours');return false">Employee hours sheet</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="yr">2026</span> MJ's Home Improvements · Cash, check or card</span>
+      <a href="#" onclick="go('admin');return false">Owner login</a>
+    </div>
+  </footer>
+</div>
 
 <!-- ============ MANAGEMENT SIDE ============ -->
 <div id="admin" class="admin hidden">
