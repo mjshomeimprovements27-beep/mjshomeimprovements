@@ -568,23 +568,15 @@ var API_URL = "https://script.google.com/macros/s/AKfycbyzqNkKU8gjtMlyUsJvoVF_Gz
 var FONT_THEME = 2; // 0=Inter · 1=Lora/Playfair · 2=Mulish · 3=Raleway · 4=Work Sans
 
 /* ---------- SECURITY ----------
-   The management passcode is NEVER stored in this file and never sent
-   over the wire. Only a SHA-256 hash of (passcode + salt) is kept here
-   for the offline demo login; when the Apps Script backend is live, the
-   server independently verifies a session token with the same hash. */
-var PW_SALT = "mjhi-2026";
-var ADMIN_PW_HASH = "Jgsr3X6b5c8//eInw6/pjhFXB3TNrX2VL22frL0uiGk="; // sha256(passcode+salt), base64
-var SESSION = null;   // set to the hash after a successful login
+   Nothing secret lives in this file. The passcode is checked by the
+   Apps Script server (Script Properties), which returns a random,
+   expiring session token. SESSION holds that token in memory only. */
+var SESSION = null;   // server-issued session token after a successful login
 var pwFails = 0, pwLockUntil = 0;
 var ADMIN_ACTIONS = { login:1, tbq:1, tbc:1, done:1, clients:1, quoteJob:1, completeJob:1,
   toggleTax:1, dismiss:1, assignCrew:1, setWage:1, submitHours:1, uploadPhoto:1,
   pendingHours:1, confirmHours:1, rejectHours:1, payroll:1, payEmployee:1, setConfig:1,
-  expenses:1, expensesView:1, taxData:1, crewData:1, addExpense:1, delExpense:1, ensureRecurring:1, onboarding:1, setOnboard:1, setCrewAddr:1 };
-function shaB64(s){
-  return crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)).then(function(b){
-    var u=new Uint8Array(b), o=""; for(var i=0;i<u.length;i++) o+=String.fromCharCode(u[i]);
-    return btoa(o); });
-}
+  expenses:1, expensesView:1, taxData:1, crewData:1, addExpense:1, delExpense:1, ensureRecurring:1, onboarding:1, setOnboard:1, setCrewAddr:1, logout:1 };
 
 function setFont(n){
   document.body.setAttribute("data-font", String(n));
@@ -635,10 +627,11 @@ function api(action, body, noDemo) {
   return fetch(url, opts)
     .then(function(r){ return r.json(); })
     .then(function(j){
+      if (j && j.error === "Unauthorized" && ADMIN_ACTIONS[action] && action !== "login") { sessionExpired(); throw new Error("unauthorized"); }
       if (j && j.error) throw new Error(j.error);
       return (j && j.ok && j.data !== undefined) ? j.data : j; // live API returns payload directly
     })
-    .catch(function(){ if(noDemo) throw new Error("offline"); toast("Live API unreachable — showing demo data"); return demo(action, body); });
+    .catch(function(err){ if(err && err.message==="unauthorized") throw err; if(noDemo) throw new Error("offline"); toast("Live API unreachable — showing demo data"); return demo(action, body); });
 }
 var demoState = {
   requests: [],
@@ -669,7 +662,7 @@ function demo(action, body) {
         s.reviews.unshift({ stars:body.stars, review:body.review, date:new Date().toLocaleDateString() });
         return resolve({ received:true });
       case "reviews": return resolve(s.reviews || []);
-      case "login": return resolve({ ok: !!(body && body.token === ADMIN_PW_HASH) });
+      case "login": return resolve({ ok: false }); // no offline login: the server checks the passcode
       case "tbq": return resolve(s.requests);
       case "tbc": return resolve(s.scheduled);
       case "done": return resolve(s.completed);
@@ -867,6 +860,7 @@ function go(page){
   if (page==="admin") {
     $("site").classList.add("hidden"); $("admin").classList.remove("hidden");
     $("admin-app").classList.add("hidden"); $("admin-login").style.display="flex";
+    if(SESSION && API_URL) api("logout").catch(function(){});
     SESSION=null; // re-lock: leaving the admin view ends the session
     $("admin-pw").value=""; return;
   }
@@ -1069,23 +1063,28 @@ function adminLogin(){
     toast("Too many failed attempts — locked for "+Math.ceil((pwLockUntil-Date.now())/1000)+"s");
     return;
   }
-  shaB64($("admin-pw").value + PW_SALT).then(function(h){
-    if(h === ADMIN_PW_HASH){
-      SESSION = h; pwFails = 0;
-      $("admin-pw").value = "";
-      api("login",{ token:h }).then(function(r){
-        if(r && r.ok){
-          $("admin-login").style.display="none"; $("admin-app").classList.remove("hidden");
-          aTab("tbq", document.querySelector(".atabs button"));
-        } else toast("Login rejected by server");
-      });
+  var pc = $("admin-pw").value;
+  $("admin-pw").value = "";
+  if(!pc) return;
+  if(!API_URL){ toast("Server not configured"); return; }
+  api("login", { passcode: pc }, true).then(function(r){
+    if(r && r.ok && r.token){
+      SESSION = r.token; pwFails = 0;
+      $("admin-login").style.display="none"; $("admin-app").classList.remove("hidden");
+      aTab("tbq", document.querySelector(".atabs button"));
+    } else if(r && r.locked){
+      toast("Too many failed attempts on the server — try again in 15 minutes");
     } else {
       pwFails++;
       if(pwFails >= 5) pwLockUntil = Date.now() + Math.min(30000*Math.pow(2,pwFails-5), 900000);
-      $("admin-pw").value="";
       toast("Wrong passcode"+(pwFails>=5?" — locked out, wait before retrying":""));
     }
-  });
+  }).catch(function(){ toast("Can't reach the server — try again"); });
+}
+function sessionExpired(){
+  SESSION = null;
+  $("admin-app").classList.add("hidden"); $("admin-login").style.display="flex";
+  toast("Session expired — sign in again");
 }
 function aTab(name, btn){
   document.querySelectorAll(".atabs button").forEach(function(b){ b.classList.remove("on"); });
