@@ -580,6 +580,9 @@ fbq('track', 'PageView');
     <p style="color:#475569">Thank you for your quote request! You can expect a response by text within 1-2 business days.</p>
     <p style="margin-top:18px"><button class="btn" onclick="go('home')">Back to Home</button></p></div></div>
 
+  <div id="page-accept" class="hidden"><div class="msg" id="accept-box" style="max-width:560px;margin:0 auto">
+    <p style="color:#475569">Loading your quote…</p></div></div>
+
   <div id="page-review" class="hidden">
     <div class="container"><section><div class="form-wrap">
       <h2 style="text-align:left;margin-bottom:6px">How Did We Do?</h2>
@@ -684,6 +687,7 @@ fbq('track', 'PageView');
     <div class="panel" style="width:100%;max-width:360px">
       <h2 style="text-align:left;font-size:22px;margin-bottom:4px;color:#fff">MJ Management</h2>
       <p style="color:#94a3b8;font-size:13px;margin-bottom:18px">Management access only.</p>
+      <select id="admin-who" style="margin-bottom:10px" aria-label="Who is signing in"><option>Matt</option><option>Marco</option><option>Other</option></select>
       <input id="admin-pw" type="password" placeholder="Enter passcode" onkeydown="if(event.key==='Enter')adminLogin()">
       <button class="btn" style="width:100%;margin-top:12px" onclick="adminLogin()">Sign in</button>
     </div>
@@ -697,7 +701,7 @@ fbq('track', 'PageView');
         <button onclick="aTab('tbc',this)">To Be Completed</button>
         <button onclick="aTab('done',this)">Completed</button>
         <button onclick="aTab('fin',this)">Finances</button>
-        <button onclick="aTab('payroll',this)">Payroll</button>
+        <button onclick="aTab('payroll',this)">Contractor Pay</button>
         <button onclick="aTab('expenses',this)">Expenses</button>
         <button onclick="aTab('tax',this)">Taxes</button>
         <button onclick="aTab('crew',this)">Crew</button>
@@ -728,7 +732,10 @@ var pwFails = 0, pwLockUntil = 0;
 var ADMIN_ACTIONS = { login:1, tbq:1, tbc:1, done:1, clients:1, quoteJob:1, completeJob:1,
   toggleTax:1, dismiss:1, assignCrew:1, setWage:1, submitHours:1, uploadPhoto:1,
   pendingHours:1, confirmHours:1, rejectHours:1, payroll:1, payEmployee:1, setConfig:1,
-  expenses:1, expensesView:1, taxData:1, crewData:1, addExpense:1, delExpense:1, ensureRecurring:1, onboarding:1, setOnboard:1, setCrewAddr:1, logout:1 };
+  expenses:1, expensesView:1, taxData:1, crewData:1, addExpense:1, delExpense:1, ensureRecurring:1, onboarding:1, setOnboard:1, setCrewAddr:1, logout:1,
+  reqHistory:1, markPaid:1, unmarkPaid:1, sendReminder:1, markLost:1, unmarkLost:1, followUp:1, resendQuote:1,
+  sources:1, clientDetail:1, setClientNotes:1, importClients:1, activity:1, backupNow:1, backups:1 };
+var WHO = "";        // who signed in (Matt / Marco) — shown in the activity log
 
 function setFont(n){
   document.body.setAttribute("data-font", String(n));
@@ -788,10 +795,10 @@ function api(action, body, noDemo) {
     .then(function(r){ return r.json(); })
     .then(function(j){
       if (j && j.error === "Unauthorized" && ADMIN_ACTIONS[action] && action !== "login") { sessionExpired(); throw new Error("unauthorized"); }
-      if (j && j.error) throw new Error(j.error);
+      if (j && j.error) { var se = new Error(j.error); se.server = true; throw se; }
       return (j && j.ok && j.data !== undefined) ? j.data : j; // live API returns payload directly
     })
-    .catch(function(err){ if(err && err.message==="unauthorized") throw err; if(noDemo) throw new Error("offline"); toast("Live API unreachable — showing demo data"); return demo(action, body); });
+    .catch(function(err){ if(err && (err.message==="unauthorized" || err.server)) throw err; if(noDemo) throw new Error("offline"); toast("Live API unreachable — showing demo data"); return demo(action, body); });
 }
 var demoState = {
   requests: [],
@@ -961,7 +968,7 @@ function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g, function(c){
   return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
 function toast(msg){ var t=$("toast"); t.textContent=msg; t.style.display="block";
   setTimeout(function(){ t.style.display="none"; }, 2600); }
-function money(n){ return "$" + (Number(n)||0).toLocaleString(); }
+function money(n){ var v=Math.round((Number(n)||0)*100)/100; return "$" + v.toLocaleString(undefined, v%1 ? {minimumFractionDigits:2,maximumFractionDigits:2} : {maximumFractionDigits:0}); }
 
 /* ---------- visit tracking (Nov 11 2026): logs page views + contact clicks to the server's Visits tab ---------- */
 var VISIT_SID = (function(){
@@ -1014,7 +1021,7 @@ document.addEventListener("click", function(ev){
 var lastVisitPage = "";
 function go(page){
   if (page !== "admin") trackVisit(page, "view");
-  ["home","services","quote","thanks","review","rthanks","about","hours"].forEach(function(p){
+  ["home","services","quote","thanks","review","rthanks","about","hours","accept"].forEach(function(p){
     $("page-"+p).classList.add("hidden"); });
   $("admin").classList.add("hidden"); $("site").classList.remove("hidden");
   if (page==="admin") {
@@ -1083,6 +1090,35 @@ function quoteFor(svc){
     if(b.textContent===svc && !b.classList.contains("on")) b.onclick();
   }
   return false;
+}
+/* Customer quote link from the email: /?quote=TOKEN → review, accept or decline (no login) */
+document.addEventListener("DOMContentLoaded", function(){
+  var t = new URLSearchParams(location.search).get("quote"); if(!t) return;
+  if(!/^[a-z0-9]{40,80}$/i.test(t)) return;
+  go("accept"); var box=$("accept-box");
+  api("quoteInfo",{ token:t },true).then(function(q){ box.innerHTML = acceptHTML(q, t); })
+    .catch(function(e){ box.innerHTML='<h2>Quote link</h2><p style="color:#475569">'+esc(e.message||"This quote link is no longer active.")+'</p><p><a class="btn" href="tel:6518700943">Call 651-870-0943</a></p>'; });
+});
+function acceptHTML(q, t){
+  var done = q.status==="Accepted" || q.status==="Declined";
+  return '<div class="big">'+(q.status==="Accepted"?"✅":"📋")+'</div><h2>Hi '+esc(q.firstName)+' — your quote</h2>'+
+    '<div style="text-align:left;border:1px solid #e2e8f0;border-radius:10px;padding:16px;margin:16px 0">'+
+    '<p style="margin:0 0 6px"><b>Job #'+esc(q.jobId)+'</b> · '+esc(q.services)+'</p>'+
+    '<p style="margin:0 0 12px;color:#475569">Planned date: <b>'+esc(q.date||"to be scheduled")+'</b></p>'+
+    '<div style="display:flex;justify-content:space-between"><span>Quote</span><b>'+money2(q.total)+'</b></div>'+
+    '<div style="display:flex;justify-content:space-between"><span>Sales tax'+(q.exempt?' (exempt)':'')+'</span><b>'+money2(q.tax)+'</b></div>'+
+    '<div style="display:flex;justify-content:space-between;border-top:1px solid #e2e8f0;margin-top:8px;padding-top:8px;font-size:18px"><span>Total</span><b>'+money2((Number(q.total)||0)+(Number(q.tax)||0))+'</b></div></div>'+
+    (done ? '<p style="color:#475569">You '+(q.status==="Accepted"?"accepted":"declined")+' this quote — thank you! Questions? Call or text <a href="tel:6518700943">651-870-0943</a>.</p>' :
+    '<textarea id="acc-note" rows="2" maxlength="500" placeholder="Optional note — gate code, best time, different date…" style="width:100%;box-sizing:border-box;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-family:inherit"></textarea>'+
+    '<p style="margin-top:14px"><button class="btn" onclick="respondQuote(\''+t+'\',\'accept\')">Accept quote</button> '+
+    '<button class="btn btn-dark" onclick="respondQuote(\''+t+'\',\'decline\')">No thanks</button></p>');
+}
+function respondQuote(t, d){
+  if(!/^[a-z0-9]{40,80}$/i.test(t)) return;
+  api("respondQuote",{ token:t, decision:d, note:($("acc-note")||{}).value||"" },true).then(function(r){
+    $("accept-box").innerHTML='<div class="big">'+(r.status==="Accepted"?"✅":"👍")+'</div><h2>'+(r.status==="Accepted"?"You\'re on the schedule!":"Got it — thanks for letting us know")+'</h2>'+
+      '<p style="color:#475569">'+(r.status==="Accepted"?"We\'ll text you before we head over. ":"")+'Questions? Call or text <a href="tel:6518700943">651-870-0943</a>.</p><p><button class="btn" onclick="go(\'home\')">Back to Home</button></p>';
+  }).catch(function(e){ toast(e.message||"Could not send — please call 651-870-0943"); });
 }
 document.addEventListener("DOMContentLoaded", function(){ loadHomeReviews(); var y=$("yr"); if(y) y.textContent=new Date().getFullYear(); });
 /* Deep links from other pages: /#quote, /#services, /#about, /#review, or /#quote:Snow%20Removal to pre-pick a service */
@@ -1281,9 +1317,10 @@ function adminLogin(){
   $("admin-pw").value = "";
   if(!pc) return;
   if(!API_URL){ toast("Server not configured"); return; }
-  api("login", { passcode: pc }, true).then(function(r){
+  var who = $("admin-who") ? $("admin-who").value : "";
+  api("login", { passcode: pc, who: who }, true).then(function(r){
     if(r && r.ok && r.token){
-      SESSION = r.token; pwFails = 0; $("signout-btn").style.display="";
+      SESSION = r.token; WHO = r.who || who; pwFails = 0; $("signout-btn").style.display="";
       $("admin-login").style.display="none"; $("admin-app").classList.remove("hidden");
       aTab("overview", document.querySelector(".atabs button"));
     } else if(r && r.locked){
@@ -1315,6 +1352,7 @@ function aTab(name, btn){
     TBQ = (rows||[]).map(normReq);
     TBQ.forEach(function(r){ saveReq(r, "pending"); });
     c.innerHTML = tbqListHTML();
+    api("reqHistory", null, true).then(function(h){ SERVER_HIST = h || []; var hb=$("req-hist"); if(hb) hb.outerHTML = historyHTML(); }).catch(function(){});
   }).catch(function(){
     var h = reqHistory();
     TBQ = Object.keys(h).map(function(k){ return h[k]; }).filter(function(r){ return r.status==="pending"; });
@@ -1384,12 +1422,12 @@ function saveReq(r, status, extra){
   lsSet("mjhi_req_history", h);
 }
 function normReq(r){
-  var ts = r.ts || r.Timestamp || "";
+  var ts = r.ts || r.Timestamp || "", tsRaw = r.tsRaw || r.Timestamp || r.ts || "";
   if(ts && ts.length > 10) ts = ts.slice(0,10);
   var when = r.when || r.WantedBy || "";
   if(when && when.length > 10) when = when.slice(0,10);
   return {
-    ts: ts,
+    ts: ts, tsRaw: tsRaw,
     name: r.name || r.Name || "",
     phone: String(r.phone!=null ? r.phone : (r.Phone||"")),
     email: r.email || r.Email || "",
@@ -1409,13 +1447,21 @@ function tbqListHTML(){
   return head + (!TBQ.length ? '<div class="panel">No new requests — you\'re all caught up.</div>'
     : TBQ.map(function(r,i){ return tbqCard(r,i); }).join("")) + historyHTML();
 }
+var SERVER_HIST = null; // quoted/dismissed requests from the server (same on every device)
 function historyHTML(){
-  var h = reqHistory();
-  var items = Object.keys(h).map(function(k){ return h[k]; })
-    .filter(function(r){ return r.status && r.status!=="pending"; })
-    .sort(function(a,b){ return String(b.ts).localeCompare(String(a.ts)); });
-  if(!items.length) return "";
-  return '<h3 style="color:#fff;margin:26px 0 10px;font-size:15px">History — saved on this device ('+items.length+')</h3>'+
+  var items, label;
+  if(SERVER_HIST){
+    label = "History";
+    items = SERVER_HIST.map(function(x){ var r = normReq(x); r.status = x.status;
+      if(x.status==="quoted") r.quote = { total: Number(x.total)||0 }; return r; });
+  } else {
+    var h = reqHistory(); label = "History — saved on this device";
+    items = Object.keys(h).map(function(k){ return h[k]; })
+      .filter(function(r){ return r.status && r.status!=="pending"; })
+      .sort(function(a,b){ return String(b.ts).localeCompare(String(a.ts)); });
+  }
+  if(!items.length) return '<div id="req-hist"></div>';
+  return '<div id="req-hist"><h3 style="color:#fff;margin:26px 0 10px;font-size:15px">'+label+' ('+items.length+')</h3>'+
     items.map(function(r){
       var tag = r.status==="quoted"
         ? '<span class="tag" style="background:#065f46">Quoted'+(r.quote?' · '+money(r.quote.total):"")+'</span>'
@@ -1426,7 +1472,7 @@ function historyHTML(){
         ((r.services||[]).length?'<div style="margin-top:4px">'+r.services.map(function(s){return '<span class="tag">'+esc(s)+'</span>';}).join("")+'</div>':"")+
         (r.details?'<div style="color:#cbd5e1;font-size:13px;margin-top:6px">'+esc(r.details)+'</div>':"")+
         '</div></div></div>';
-    }).join("");
+    }).join("")+'</div>';
 }
 
 /* manual quote entry: phone calls, walk-ins, texts — creates a real request in the pipeline */
@@ -1479,10 +1525,11 @@ function tbqCard(r,i){
 }
 function dismiss(i){
   var r = TBQ[i];
-  api("dismiss",{index:i}).then(function(){
-    if(r) saveReq(r, "dismissed");
+  if(!r) return;
+  api("dismiss",{ ts:r.tsRaw, name:r.name, index:i }).then(function(){
+    saveReq(r, "dismissed");
     toast("Request dismissed"); goTab("tbq");
-  });
+  }).catch(function(e){ toast(e.message || "Could not dismiss"); goTab("tbq"); });
 }
 function openQuoteForm(i){
   var r = TBQ[i]; if(!r){ toast("Request no longer exists"); return; }
@@ -1509,6 +1556,8 @@ function openQuoteForm(i){
       '<div class="mrow"><label style="display:flex;gap:8px;align-items:center;font-size:13px"><input id="qf-exempt" type="checkbox" onchange="quotePreview()"> Tax-exempt (overrides auto-tax below)</label></div>'+
       '<div id="qf-taxnote" style="font-size:12px;color:#94a3b8;margin:-6px 0 10px"></div>'+
       '<div class="costbox" id="qf-preview"></div>'+
+      (r.email ? '<label style="display:flex;gap:8px;align-items:center;font-size:13px;margin-top:12px"><input id="qf-send" type="checkbox" checked> Email this quote to '+esc(r.email)+' with an “Accept quote” button</label>'
+               : '<p style="color:#94a3b8;font-size:12px;margin:12px 0 0">No email on file — send the quote document by text instead.</p>')+
       '<button class="btn" style="width:100%;margin-top:12px" onclick="submitQuoteForm('+i+')">Submit — Officially Quote Job</button>');
     var taxable = taxableSvcList(r.services);
     $("qf-exempt").checked = taxable.length===0 && (r.services||[]).length>0;
@@ -1568,34 +1617,56 @@ function submitQuoteForm(i){
   var exempt=$("qf-exempt").checked;
   if(!labor && !mat && !gas){ toast("Enter at least one cost estimate"); return; }
   if(!date){ toast("Pick a schedule date"); return; }
-  api("quoteJob",{ index:i, labor:labor, materials:mat, gas:gas, scheduleDate:date, taxExempt:exempt, taxRate:parseFloat($("qf-city").value)||TAX_RATE, materialsList:mList, recurring:$("qf-recur").value })
-    .then(function(){
+  var sendQ = !!($("qf-send") && $("qf-send").checked);
+  api("quoteJob",{ ts:r.tsRaw, name:r.name, index:i, sendQuote:sendQ, labor:labor, materials:mat, gas:gas, scheduleDate:date, taxExempt:exempt, taxRate:parseFloat($("qf-city").value)||TAX_RATE, materialsList:mList, recurring:$("qf-recur").value })
+    .then(function(res){
       saveReq(r, "quoted", { quote:{ labor:labor, materials:mat, gas:gas, total:labor+mat+gas, date:date } });
-      closeModal(); toast("Quoted — official quote document opened");
+      closeModal(); toast(res && res.emailed ? "Quoted — emailed to "+r.email+" with an Accept button" : "Quoted — official quote document opened");
       docWindow(quoteDocHTML(r, labor, mat, mList, gas, exempt, date, $("qf-city")?$("qf-city").value:TAX_RATE), "Quote — "+r.name);
       goTab("tbc");
-    });
+    }).catch(function(e){ toast(e.message || "Could not save the quote"); });
 }
 
 /* ---------- TO BE COMPLETED (calendar) ---------- */
 function dkey(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function firstOfWeek(d){ var x=new Date(d); x.setDate(x.getDate()-((x.getDay()+6)%7)); return x; }
-/* ---------- LOST QUOTES (no response / fell through — kept on this device) ---------- */
-function lostJobs(){ return lsGet("mjhi_lost_jobs"); }
+/* ---------- LOST QUOTES (no response / fell through) — saved on the server so every device
+   agrees; anything marked lost on this device before the upgrade still counts ---------- */
+var LAST_TBC = [];
+function lostJobs(){
+  var h = lsGet("mjhi_lost_jobs");
+  (LAST_TBC||[]).forEach(function(j){
+    if(j.quoteStatus==="Lost" || j.quoteStatus==="Declined") h[String(j.id)] = h[String(j.id)] || { when:j.followUp||j.scheduleDate||"", name:j.client,
+      total:quotedTotal(j), services:(j.services||[]).join(", "), address:j.address||"", scheduled:j.scheduleDate||"", declined:j.quoteStatus==="Declined" };
+  });
+  return h;
+}
 function isLost(id){ return !!lostJobs()[String(id)]; }
 function markJobLost(){
   var j=CUR_JOB; if(!j) return;
-  var h=lostJobs();
-  h[String(j.id)]={ when:new Date().toISOString().slice(0,10), name:j.client, total:quotedTotal(j),
-    services:(j.services||[]).join(", "), address:j.address||"", scheduled:j.scheduleDate||"" };
-  lsSet("mjhi_lost_jobs",h);
-  closeModal(); toast("Job #"+j.id+" marked lost — removed from the calendar");
-  goTab("tbc");
+  api("markLost",{ id:j.id }).then(function(){
+    closeModal(); toast("Job #"+j.id+" marked lost — removed from the calendar");
+    goTab("tbc");
+  }).catch(function(e){ toast(e.message || "Could not mark lost"); });
 }
 function restoreJob(id){
-  var h=lostJobs(); delete h[String(id)]; lsSet("mjhi_lost_jobs",h);
-  toast("Job #"+id+" restored to the calendar");
-  goTab("tbc");
+  api("unmarkLost",{ id:id }).then(function(){
+    var h=lsGet("mjhi_lost_jobs"); delete h[String(id)]; lsSet("mjhi_lost_jobs",h);
+    toast("Job #"+id+" restored to the calendar");
+    goTab("tbc");
+  }).catch(function(e){ toast(e.message || "Could not restore"); });
+}
+/* quote status shown on the calendar + job card */
+function quoteBadge(j){
+  var st=j.quoteStatus||"";
+  if(st==="Accepted") return '<span class="tag" style="background:#065f46">✅ Accepted online</span>';
+  if(st==="Sent") return '<span class="tag" style="background:#1e3a5f">✉️ Quote emailed — waiting</span>';
+  if(st==="Declined") return '<span class="tag" style="background:#7f1d1d">Declined online</span>';
+  return "";
+}
+function resendQuote(id){
+  api("resendQuote",{ id:id }).then(function(){ toast("Quote emailed again"); openJobDetail(id); })
+    .catch(function(e){ toast(e.message || "Could not send"); });
 }
 function lostHTML(){
   var h=lostJobs();
@@ -1603,11 +1674,11 @@ function lostHTML(){
   if(!ids.length) return "";
   ids.sort(function(a,b){ return String(h[b].when).localeCompare(String(h[a].when)); });
   return '<h3 style="color:#fff;margin:26px 0 10px;font-size:15px">Fell through — no response ('+ids.length+')</h3>'+
-    '<p style="color:#94a3b8;font-size:12px;margin:0 0 10px">Marked-lost quotes stay here on this device. Restore one anytime if the client resurfaces.</p>'+
+    '<p style="color:#94a3b8;font-size:12px;margin:0 0 10px">Lost and declined quotes stay on record. Restore one anytime if the client resurfaces.</p>'+
     ids.map(function(id){
       var x=h[id];
       return '<div class="req-card" style="opacity:0.8"><div class="top"><div>'+
-        '<span class="tag" style="background:#7f1d1d">Lost</span> <b style="font-size:15px">'+esc(x.name||id)+'</b>'+
+        '<span class="tag" style="background:#7f1d1d">'+(x.declined?"Declined online":"Lost")+'</span> <b style="font-size:15px">'+esc(x.name||id)+'</b>'+
         '<span style="color:#94a3b8;font-size:12px"> · #'+esc(id)+' · '+money(x.total||0)+(x.scheduled?' · was scheduled '+esc(x.scheduled):"")+'</span>'+
         (x.services?'<div style="color:#cbd5e1;font-size:12px;margin-top:4px">'+esc(x.services)+'</div>':"")+
         '</div><div class="meta"><div>Marked: <b>'+esc(String(x.when).slice(0,10))+'</b></div></div></div>'+
@@ -1621,9 +1692,14 @@ function daysSince(dstr){
 /* ---------- RESCHEDULE + FOLLOW-UPS (on-device) ---------- */
 function reschedMap(){ return lsGet("mjhi_resched"); }
 function effDate(j){ var m=reschedMap(); return m[String(j.id)] || j.scheduleDate || ""; }
-function followups(){ return lsGet("mjhi_followups"); }
+function followups(){
+  var f = lsGet("mjhi_followups");
+  (LAST_TBC||[]).forEach(function(j){ if(j.followUp && (!f[String(j.id)] || j.followUp > f[String(j.id)])) f[String(j.id)] = j.followUp; });
+  return f;
+}
 /* rule: follow up 3 days after the schedule date (or after the last follow-up) with no response */
 function needFollowUp(j){
+  if(j.quoteStatus==="Accepted") return false;   // they said yes — nothing to chase
   if(daysSince(effDate(j))<3) return false;
   var f=followups()[String(j.id)];
   return !f || daysSince(f)>=3;
@@ -1643,11 +1719,13 @@ function saveResched(id){
   goTab("tbc");
 }
 function markFollowUp(id){
-  var f=followups(); f[String(id)]=new Date().toISOString().slice(0,10); lsSet("mjhi_followups",f);
+  var f=lsGet("mjhi_followups"); f[String(id)]=new Date().toISOString().slice(0,10); lsSet("mjhi_followups",f);
+  api("followUp",{ id:id }).catch(function(){});
   toast("Follow-up logged — check again in 3 days if no answer");
   goTab("tbc");
 }
 function tbcHTML(rowsIn){
+  LAST_TBC = rowsIn || [];
   var lost=lostJobs();
   var rows=(rowsIn||[]).filter(function(j){ return !lost[String(j.id)]; });
   var overdue=(rowsIn||[]).filter(function(j){ return !lost[String(j.id)] && effDate(j) && String(effDate(j)) < dkey(new Date()); });
@@ -1689,7 +1767,7 @@ function tbcHTML(rowsIn){
     var jobs=byDate[k]||[];
     html+='<div class="cal-cell'+(k===today?" today":"")+'">'+
       '<div class="cal-num">'+d.getDate()+'</div>'+
-      jobs.map(function(j){ return '<div class="cal-job" onclick="openJobDetail('+j.id+')">'+(j.recurring?'🔁 ':'')+(reschedMap()[String(j.id)]?'↻ ':'')+'#'+j.id+' '+esc(j.client)+' · '+money(quotedTotal(j))+(needFollowUp(j)?' <span style="color:#fde047">📞</span>':"")+'</div>'; }).join("")+
+      jobs.map(function(j){ return '<div class="cal-job" onclick="openJobDetail('+j.id+')">'+(j.recurring?'🔁 ':'')+(j.quoteStatus==="Accepted"?'✅ ':j.quoteStatus==="Sent"?'✉️ ':'')+(reschedMap()[String(j.id)]?'↻ ':'')+'#'+j.id+' '+esc(j.client)+' · '+money(quotedTotal(j))+(needFollowUp(j)?' <span style="color:#fde047">📞</span>':"")+'</div>'; }).join("")+
       '</div>';
   });
   html+='</div>';
@@ -1703,6 +1781,7 @@ function openJobDetail(id){
   api("tbc").then(function(rows){
     var j=null;
     rows.forEach(function(x){ if(x.id===id) j=x; });
+    LAST_TBC = rows || LAST_TBC;
     if(j){ CUR_JOB=j; modal(jobDetailHTML(j,true)); return; }
     api("done").then(function(doneRows){
       doneRows.forEach(function(x){ if(x.id===id) j=x; });
@@ -1714,6 +1793,7 @@ var CUR_JOB=null;
 function jobDetailHTML(j, scheduled){
   return '<h3 style="margin:0 0 2px">Job #'+j.id+' — '+esc(j.client)+'</h3>'+
     '<p style="color:#94a3b8;font-size:13px;margin:0 0 12px">'+esc((j.services||[]).join(", "))+' · '+esc(j.address||"")+'</p>'+
+    (scheduled ? quoteBadge(j) : paidBadge(j))+
     (j.details?'<p style="color:#cbd5e1;font-size:13px">'+esc(j.details)+'</p>':"")+
     '<div class="costbox">'+
     '<div class="crow"><span>Quoted labor</span><b>'+money(j.laborEst)+'</b></div>'+
@@ -1734,12 +1814,14 @@ function jobDetailHTML(j, scheduled){
     (scheduled?'<div class="crow"><span>Waiting</span><b>'+esc(String(effDate(j))||"—")+(reschedMap()[String(j.id)]?' (rescheduled from '+esc(String(j.scheduleDate).slice(0,10))+')':"")+(effDate(j)&&String(effDate(j))<dkey(new Date())?' · <span style="color:'+(needFollowUp(j)?'#f87171':'#fbbf24')+'">'+daysSince(effDate(j))+' days past'+(needFollowUp(j)?' — follow up!':"")+'</span>':"")+'</b></div>':"")+
     (scheduled&&followups()[String(j.id)]?'<div class="crow"><span>Last follow-up</span><b>'+esc(String(followups()[String(j.id)]).slice(0,10))+' ('+daysSince(followups()[String(j.id)])+' days ago)</b></div>':"")+
     '</div>'+
-    '<div class="grow" style="margin-top:12px">'+
+    '<div class="grow" style="margin-top:12px;flex-wrap:wrap;gap:8px">'+
     (scheduled?'<button class="btn" onclick="openCompleteForm('+j.id+')">Complete Job</button> ':"")+
     (scheduled?'<button class="btn btn-dark" onclick="rescheduleJob()" title="Move to a new date">Reschedule</button> ':"")+
     (scheduled&&needFollowUp(j)?'<button class="btn btn-dark" onclick="markFollowUp('+j.id+')" title="Logs today — stops nagging for 3 days">✓ Followed up today</button> ':"")+
     (scheduled&&!isLost(j.id)?'<button class="btn btn-dark" onclick="markJobLost()" title="Client never responded — remove from calendar, keep on record">Mark lost — no response</button> ':"")+
     (scheduled&&isLost(j.id)?'<button class="btn" onclick="restoreJob('+j.id+')">Restore to calendar</button> ':"")+
+    (scheduled&&j.email&&j.quoteStatus!=="Accepted"?'<button class="btn btn-dark" onclick="resendQuote('+j.id+')" title="Emails the quote with an Accept button">'+(j.quoteStatus==="Sent"?"Resend quote email":"Email quote to client")+'</button> ':"")+
+    (!scheduled?(j.paidDate?'<button class="btn btn-dark" onclick="unmarkPaid('+j.id+')">Mark unpaid</button> ':'<button class="btn" onclick="openPaidForm('+j.id+')">Mark paid</button> '+(j.email?'<button class="btn btn-dark" onclick="sendReminder('+j.id+')">Send payment reminder</button> ':"")):"")+
     '<button class="btn btn-dark" onclick="toggleTax('+j.id+')">'+(j.taxExempt?"Remove tax exemption":"Tax exempt")+'</button>'+
     '<button class="btn btn-dark" onclick="closeModal()">Close</button></div>';
 }
@@ -1793,20 +1875,49 @@ function submitComplete(id){
 }
 
 /* ---------- COMPLETED ---------- */
+var doneFilter = "all";
+function owed(j){ return quotedTotal(j)+salesTax(j); }
+function unpaidJobs(rows){ return (rows||[]).filter(function(j){ return !j.paidDate; }); }
 function doneHTML(rows){
+  DONE_ROWS = rows || [];
   var year=new Date().getFullYear();
   var yj=rows.filter(function(j){ return new Date(j.completedDate).getFullYear()===year; });
   var profit=yj.reduce(function(t,j){ return t+jobProfit(j); },0);
   var costs=yj.reduce(function(t,j){ return t+jobCosts(j); },0);
+  var up=unpaidJobs(rows), upAmt=up.reduce(function(t,j){ return t+owed(j); },0);
+  var list=(doneFilter==="unpaid"?up:rows).slice().sort(function(a,b){ return String(b.completedDate).localeCompare(String(a.completedDate)); });
   return '<div class="kpis">'+
-    kpi("Year profit",money(profit))+kpi("Year costs",money(costs))+kpi("Jobs completed",yj.length)+'</div>'+
-    (!rows.length ? '<div class="panel" style="margin-top:14px">No completed jobs yet.</div>'
-      : '<div style="margin-top:14px">'+rows.map(function(j){ return doneCard(j); }).join("")+'</div>');
+    kpi("Year profit",money(profit))+kpi("Year costs",money(costs))+kpi("Jobs completed",yj.length)+kpi("Unpaid invoices",up.length+" · "+money(upAmt))+'</div>'+
+    '<div class="grow" style="margin:14px 0 0"><button class="btn btn-sm '+(doneFilter==="all"?"":"btn-dark")+'" onclick="setDoneFilter(\'all\')">All jobs</button> '+
+    '<button class="btn btn-sm '+(doneFilter==="unpaid"?"":"btn-dark")+'" onclick="setDoneFilter(\'unpaid\')">Unpaid only ('+up.length+')</button></div>'+
+    (!list.length ? '<div class="panel" style="margin-top:14px">'+(doneFilter==="unpaid"?"Everything is paid. 🎉":"No completed jobs yet.")+'</div>'
+      : '<div style="margin-top:14px">'+list.map(function(j){ return doneCard(j); }).join("")+'</div>');
+}
+var DONE_ROWS = [];
+function setDoneFilter(f){ doneFilter=f; $("a-content").innerHTML=doneHTML(DONE_ROWS); }
+function paidBadge(j){
+  if(j.paidDate) return '<span class="tag" style="background:#065f46">Paid '+esc(j.paidDate)+(j.paidMethod?' · '+esc(j.paidMethod):'')+'</span>';
+  var d=daysSince(j.completedDate);
+  return '<span class="tag" style="background:'+(d>=14?'#7f1d1d':'#92400e')+'">Unpaid · '+d+' day'+(d===1?'':'s')+(j.reminderSent?' · reminded '+esc(j.reminderSent):'')+'</span>';
+}
+function openPaidForm(id){
+  modal('<h3 style="margin:0 0 12px">Mark Job #'+id+' paid</h3>'+
+    '<div class="mrow"><label>How did they pay?</label><select id="pd-method"><option>Venmo</option><option>Zelle</option><option>Cash</option><option>Check</option><option>Card</option><option>Other</option></select></div>'+
+    '<button class="btn" style="width:100%;margin-top:8px" onclick="savePaid('+id+')">Save — paid today</button>');
+}
+function savePaid(id){
+  api("markPaid",{ id:id, method:$("pd-method").value }).then(function(){ closeModal(); toast("Job #"+id+" marked paid"); goTab("done"); })
+    .catch(function(e){ toast(e.message || "Could not save"); });
+}
+function unmarkPaid(id){ api("unmarkPaid",{ id:id }).then(function(){ closeModal(); toast("Job #"+id+" marked unpaid"); goTab("done"); }); }
+function sendReminder(id){
+  api("sendReminder",{ id:id }).then(function(){ closeModal(); toast("Payment reminder emailed"); goTab("done"); })
+    .catch(function(e){ toast(e.message || "Could not send"); });
 }
 function doneCard(j){
   return '<div class="panel" style="margin-bottom:14px">'+
     '<div class="grow" style="justify-content:space-between;align-items:center">'+
-    '<div><b style="color:#fff">Job #'+j.id+' — '+esc(j.client)+'</b>'+
+    '<div><b style="color:#fff">Job #'+j.id+' — '+esc(j.client)+'</b> '+paidBadge(j)+
     '<div style="color:#94a3b8;font-size:12px">'+esc((j.services||[]).join(", "))+' · completed '+esc(j.completedDate||"")+'</div></div>'+
     '<div style="text-align:right"><b style="color:#6ee7b7">'+money(jobProfit(j))+'</b>'+
     '<div style="color:#94a3b8;font-size:12px">profit</div></div></div>'+
@@ -1817,7 +1928,11 @@ function doneCard(j){
     '<tr><td>Sales tax '+(j.taxExempt?"(exempt)":"(9.875%)")+'</td><td colspan="2">'+money(salesTax(j))+'</td></tr>'+
     '<tr><td><b>Client pays</b></td><td colspan="2"><b>'+money(quotedTotal(j)+salesTax(j))+'</b></td></tr></table>'+
     receiptStrip(j.receipts,"materials")+receiptStrip(j.receipts,"gas")+photoStrip(j.photos,"Job photos")+
-    '</div>';
+    '<div class="grow" style="margin-top:10px">'+
+    (j.paidDate ? '<button class="btn btn-sm btn-dark" onclick="unmarkPaid('+j.id+')">Mark unpaid</button>'
+      : '<button class="btn btn-sm" onclick="openPaidForm('+j.id+')">Mark paid</button> '+
+        (j.email ? '<button class="btn btn-sm btn-dark" onclick="sendReminder('+j.id+')">Send payment reminder</button>' : '<span style="color:#94a3b8;font-size:12px">No email on file — remind by text</span>'))+
+    '</div></div>';
 }
 function receiptStrip(arr, cat){
   var list=(arr||[]).filter(function(p){ return (p.category||"")===cat; });
@@ -1842,8 +1957,10 @@ function goTab(name){
 function ymd(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function loadOverview(c){
   var safe = function(p, dflt){ return p.catch(function(){ return dflt; }); };
-  Promise.all([ safe(api("tbq"),[]), safe(api("tbc"),[]), safe(api("taxData"),{done:[],expenses:[]}), safe(api("pendingHours"),[]) ])
-  .then(function(r){ c.innerHTML = overviewHTML((r[0]||[]).map(normReq), r[1]||[], (r[2]&&r[2].done)||[], (r[2]&&r[2].expenses)||[], r[3]||[]); });
+  Promise.all([ safe(api("tbq"),[]), safe(api("tbc"),[]), safe(api("taxData"),{done:[],expenses:[]}), safe(api("pendingHours"),[]),
+    safe(api("sources",null,true),[]), safe(api("activity",{limit:12},true),[]) ])
+  .then(function(r){ c.innerHTML = overviewHTML((r[0]||[]).map(normReq), r[1]||[], (r[2]&&r[2].done)||[], (r[2]&&r[2].expenses)||[], r[3]||[])
+    + sourcesHTML(Array.isArray(r[4])?r[4]:[]) + activityHTML(Array.isArray(r[5])?r[5]:[]); });
 }
 function overviewHTML(reqs, sched, done, exps, pend){
   var now=new Date(), today=ymd(now), wk=new Date(now); wk.setDate(wk.getDate()+7); var weekEnd=ymd(wk);
@@ -1866,7 +1983,9 @@ function overviewHTML(reqs, sched, done, exps, pend){
       kpi("Revenue — "+monthName(m), money(rev))+
       kpi("Profit — "+monthName(m), money(rev-cost))+
       kpi("Hours awaiting approval", String(pend.length))+
+      kpi("Unpaid invoices", unpaidJobs(done).length+" · "+money(unpaidJobs(done).reduce(function(t,j){ return t+owed(j); },0)))+
     '</div>'+
+    (unpaidJobs(done).filter(function(j){ return daysSince(j.completedDate)>=14; }).length ? '<div class="panel" style="border:1px solid #f87171;color:#fecaca">💵 '+unpaidJobs(done).filter(function(j){ return daysSince(j.completedDate)>=14; }).length+' invoice(s) unpaid 14+ days. <a href="#" onclick="doneFilter=\'unpaid\';goTab(\'done\');return false" style="color:#fff;text-decoration:underline">See unpaid</a></div>' : '')+
     (overdue.length ? '<div class="panel" style="border:1px solid #f59e0b;color:#fde68a">⚠ '+overdue.length+' scheduled job'+(overdue.length>1?'s are':' is')+' past the scheduled date and not marked complete. <a href="#" onclick="goTab(\'tbc\');return false" style="color:#fff;text-decoration:underline">Review in To Be Completed</a></div>' : '')+
     '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px">'+
       '<div class="panel"><div class="grow" style="justify-content:space-between;margin:0 0 8px"><b style="color:#fff">Upcoming jobs</b><a href="#" onclick="goTab(\'tbc\');return false" style="color:#6ee7b7;font-size:13px">Calendar ▸</a></div>'+
@@ -1882,6 +2001,44 @@ function overviewHTML(reqs, sched, done, exps, pend){
           return row([esc(h.Name||""), "#"+esc(h.JobID||""), esc(h.Hours||""), esc(String(h.DateWorked||"").slice(0,10))]); }).join("")+'</table>'
         : '<p style="color:#94a3b8">All caught up.</p>')+'</div>'+
     '</div>';
+}
+var ACT_LABEL = { quoteJob:"Quoted a job", dismiss:"Dismissed a request", completeJob:"Completed a job", markPaid:"Marked paid",
+  unmarkPaid:"Marked unpaid", sendReminder:"Sent payment reminder", markLost:"Marked quote lost", unmarkLost:"Restored quote",
+  followUp:"Logged follow-up", resendQuote:"Emailed quote", quoteAccepted:"Accepted quote online", quoteDeclined:"Declined quote online",
+  addExpense:"Added expense", delExpense:"Deleted expense", confirmHours:"Approved hours", rejectHours:"Rejected hours",
+  importClients:"Imported clients", setClientNotes:"Edited client notes", backupNow:"Backup", login:"Signed in", logout:"Signed out",
+  assignCrew:"Assigned crew", toggleTax:"Changed tax setting", payEmployee:"Recorded contractor pay", submitQuote:"New quote request" };
+function sourcesHTML(list){
+  if(!list.length) return "";
+  var maxRev=Math.max.apply(null, list.map(function(x){ return x.revenue||0; }).concat([1]));
+  return '<div class="panel" style="margin-top:18px;overflow-x:auto"><b style="color:#fff">Where your work comes from</b>'+
+    '<p style="color:#94a3b8;font-size:12px;margin:4px 0 10px">All-time requests and paid-job revenue by lead source · site visits are the last 90 days.</p>'+
+    '<table class="mini-t"><tr><th>Source</th><th>Visits</th><th>Requests</th><th>Quoted</th><th>Jobs done</th><th>Revenue</th><th></th></tr>'+
+    list.map(function(x){ return '<tr><td><b>'+esc(x.source)+'</b></td><td>'+(x.visits||0)+'</td><td>'+(x.requests||0)+'</td><td>'+(x.quoted||0)+'</td><td>'+(x.jobs||0)+'</td><td>'+money(x.revenue||0)+'</td>'+
+      '<td style="width:30%"><div style="height:8px;border-radius:4px;background:#16a34a;width:'+Math.round(100*(x.revenue||0)/maxRev)+'%"></div></td></tr>'; }).join("")+'</table></div>';
+}
+function activityHTML(list){
+  return '<div class="panel" style="margin-top:18px"><div class="grow" style="justify-content:space-between;align-items:center;margin:0 0 8px">'+
+    '<b style="color:#fff">Recent activity</b><span><button class="btn btn-sm btn-dark" onclick="backupNow(this)">Back up now</button> '+
+    '<button class="btn btn-sm btn-dark" onclick="showBackups()">Backups</button></span></div>'+
+    (list.length ? '<table class="mini-t"><tr><th>When</th><th>Who</th><th>What</th><th>Details</th></tr>'+list.map(function(a){
+      var w=new Date(a.Timestamp); return '<tr><td>'+esc(isNaN(w)?String(a.Timestamp||""):w.toLocaleString(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}))+'</td><td>'+esc(a.Who||"")+'</td><td>'+esc(ACT_LABEL[a.Action]||a.Action||"")+'</td><td style="color:#94a3b8">'+esc(a.Details||"")+'</td></tr>'; }).join("")+'</table>'
+      : '<p style="color:#94a3b8">Nothing logged yet — activity starts showing after the server update.</p>')+
+    '<p style="color:#64748b;font-size:11px;margin:8px 0 0">A full copy of the server sheet is saved to Google Drive → “MJ Backups” every Sunday (last 12 kept).</p></div>';
+}
+function backupNow(btn){
+  if(btn){ btn.disabled=true; btn.textContent="Backing up…"; }
+  api("backupNow",null,true).then(function(r){ toast("Backup saved — "+(r&&r.name||"MJ Backups")); goTab("overview"); })
+    .catch(function(e){ toast("Backup failed — "+(e.message||"server")); if(btn){ btn.disabled=false; btn.textContent="Back up now"; } });
+}
+function showBackups(){
+  api("backups",null,true).then(function(list){
+    modal('<h3 style="margin:0 0 10px">Backups (Google Drive → MJ Backups)</h3>'+
+      ((list||[]).length ? '<table class="mini-t"><tr><th>Name</th><th></th></tr>'+list.map(function(b){
+        return '<tr><td>'+esc(b.name)+'</td><td>'+(/^https:\/\/docs\.google\.com\//.test(b.url||"")?'<a href="'+esc(b.url)+'" target="_blank" rel="noopener" style="color:#6ee7b7">Open ↗</a>':"")+'</td></tr>'; }).join("")+'</table>'
+        : '<p style="color:#94a3b8">No backups yet.</p>')+
+      '<p style="color:#94a3b8;font-size:12px;margin-top:10px">To restore: open a backup, then copy the tab you need back into the SERVER sheet.</p>');
+  }).catch(function(){ toast("Could not load backups"); });
 }
 function finHTML(rows, exps){
   var year=new Date().getFullYear();
@@ -2186,12 +2343,117 @@ function qbPrint(){
     "Quote — "+name);
 }
 
+/* ---------- CLIENTS: list, search, detail + notes, import ---------- */
+var CLIENTS = [], clientQ = "";
+function normClient(c){ return { name:c.name||c.Name||"", phone:String(c.phone||c.Phone||""), email:c.email||c.Email||"", address:c.address||c.Address||"",
+  status:c.status||c.Status||"", source:c.source||c.Source||"", optin:!!c.optin, notes:c.notes||c.Notes||"" }; }
 function clientsHTML(rows){
-  var subs=rows.filter(function(c){ return c.optin; }).length;
-  return '<div class="kpis">'+kpi("Clients",rows.length)+kpi("Email subscribers",subs)+'</div>'+
-    '<div class="panel" style="overflow-x:auto;margin-top:14px"><table><tr><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Status</th><th>Source</th><th>Updates</th></tr>'+
-    (rows.length?rows.map(function(c){ return '<tr><td>'+esc(c.name)+'</td><td>'+esc(c.phone)+'</td><td>'+esc(c.email)+'</td><td>'+esc(c.address)+'</td><td>'+esc(c.status)+'</td><td>'+esc(c.source)+'</td><td>'+(c.optin?'✅ Subscribed':'—')+'</td></tr>'; }).join("")
-    :'<tr><td colspan="6" style="color:#64748b">No clients yet.</td></tr>')+'</table></div>';
+  CLIENTS=(rows||[]).map(normClient);
+  var subs=CLIENTS.filter(function(c){ return c.optin; }).length;
+  return '<div class="kpis">'+kpi("Clients",CLIENTS.length)+kpi("Email subscribers",subs)+kpi("With notes",CLIENTS.filter(function(c){ return c.notes; }).length)+'</div>'+
+    '<div class="grow" style="margin:14px 0 0;flex-wrap:wrap;justify-content:space-between">'+
+    '<input id="cl-q" placeholder="Search name, phone, street…" style="max-width:320px" value="'+esc(clientQ)+'" oninput="clientQ=this.value;$(\'cl-table\').innerHTML=clientRows()">'+
+    '<button class="btn btn-sm" onclick="openImport()">⬆ Import clients</button></div>'+
+    '<div class="panel" style="overflow-x:auto;margin-top:14px"><table id="cl-table">'+clientRows()+'</table></div>'+
+    '<p style="color:#94a3b8;font-size:12px">Click a client to see their job history, what they\'ve spent, and notes (gate codes, dogs, preferences).</p>';
+}
+function clientRows(){
+  var q=clientQ.trim().toLowerCase(), list=CLIENTS.map(function(c,i){ c._i=i; return c; }).filter(function(c){
+    return !q || (c.name+" "+c.phone+" "+c.email+" "+c.address).toLowerCase().indexOf(q)>-1; });
+  return '<tr><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Status</th><th>Source</th><th>Updates</th></tr>'+
+    (list.length?list.map(function(c){ return '<tr style="cursor:pointer" onclick="openClient('+c._i+')"><td><b>'+esc(c.name)+'</b>'+(c.notes?' 📝':'')+'</td><td>'+esc(c.phone)+'</td><td>'+esc(c.email)+'</td><td>'+esc(c.address)+'</td><td>'+esc(c.status)+'</td><td>'+esc(c.source)+'</td><td>'+(c.optin?'✅ Subscribed':'—')+'</td></tr>'; }).join("")
+    :'<tr><td colspan="7" style="color:#64748b">'+(CLIENTS.length?"No matches.":"No clients yet — import Matt's list with ⬆ Import clients.")+'</td></tr>');
+}
+function openClient(i){
+  var c=CLIENTS[i]; if(!c) return;
+  modal('<h3 style="margin:0 0 4px">'+esc(c.name)+'</h3><p style="color:#94a3b8">Loading…</p>');
+  api("clientDetail",{ name:c.name, phone:c.phone },true).then(function(d){
+    var jobs=(d.done||[]).map(function(j){ return '<tr><td>#'+j.id+'</td><td>'+esc(j.completedDate||"")+'</td><td>'+esc((j.services||[]).join(", "))+'</td><td>'+money(quotedTotal(j))+'</td><td>'+paidBadge(j)+'</td></tr>'; }).join("");
+    var up=(d.scheduled||[]).map(function(j){ return '<tr><td>#'+j.id+'</td><td>'+esc(j.scheduleDate||"")+'</td><td>'+esc((j.services||[]).join(", "))+'</td><td>'+money(quotedTotal(j))+'</td><td>'+quoteBadge(j)+'</td></tr>'; }).join("");
+    modal('<h3 style="margin:0 0 2px">'+esc(c.name)+'</h3>'+
+      '<p style="color:#94a3b8;font-size:13px;margin:0 0 12px">'+esc(c.phone)+' · '+esc(c.email||"no email")+' · '+esc(c.address||"")+'</p>'+
+      '<div class="kpis">'+kpi("Lifetime spend",money(d.spent||0))+kpi("Unpaid",money(d.unpaid||0))+kpi("Jobs",String((d.done||[]).length))+'</div>'+
+      (up?'<b style="color:#fff;display:block;margin-top:12px">Upcoming</b><table class="mini-t">'+up+'</table>':"")+
+      (jobs?'<b style="color:#fff;display:block;margin-top:12px">Completed</b><table class="mini-t">'+jobs+'</table>':'<p style="color:#94a3b8;margin-top:12px">No completed jobs on record yet.</p>')+
+      '<div class="mrow" style="margin-top:14px"><label>Status</label><select id="cd-status">'+["One Time","Recurring","Past client","Commercial","Do not service"].map(function(o){
+        var cur=(d.client&&d.client.Status)||c.status; return '<option'+(o===cur?" selected":"")+'>'+o+'</option>'; }).join("")+'</select></div>'+
+      '<div class="mrow"><label>Notes — gate codes, dogs, where to park, preferences</label><textarea id="cd-notes" rows="4" style="width:100%;background:#1e293b;border:1px solid #334155;color:#e2e8f0;border-radius:9px;padding:9px 12px;box-sizing:border-box;font-family:inherit">'+esc((d.client&&d.client.Notes)||c.notes||"")+'</textarea></div>'+
+      '<div class="grow"><button class="btn" onclick="saveClientNotes('+i+')">Save</button><button class="btn btn-dark" onclick="closeModal()">Close</button></div>');
+  }).catch(function(e){ toast(e.message||"Could not load client"); });
+}
+function saveClientNotes(i){
+  var c=CLIENTS[i];
+  api("setClientNotes",{ name:c.name, phone:c.phone, notes:$("cd-notes").value, status:$("cd-status").value }).then(function(){
+    c.notes=$("cd-notes").value; c.status=$("cd-status").value; closeModal(); toast("Saved"); goTab("clients"); })
+    .catch(function(e){ toast(e.message||"Could not save"); });
+}
+/* Import: a CSV file (Excel/Google Sheets → Download → CSV) or rows pasted straight from a spreadsheet.
+   Duplicates (same name, or same 10-digit phone) are skipped; blank fields on existing clients get filled in. */
+var IMPORT_ROWS = [];
+function openImport(){
+  modal('<h3 style="margin:0 0 4px">Import clients</h3>'+
+    '<p style="color:#94a3b8;font-size:12px;margin:0 0 12px">Upload a CSV, or copy the rows (with the header row) from Excel / Google Sheets / Numbers and paste below. Columns can be in any order — name, phone, email, address, notes, status are recognized. Duplicates are skipped automatically.</p>'+
+    '<div class="mrow"><label>CSV file</label><input id="im-file" type="file" accept=".csv,.tsv,.txt,text/csv" onchange="importFile(this)"></div>'+
+    '<div class="mrow"><label>…or paste here</label><textarea id="im-paste" rows="6" oninput="importParse(this.value)" placeholder="Name&#9;Phone&#9;Email&#9;Address&#10;Jane Doe&#9;651-555-0100&#9;jane@email.com&#9;12 Elm St, St. Paul" style="width:100%;background:#1e293b;border:1px solid #334155;color:#e2e8f0;border-radius:9px;padding:9px 12px;box-sizing:border-box;font-family:monospace;font-size:12px"></textarea></div>'+
+    '<div id="im-preview"></div>');
+}
+function importFile(inp){
+  var f=inp.files&&inp.files[0]; if(!f) return;
+  if(f.size>3*1024*1024){ toast("That file is too big — 3 MB max"); return; }
+  var rd=new FileReader(); rd.onload=function(){ importParse(String(rd.result||"")); }; rd.readAsText(f);
+}
+function splitRows(text){
+  // CSV/TSV parser with quotes: handles commas inside "quoted, fields" and line breaks in quotes
+  text=String(text||"").replace(/^\uFEFF/,"");
+  var first=text.split(/\r?\n/)[0]||"", d=(first.split("\t").length>first.split(",").length)?"\t":",";
+  var out=[], row=[], cur="", q=false;
+  for(var i=0;i<text.length;i++){
+    var ch=text[i];
+    if(q){ if(ch==='"'){ if(text[i+1]==='"'){ cur+='"'; i++; } else q=false; } else cur+=ch; }
+    else if(ch==='"' && cur==="") q=true;
+    else if(ch===d){ row.push(cur); cur=""; }
+    else if(ch==="\n" || ch==="\r"){ if(ch==="\r"&&text[i+1]==="\n") i++; row.push(cur); out.push(row); row=[]; cur=""; }
+    else cur+=ch;
+  }
+  if(cur!==""||row.length){ row.push(cur); out.push(row); }
+  return out.filter(function(r){ return r.some(function(x){ return String(x).trim(); }); });
+}
+function importParse(text){
+  var rows=splitRows(text), box=$("im-preview"); IMPORT_ROWS=[];
+  if(!rows.length){ box.innerHTML=""; return; }
+  var head=rows[0].map(function(h){ return String(h).trim().toLowerCase(); });
+  function col(re){ for(var k=0;k<head.length;k++) if(re.test(head[k])) return k; return -1; }
+  var ci={ name:col(/^(full )?name$|client|customer/), first:col(/first/), last:col(/last|surname/), phone:col(/phone|cell|mobile|tel/),
+    email:col(/e-?mail/), address:col(/address|street/), city:col(/^city|town/), zip:col(/zip|postal/), notes:col(/note|comment/), status:col(/status|type/) };
+  var hasHeader = ci.name>-1 || ci.first>-1 || ci.phone>-1;
+  if(!hasHeader){ ci={ name:0, phone:1, email:2, address:3, notes:4, first:-1, last:-1, city:-1, zip:-1, status:-1 }; }
+  var data=hasHeader?rows.slice(1):rows;
+  function g(r,k){ return k>-1 ? String(r[k]||"").trim() : ""; }
+  data.forEach(function(r){
+    var name=g(r,ci.name) || (g(r,ci.first)+" "+g(r,ci.last)).trim();
+    if(!name) return;
+    var addr=g(r,ci.address); if(g(r,ci.city) && addr.indexOf(g(r,ci.city))<0) addr+=(addr?", ":"")+g(r,ci.city); if(g(r,ci.zip) && addr.indexOf(g(r,ci.zip))<0) addr+=" "+g(r,ci.zip);
+    IMPORT_ROWS.push({ name:name, phone:g(r,ci.phone), email:g(r,ci.email), address:addr.trim(), notes:g(r,ci.notes), status:g(r,ci.status)||"Past client", source:"Matt's list" });
+  });
+  var have={}; CLIENTS.forEach(function(c){ have[c.name.trim().toLowerCase()]=1; var d=String(c.phone).replace(/\D/g,"").slice(-10); if(d.length===10) have["#"+d]=1; });
+  var dup=IMPORT_ROWS.filter(function(x){ var d=x.phone.replace(/\D/g,"").slice(-10); return have[x.name.toLowerCase()] || (d.length===10&&have["#"+d]); }).length;
+  box.innerHTML = !IMPORT_ROWS.length ? '<p style="color:#f87171;font-size:13px">No names found. Make sure the first row has a “Name” column (or First / Last).</p>' :
+    '<p style="color:#e2e8f0;font-size:13px;margin:4px 0 8px"><b>'+IMPORT_ROWS.length+'</b> client'+(IMPORT_ROWS.length===1?"":"s")+' found'+(dup?' · <span style="color:#fbbf24">'+dup+' already in your list (will be skipped or have blanks filled)</span>':'')+
+    (hasHeader?"":' · <span style="color:#fbbf24">no header row — assumed Name, Phone, Email, Address, Notes</span>')+'</p>'+
+    '<div style="max-height:220px;overflow:auto"><table class="mini-t"><tr><th>Name</th><th>Phone</th><th>Email</th><th>Address</th><th>Notes</th></tr>'+
+    IMPORT_ROWS.slice(0,50).map(function(x){ return '<tr><td>'+esc(x.name)+'</td><td>'+esc(x.phone)+'</td><td>'+esc(x.email)+'</td><td>'+esc(x.address)+'</td><td>'+esc(x.notes)+'</td></tr>'; }).join("")+'</table></div>'+
+    (IMPORT_ROWS.length>50?'<p style="color:#94a3b8;font-size:11px">Showing the first 50.</p>':'')+
+    '<button class="btn" id="im-go" style="width:100%;margin-top:12px" onclick="runImport()">Import '+IMPORT_ROWS.length+' client'+(IMPORT_ROWS.length===1?"":"s")+'</button>';
+}
+function runImport(){
+  var b=$("im-go"); if(b){ b.disabled=true; b.textContent="Importing…"; }
+  var chunks=[], tot={ added:0, updated:0, skipped:0 };
+  for(var i=0;i<IMPORT_ROWS.length;i+=500) chunks.push(IMPORT_ROWS.slice(i,i+500));
+  (function next(k){
+    if(k>=chunks.length){ closeModal(); toast("Imported — "+tot.added+" added, "+tot.updated+" updated, "+tot.skipped+" skipped"); goTab("clients"); return; }
+    api("importClients",{ clients:chunks[k] },true).then(function(r){ tot.added+=r.added||0; tot.updated+=r.updated||0; tot.skipped+=r.skipped||0; next(k+1); })
+      .catch(function(e){ toast("Import stopped — "+(e.message||"server")+" ("+tot.added+" added so far)"); if(b){ b.disabled=false; b.textContent="Try again"; } });
+  })(0);
 }
 
 /* ---------- CREW (unchanged behavior; assignments point at scheduled jobs) ---------- */
