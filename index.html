@@ -1851,7 +1851,7 @@ function overviewHTML(reqs, sched, done, exps, pend){
   var row = function(cells){ return '<tr>'+cells.map(function(x){ return '<td>'+x+'</td>'; }).join("")+'</tr>'; };
   return '<h2 style="color:#fff;text-align:left;margin:0 0 4px">'+hello+'</h2>'+
     '<p style="color:#94a3b8;margin:0 0 18px">'+now.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"})+' · here\'s where things stand.</p>'+
-    '<div class="kpis">'+
+    '<div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(165px,1fr))">'+
       kpi("New quote requests", String(reqs.length))+
       kpi("Jobs in the next 7 days", String(thisWeek.length))+
       kpi("Revenue — "+monthName(m), money(rev))+
